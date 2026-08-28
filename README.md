@@ -16,13 +16,11 @@ Also available: `start` (`next start`) and `format:check` (`prettier --check .`)
 
 ## Create an app from this template
 
-After this folder is a **public** GitHub repo, create an app with:
-
 ```bash
-npx create-next-app@latest my-app --example https://github.com/<user>/<repo> --use-pnpm
+npx create-next-app@latest my-app --example https://github.com/4erkashin/nextjs-template --use-pnpm
 ```
 
-`--example` only accepts a public `https://github.com/...` URL. Use `--use-pnpm` so the installer matches this lockfile.
+Use `--use-pnpm` so the installer matches this lockfile. Or use **Use this template** on GitHub.
 
 ## Favicon
 
