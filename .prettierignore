@@ -1,0 +1,25 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# next.js / build
+.next
+out
+build
+coverage
+
+# lockfiles / generated
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+next-env.d.ts
+*.tsbuildinfo
+
+# agent skill docs (nested markdown fences break under Prettier)
+.agents
+
+# env / misc
+.env*
+!.env.example
+.vercel
+.DS_Store
