@@ -150,6 +150,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Skill / agent tooling — not app code
     ".agents/**",
+    // Git hook — Node script, not Next/React
+    "scripts/**",
   ]),
   eslintConfigPrettier,
 ]);

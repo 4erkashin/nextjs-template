@@ -1,0 +1,4 @@
+commit-msg:
+  commands:
+    conventional:
+      run: node scripts/commit-msg.mts {1}

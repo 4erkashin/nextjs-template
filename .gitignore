@@ -44,3 +44,7 @@ next-env.d.ts
 
 # skills
 .wayfinder
+
+# lefthook local overrides
+lefthook-local.yml
+.lefthook-local.yml
