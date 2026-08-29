@@ -1,4 +1,46 @@
 commit-msg:
   commands:
     conventional:
-      run: node scripts/commit-msg.mts {1}
+      run: node scripts/commit-msg.ts {1}
+
+pre-commit:
+  skip:
+    - merge
+    - rebase
+  parallel: true
+  jobs:
+    - name: format-lint
+      group:
+        piped: true
+        jobs:
+          - name: prettier
+            exclude:
+              - .agents/**
+              - pnpm-lock.yaml
+            run: pnpm exec prettier --write --ignore-unknown {staged_files}
+            stage_fixed: true
+            fail_text: Prettier failed. Fix the files and retry the commit.
+          - name: eslint
+            glob: "*.{js,jsx,ts,tsx,mts,mjs,cjs}"
+            exclude:
+              - scripts/**
+            run: pnpm exec eslint {staged_files}
+            fail_text: ESLint failed. Run pnpm exec eslint on the staged files.
+    - name: conflict-markers
+      run: node scripts/conflict-markers.ts {staged_files}
+      fail_text: Staged files contain git conflict markers. Resolve them and retry the commit.
+    - name: env-files
+      run: node scripts/forbid-env.ts {staged_files}
+      fail_text: Do not commit .env files. Use .env.example for templates.
+
+pre-push:
+  jobs:
+    - name: typecheck
+      glob:
+        - "*.{ts,tsx,mts,cts}"
+        - "tsconfig*.json"
+        - "package.json"
+        - "pnpm-lock.yaml"
+        - "next.config.*"
+      run: pnpm typecheck
+      fail_text: Typecheck failed. Run pnpm typecheck.

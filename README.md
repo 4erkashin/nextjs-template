@@ -2,7 +2,11 @@
 
 A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), and empty `app` / `ui` / `features` / `domain` / `lib` layers. Unstyled on purpose.
 
-## Commit messages
+## Git hooks
+
+`commit-msg`, `pre-commit`, and `pre-push` run through lefthook. Do not pass `--no-verify` to dodge them.
+
+### Commit messages
 
 Every commit is `type: subject`. The first line is a **type** (what kind of change), a colon and space, then a short **subject** (what changed). Allowed types are listed in `conventional-commits.json`; the `commit-msg` hook rejects anything else.
 
@@ -25,7 +29,15 @@ feat(api)!: require auth on /export
 
 `feat` is a new capability, `fix` is a bug fix, `!` is breaking. Other types (`docs`, `chore`, `refactor`, …) are for humans and tools; they do not imply a version bump.
 
-Prefixes listed as `exceptions` in that file skip the type check. Do not pass `--no-verify` to dodge the hook.
+Prefixes listed as `exceptions` in that file skip the type check.
+
+### pre-commit
+
+Prettier formats staged files and may restage them. ESLint then checks staged JS/TS (no auto-fix). The commit is refused if ESLint fails, if a staged file contains git conflict markers, or if you stage `.env` / `.env.*` (`.env.example` is allowed).
+
+### pre-push
+
+`pnpm typecheck` runs when the push includes TypeScript, `tsconfig*.json`, `package.json`, `pnpm-lock.yaml`, or `next.config.*`. Docs-only pushes skip it.
 
 ## Create an app from this template
 

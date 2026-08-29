@@ -132,6 +132,9 @@ const sortingRules = {
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  // eslint-plugin-react still ships `settings.react.version = "detect"`.
+  // Detect uses context.getFilename(), removed in ESLint 10.
+  { settings: { react: { version: "19" } } },
   perfectionist.configs["recommended-natural"],
   { rules: { ...adrRules, ...sortingRules } },
   {

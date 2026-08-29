@@ -1,7 +1,6 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 type Contract = {
   exceptions: string[];
@@ -14,7 +13,7 @@ const repoRoot = (): string => {
       encoding: "utf8",
     }).trim();
   } catch {
-    return path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+    return path.join(import.meta.dirname, "..");
   }
 };
 
