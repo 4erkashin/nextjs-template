@@ -1,3 +1,4 @@
+import pluginQuery from "@tanstack/eslint-plugin-query";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
@@ -132,6 +133,7 @@ const sortingRules = {
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  ...pluginQuery.configs["flat/recommended"],
   // eslint-plugin-react still ships `settings.react.version = "detect"`.
   // Detect uses context.getFilename(), removed in ESLint 10.
   { settings: { react: { version: "19" } } },
@@ -155,6 +157,8 @@ const eslintConfig = defineConfig([
     ".agents/**",
     // Git hook — Node script, not Next/React
     "scripts/**",
+    // MSW generated worker
+    "public/mockServiceWorker.js",
   ]),
   eslintConfigPrettier,
 ]);
