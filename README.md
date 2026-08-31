@@ -1,6 +1,22 @@
 # nextjs-template
 
-A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), and empty `app` / `ui` / `features` / `domain` / `lib` layers. Unstyled on purpose.
+A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, TanStack Query, and browser MSW. Unstyled on purpose.
+
+## Create an app from this template
+
+```bash
+npx create-next-app@latest my-app --example https://github.com/4erkashin/nextjs-template --use-pnpm
+```
+
+Use `--use-pnpm` so the installer matches this lockfile. Or use **Use this template** on GitHub.
+
+## Client data (Query + MSW)
+
+`pnpm dev` starts a **browser** Mock Service Worker. Add handlers for endpoints that do not exist yet; everything else hits the real network. Handlers live in `mocks/handlers.ts` (empty until you add some).
+
+- Kill switch: `NEXT_PUBLIC_MSW=0` (see `.env.example`).
+- Remove MSW: delete `mocks/`, drop `MswGate` from `app/providers.tsx`. Full sweep: [`mocks/README.md`](mocks/README.md).
+- Query (`lib/query/`) stays when MSW goes.
 
 ## Git hooks
 
@@ -38,14 +54,6 @@ Prettier formats staged files and may restage them. ESLint then checks staged JS
 ### pre-push
 
 `pnpm typecheck` runs when the push includes TypeScript, `tsconfig*.json`, `package.json`, `pnpm-lock.yaml`, or `next.config.*`. Docs-only pushes skip it.
-
-## Create an app from this template
-
-```bash
-npx create-next-app@latest my-app --example https://github.com/4erkashin/nextjs-template --use-pnpm
-```
-
-Use `--use-pnpm` so the installer matches this lockfile. Or use **Use this template** on GitHub.
 
 ## Favicon
 
