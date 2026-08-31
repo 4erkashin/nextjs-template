@@ -18,6 +18,9 @@ next-env.d.ts
 # agent skill docs (nested markdown fences break under Prettier)
 .agents
 
+# MSW generated worker — integrity checksum must stay intact
+public/mockServiceWorker.js
+
 # env / misc
 .env*
 !.env.example
