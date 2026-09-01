@@ -1,19 +1,28 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useTranslations } from "next-intl";
+import { useState, useTransition } from "react";
+
+import { useRouter } from "@/i18n/navigation";
 
 export default function HomePage() {
+  const t = useTranslations("HomePage");
   const [, startTransition] = useTransition();
   const router = useRouter();
+  const [count, setCount] = useState(0);
 
   return (
     <main>
-      <h1>Empty bootstrap. Replace this page.</h1>
+      <h1>{t("title")}</h1>
 
-      <p>This starter is unstyled on purpose. Build from here.</p>
+      <p>{t("description")}</p>
 
-      <h2>Error page example</h2>
+      <p>{t("itemCount", { count })}</p>
+      <button onClick={() => setCount((value) => value + 1)} type="button">
+        {t("addItem")}
+      </button>
+
+      <h2>{t("errorHeading")}</h2>
       <button
         onClick={() =>
           /**
@@ -27,15 +36,15 @@ export default function HomePage() {
         }
         type="button"
       >
-        Trigger error
+        {t("triggerError")}
       </button>
 
-      <h2>Not found page example</h2>
+      <h2>{t("notFoundHeading")}</h2>
       <button
         onClick={() => router.push("/this-page-does-not-exist")}
         type="button"
       >
-        Trigger not found
+        {t("triggerNotFound")}
       </button>
     </main>
   );

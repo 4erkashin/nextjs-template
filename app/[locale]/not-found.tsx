@@ -1,4 +1,8 @@
-import Link from "next/link";
+"use client";
+
+import { useTranslations } from "next-intl";
+
+import { Link } from "@/i18n/navigation";
 
 /**
  * UI for a missing page. Next.js renders this when no route matches, or when
@@ -7,11 +11,13 @@ import Link from "next/link";
  */
 
 export default function NotFound() {
+  const t = useTranslations("NotFound");
+
   return (
     <main>
-      <h1>Not found</h1>
-      <p>Not found</p>
-      <Link href="/">Home</Link>
+      <h1>{t("title")}</h1>
+      <p>{t("description")}</p>
+      <Link href="/">{t("home")}</Link>
     </main>
   );
 }

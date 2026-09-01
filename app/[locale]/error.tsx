@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 /**
  * Fallback UI when something in this route (or a nested one) throws at runtime.
  * Next.js wraps the segment in a React Error Boundary; this file is what users
@@ -14,12 +16,14 @@ export default function Error({
   error: Error & { digest?: string };
   retry: () => void;
 }) {
+  const t = useTranslations("Error");
+
   return (
     <main>
-      <h1>Something went wrong</h1>
+      <h1>{t("title")}</h1>
       <p>{error.message}</p>
       <button onClick={() => retry()} type="button">
-        Try again
+        {t("tryAgain")}
       </button>
     </main>
   );
