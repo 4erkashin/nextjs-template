@@ -48,3 +48,6 @@ next-env.d.ts
 # lefthook local overrides
 lefthook-local.yml
 .lefthook-local.yml
+
+*storybook.log
+storybook-static

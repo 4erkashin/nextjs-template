@@ -11,7 +11,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.102.8",
@@ -21,19 +23,33 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-a11y": "^10.5.10",
+    "@storybook/addon-docs": "^10.5.10",
+    "@storybook/addon-mcp": "latest",
+    "@storybook/addon-vitest": "^10.5.10",
+    "@storybook/nextjs-vite": "^10.5.10",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.102.8",
     "@types/node": "^20.19.43",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
+    "@vitest/browser-playwright": "latest",
+    "@vitest/coverage-v8": "latest",
     "eslint": "10.9.1",
     "eslint-config-next": "16.3.3",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-perfectionist": "^5.10.0",
+    "eslint-plugin-storybook": "^10.5.10",
     "lefthook": "^2.1.10",
     "msw": "^2.15.0",
+    "msw-storybook-addon": "^3.0.0",
+    "playwright": "latest",
     "prettier": "3.9.6",
-    "typescript": "^5"
+    "storybook": "^10.5.10",
+    "typescript": "^5",
+    "vite": "latest",
+    "vitest": "latest"
   },
   "engines": {
     "node": ">=24"

@@ -1,6 +1,7 @@
 import { environmentManager, QueryClient } from "@tanstack/react-query";
 
-function makeQueryClient() {
+/** App query defaults. Storybook calls this; the app uses `getQueryClient()`. */
+export function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {

@@ -1,9 +1,16 @@
 allowBuilds:
+  esbuild: true
   lefthook: true
-  # Install script is a banner only; public/mockServiceWorker.js is committed.
+  # Skips postinstall only.
+  # That script recopies public/mockServiceWorker.js (already committed).
+  # After bumping msw: pnpm exec msw init public
   msw: false
   sharp: true
   unrs-resolver: true
+# One copy of React types for the whole tree.
+# package.json only pins the direct deps;
+# next / @types/react-dom / others can still nest a different patch.
+# Keep these in lockstep with package.json when bumping React types.
 overrides:
   "@types/react": 19.2.18
   "@types/react-dom": 19.2.5

@@ -3,6 +3,7 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 import perfectionist from "eslint-plugin-perfectionist";
+import storybook from "eslint-plugin-storybook";
 import { defineConfig, globalIgnores } from "eslint/config";
 import path from "node:path";
 
@@ -160,6 +161,7 @@ const eslintConfig = defineConfig([
     // MSW generated worker
     "public/mockServiceWorker.js",
   ]),
+  ...storybook.configs["flat/recommended"],
   eslintConfigPrettier,
 ]);
 
