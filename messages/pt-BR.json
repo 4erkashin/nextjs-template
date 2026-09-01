@@ -1,0 +1,21 @@
+{
+  "Error": {
+    "title": "Algo deu errado",
+    "tryAgain": "Tentar novamente"
+  },
+  "HomePage": {
+    "addItem": "Adicionar item",
+    "description": "Este starter não tem estilos de propósito. Construa a partir daqui.",
+    "errorHeading": "Exemplo de página de erro",
+    "itemCount": "{count, plural, =0 {Nenhum item} one {# item} other {# itens}}",
+    "notFoundHeading": "Exemplo de página não encontrada",
+    "title": "Bootstrap vazio. Substitua esta página.",
+    "triggerError": "Disparar erro",
+    "triggerNotFound": "Disparar não encontrado"
+  },
+  "NotFound": {
+    "description": "Não encontrado",
+    "home": "Início",
+    "title": "Não encontrado"
+  }
+}
