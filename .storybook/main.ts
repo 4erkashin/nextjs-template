@@ -8,6 +8,7 @@ const config: StorybookConfig = {
     "@storybook/addon-docs",
     "@storybook/addon-mcp",
     "msw-storybook-addon",
+    "storybook-next-intl",
   ],
   framework: "@storybook/nextjs-vite",
   staticDirs: ["../public"],

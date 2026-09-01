@@ -6,6 +6,7 @@ import { type ReactNode, useState } from "react";
 
 import { makeQueryClient } from "../lib/query/query-client";
 import { mswHandlers } from "./msw-handlers";
+import nextIntl from "./next-intl";
 
 import "../app/globals.css";
 
@@ -37,6 +38,15 @@ const preview: Preview = {
       </StoryQueryRoot>
     ),
   ],
+  initialGlobals: {
+    locale: "en",
+    locales: {
+      en: "EN",
+      "pt-BR": "PT-BR",
+      ru: "RU",
+      uk: "UA",
+    },
+  },
   loaders: [mswLoader()],
   parameters: {
     a11y: {
@@ -53,6 +63,7 @@ const preview: Preview = {
       },
     },
 
+    nextIntl,
     nextjs: {
       appDirectory: true,
     },
