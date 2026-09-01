@@ -42,6 +42,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# next-intl generated ICU argument types
+messages/*.d.json.ts
+
 # skills
 .wayfinder
 

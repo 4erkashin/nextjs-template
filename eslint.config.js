@@ -147,6 +147,37 @@ const eslintConfig = defineConfig([
       "no-restricted-syntax": ["error", ...uiDestinationOwnershipSyntax],
     },
   },
+  {
+    files: [
+      "app/**/*.{ts,tsx}",
+      "ui/**/*.{ts,tsx}",
+      "features/**/*.{ts,tsx}",
+      "domain/**/*.{ts,tsx}",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              message: "Import Link from @/i18n/navigation.",
+              name: "next/link",
+            },
+            {
+              importNames: [
+                "permanentRedirect",
+                "redirect",
+                "usePathname",
+                "useRouter",
+              ],
+              message: "Import these from @/i18n/navigation.",
+              name: "next/navigation",
+            },
+          ],
+        },
+      ],
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
@@ -160,6 +191,8 @@ const eslintConfig = defineConfig([
     "scripts/**",
     // MSW generated worker
     "public/mockServiceWorker.js",
+    // next-intl generated ICU argument types
+    "messages/**/*.d.json.ts",
   ]),
   ...storybook.configs["flat/recommended"],
   eslintConfigPrettier,

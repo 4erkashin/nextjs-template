@@ -1,6 +1,6 @@
 # nextjs-template
 
-A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, TanStack Query, and browser MSW. Unstyled on purpose.
+A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), TanStack Query, and browser MSW. Unstyled on purpose.
 
 ## Create an app from this template
 
@@ -9,6 +9,14 @@ npx create-next-app@latest my-app --example https://github.com/4erkashin/nextjs-
 ```
 
 Use `--use-pnpm` so the installer matches this lockfile. Or use **Use this template** on GitHub.
+
+## Internationalization (next-intl)
+
+Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `/ru`, `/uk`, `/pt-BR`. Messages are `messages/*.json`; TypeScript keys and ICU args are typed from `messages/en.json`.
+
+- Import `Link` / `useRouter` / `usePathname` / `redirect` / `permanentRedirect` from `@/i18n/navigation`, not `next/link` or `next/navigation`. `notFound`, `useParams`, and `useSearchParams` stay on `next/navigation`.
+- First visit negotiates `Accept-Language` (then a cookie). Unknown languages fall back to `en`.
+- Storybook has a locale toolbar (`storybook-next-intl`).
 
 ## Client data (Query + MSW)
 
@@ -59,8 +67,8 @@ Prettier formats staged files and may restage them. ESLint then checks staged JS
 
 Do not put the primary favicon in `public/favicon.ico`.
 
-Add `app/favicon.ico` at the root of `app/`. Next.js injects the `<link>` via the [Metadata file convention](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/app-icons).
+Add `app/[locale]/favicon.ico` next to the root layout. Next.js injects the `<link>` via the [Metadata file convention](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/app-icons).
 
-Optionally add `app/icon.png` / `app/icon.tsx` and `app/apple-icon.png` for other sizes / Apple.
+Optionally add `app/[locale]/icon.png` / `icon.tsx` and `apple-icon.png` for other sizes / Apple.
 
 This starter ships no icon so consumers are not stuck with another product’s brand.
