@@ -3,9 +3,11 @@ import type { StorybookConfig } from "@storybook/nextjs-vite";
 import stylex from "@stylexjs/unplugin";
 import autoprefixer from "autoprefixer";
 
+// Relative path: Node loads this file, so @/ aliases do not work.
 import { stylexOptions } from "../babel.config.js";
 
 const config: StorybookConfig = {
+  // Package names, not file paths. Storybook loads them from node_modules.
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-vitest",
@@ -22,6 +24,22 @@ const config: StorybookConfig = {
     "../app/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../ui/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
+  /**
+   * Storybook's last chance to change the Vite config before the bundler starts.
+   *
+   * Storybook already builds a Vite config from the rest of this file
+   * (`framework`, `addons`, `stories`, and so on). Then it calls this hook
+   * and passes that config in as `viteConfig`.
+   *
+   * `async` lets us `await import("vite")` instead of importing Vite at the
+   * top of the file, so Vite is only loaded when Storybook actually needs
+   * this hook.
+   *
+   * We merge in PostCSS + Autoprefixer and the StyleX Vite plugin (same
+   * options as `babel.config.js`, plus CSS layers). Without this hook,
+   * Storybook would still start, but StyleX styles and Autoprefixer would
+   * not be wired into its Vite pipeline.
+   */
   async viteFinal(viteConfig) {
     const { mergeConfig } = await import("vite");
 
