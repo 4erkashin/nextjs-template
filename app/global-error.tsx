@@ -1,5 +1,10 @@
 "use client";
 
+import * as stylex from "@stylexjs/stylex";
+
+import { themeRootProps } from "@/theme/root-props";
+import { rootStyles } from "@/theme/root-style";
+
 import "./globals.css";
 
 /**
@@ -17,8 +22,8 @@ export default function GlobalError({
   retry: () => void;
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html {...themeRootProps("system")} lang="en">
+      <body {...stylex.props(rootStyles.body)}>
         <main>
           <h1>Something went wrong</h1>
           <p>{error.message}</p>

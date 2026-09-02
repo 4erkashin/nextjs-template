@@ -1,9 +1,12 @@
 "use client";
 
+import * as stylex from "@stylexjs/stylex";
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 
 import { useRouter } from "@/i18n/navigation";
+
+import { colors, spacing } from "../../tokens/generated/tokens.stylex";
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
@@ -12,10 +15,10 @@ export default function HomePage() {
   const [count, setCount] = useState(0);
 
   return (
-    <main>
+    <main {...stylex.props(styles.main)}>
       <h1>{t("title")}</h1>
 
-      <p>{t("description")}</p>
+      <p {...stylex.props(styles.muted)}>{t("description")}</p>
 
       <p>{t("itemCount", { count })}</p>
       <button onClick={() => setCount((value) => value + 1)} type="button">
@@ -49,3 +52,16 @@ export default function HomePage() {
     </main>
   );
 }
+
+const styles = stylex.create({
+  main: {
+    gap: spacing.m,
+    paddingInline: spacing.m,
+    display: "flex",
+    flexDirection: "column",
+    paddingBlockEnd: spacing.m,
+  },
+  muted: {
+    color: colors.muted,
+  },
+});

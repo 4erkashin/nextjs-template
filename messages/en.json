@@ -5,7 +5,7 @@
   },
   "HomePage": {
     "addItem": "Add item",
-    "description": "This starter is unstyled on purpose. Build from here.",
+    "description": "StyleX and token bootstrap. Replace the tokens and this page.",
     "errorHeading": "Error page example",
     "itemCount": "{count, plural, =0 {No items} one {# item} other {# items}}",
     "notFoundHeading": "Not found page example",
@@ -17,5 +17,11 @@
     "description": "Not found",
     "home": "Home",
     "title": "Not found"
+  },
+  "Theme": {
+    "dark": "Dark",
+    "label": "Color scheme",
+    "light": "Light",
+    "system": "System"
   }
 }

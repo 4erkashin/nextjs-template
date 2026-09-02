@@ -1,10 +1,15 @@
 import type { Preview } from "@storybook/nextjs-vite";
 
+import { withThemeFromJSXProvider } from "@storybook/addon-themes";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { mswLoader } from "msw-storybook-addon/csf3";
 import { type ReactNode, useState } from "react";
 
+import type { ThemeName } from "../theme/cookie";
+
 import { makeQueryClient } from "../lib/query/query-client";
+import { themeRootProps } from "../theme/root-props";
+import { themes } from "../tokens/generated/themes";
 import { mswHandlers } from "./msw-handlers";
 import nextIntl from "./next-intl";
 
@@ -27,11 +32,37 @@ function StoryQueryRoot({
   );
 }
 
+function StylexThemeProvider({
+  children,
+  theme,
+}: Readonly<{
+  children?: ReactNode;
+  theme?: (typeof themes)[ThemeName];
+}>) {
+  const name: ThemeName =
+    theme === themes.dark
+      ? "dark"
+      : theme === themes.light
+        ? "light"
+        : "system";
+
+  return <div {...themeRootProps(name)}>{children}</div>;
+}
+
 const preview: Preview = {
   async beforeEach({ msw }) {
     msw.use(...mswHandlers);
   },
   decorators: [
+    withThemeFromJSXProvider({
+      defaultTheme: "system",
+      Provider: StylexThemeProvider,
+      themes: {
+        dark: themes.dark,
+        light: themes.light,
+        system: themes.system,
+      },
+    }),
     (Story, context) => (
       <StoryQueryRoot key={context.id}>
         <Story />

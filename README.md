@@ -1,6 +1,6 @@
 # nextjs-template
 
-A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), TanStack Query, and browser MSW. Unstyled on purpose.
+A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, TanStack Query, and browser MSW. Visual language is bootstrap; the CSS pipeline is not.
 
 ## Create an app from this template
 
@@ -17,6 +17,15 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 - Import `Link` / `useRouter` / `usePathname` / `redirect` / `permanentRedirect` from `@/i18n/navigation`, not `next/link` or `next/navigation`. `notFound`, `useParams`, and `useSearchParams` stay on `next/navigation`.
 - First visit negotiates `Accept-Language` (then a cookie). Unknown languages fall back to `en`.
 - Storybook has a locale toolbar (`storybook-next-intl`).
+
+## StyleX and tokens
+
+Source of truth is Tokens Studio JSON in `tokens/` (`core.json`, `light.json`, `dark.json`, `$themes.json`). `pnpm tokens:build` (Style Dictionary + `@tokens-studio/sd-transforms`) emits gitignored StyleX files under `tokens/generated/`. Do not edit those files. `dev`, `typecheck`, `storybook`, and `build` run the generate step first.
+
+- Import colors, space, and type from the generated `*.stylex.ts` files with **relative paths**. StyleX resolves `defineVars` itself and does not honor tsconfig `@/` for those files. Apply `light` / `dark` / `system` from `@/tokens/generated/themes` (cookie `theme` on `<html>`, default `system`). The theme switcher lives next to the locale switcher.
+- Author styles with `stylex.create`. Conditions nest _inside_ the property (`default`, `:hover`, `@media`). Raw hex / `rgb()` / `px`/`rem`/`em` literals in app code are lint errors; use generated vars. Allow `0`, `100%`, and `currentColor`.
+- Next compiles StyleX with Babel + PostCSS (`@stylex;` in `app/globals.css`). Storybook Vite uses `@stylexjs/unplugin` (it does not run `next/babel`) and `@storybook/addon-themes` (toolbar is not the Next cookie).
+- Reset is `modern-normalize` in `globals.css`. The at-rule cookbook is `ui/stylex-cookbook.stories.tsx`.
 
 ## Client data (Query + MSW)
 
@@ -57,11 +66,11 @@ Prefixes listed as `exceptions` in that file skip the type check.
 
 ### pre-commit
 
-Prettier formats staged files and may restage them. ESLint then checks staged JS/TS (no auto-fix). The commit is refused if ESLint fails, if a staged file contains git conflict markers, or if you stage `.env` / `.env.*` (`.env.example` is allowed).
+Prettier formats staged files and may restage them. ESLint then checks staged JS/TS (no auto-fix). If you stage token JSON or `tokens/build.js`, `pnpm tokens:build` runs. The commit is refused if ESLint fails, if a staged file contains git conflict markers, or if you stage `.env` / `.env.*` (`.env.example` is allowed).
 
 ### pre-push
 
-`pnpm typecheck` runs when the push includes TypeScript, `tsconfig*.json`, `package.json`, `pnpm-lock.yaml`, or `next.config.*`. Docs-only pushes skip it.
+`pnpm typecheck` runs when the push includes TypeScript, `tsconfig*.json`, `package.json`, `pnpm-lock.yaml`, `next.config.*`, token sources, `babel.config.js`, or `postcss.config.*`. Docs-only pushes skip it.
 
 ## Favicon
 

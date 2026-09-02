@@ -1,0 +1,32 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "$value": "system-ui, sans-serif"
+    },
+    "size": {
+      "$type": "dimension",
+      "$value": "1rem"
+    },
+    "sizeLg": {
+      "$type": "dimension",
+      "$value": "1.25rem"
+    }
+  },
+  "layout": {
+    "wide": {
+      "$type": "dimension",
+      "$value": "40rem"
+    }
+  },
+  "space": {
+    "m": {
+      "$type": "dimension",
+      "$value": "16px"
+    },
+    "s": {
+      "$type": "dimension",
+      "$value": "8px"
+    }
+  }
+}

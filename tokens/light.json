@@ -1,0 +1,20 @@
+{
+  "color": {
+    "accent": {
+      "$type": "color",
+      "$value": "#b91c1c"
+    },
+    "bg": {
+      "$type": "color",
+      "$value": "#f4f0e6"
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#5c574d"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "#1a1a1a"
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import stylex from "@stylexjs/eslint-plugin";
 import pluginQuery from "@tanstack/eslint-plugin-query";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -14,6 +15,26 @@ import path from "node:path";
  * the repo root. Anchoring to this file keeps the zones enforced regardless.
  */
 const absoluteLayerPath = (dir) => path.join(import.meta.dirname, dir);
+
+const stylexTokenLiteralSyntax = [
+  {
+    message: "Use generated StyleX color tokens instead of raw color literals.",
+    selector:
+      "Literal[value=/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/]",
+  },
+  {
+    message: "Use generated StyleX color tokens instead of raw color literals.",
+    selector: "Literal[value=/^hsla?\\(/i]",
+  },
+  {
+    message: "Use generated StyleX color tokens instead of raw color literals.",
+    selector: "Literal[value=/^rgba?\\(/i]",
+  },
+  {
+    message: "Use generated StyleX tokens instead of raw length literals.",
+    selector: "Literal[value=/^\\d+(\\.\\d+)?(px|rem|em)$/]",
+  },
+];
 
 /** Destination ownership stays out of `ui/` (callers pass typed href). */
 const uiDestinationOwnershipSyntax = [
@@ -141,10 +162,36 @@ const eslintConfig = defineConfig([
   perfectionist.configs["recommended-natural"],
   { rules: { ...adrRules, ...sortingRules } },
   {
+    files: [
+      "app/**/*.{js,jsx,ts,tsx}",
+      "features/**/*.{js,jsx,ts,tsx}",
+      "theme/**/*.{js,jsx,ts,tsx}",
+      "ui/**/*.{js,jsx,ts,tsx}",
+    ],
+    plugins: {
+      "@stylexjs": stylex,
+    },
+    rules: {
+      "@stylexjs/enforce-extension": "error",
+      "@stylexjs/no-conflicting-props": "error",
+      "@stylexjs/no-legacy-contextual-styles": "error",
+      "@stylexjs/no-unused": "error",
+      "@stylexjs/sort-keys": "warn",
+      "@stylexjs/valid-shorthands": ["error", { preferInline: true }],
+      "@stylexjs/valid-styles": "error",
+      "no-restricted-syntax": ["error", ...stylexTokenLiteralSyntax],
+      "perfectionist/sort-objects": "off",
+    },
+  },
+  {
     files: ["ui/**/*.{ts,tsx}"],
     ignores: ["ui/**/__tests__/**"],
     rules: {
-      "no-restricted-syntax": ["error", ...uiDestinationOwnershipSyntax],
+      "no-restricted-syntax": [
+        "error",
+        ...stylexTokenLiteralSyntax,
+        ...uiDestinationOwnershipSyntax,
+      ],
     },
   },
   {
@@ -153,6 +200,7 @@ const eslintConfig = defineConfig([
       "ui/**/*.{ts,tsx}",
       "features/**/*.{ts,tsx}",
       "domain/**/*.{ts,tsx}",
+      "theme/**/*.{ts,tsx}",
     ],
     rules: {
       "no-restricted-imports": [
@@ -193,6 +241,10 @@ const eslintConfig = defineConfig([
     "public/mockServiceWorker.js",
     // next-intl generated ICU argument types
     "messages/**/*.d.json.ts",
+    "tokens/build.js",
+    "tokens/generated/**",
+    "babel.config.js",
+    "postcss.config.js",
   ]),
   ...storybook.configs["flat/recommended"],
   eslintConfigPrettier,

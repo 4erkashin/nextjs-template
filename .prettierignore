@@ -24,6 +24,9 @@ public/mockServiceWorker.js
 # next-intl generated ICU argument types
 messages/*.d.json.ts
 
+# StyleX vars generated from Tokens Studio JSON
+tokens/generated/
+
 # env / misc
 .env*
 !.env.example

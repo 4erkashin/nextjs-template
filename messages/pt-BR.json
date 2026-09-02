@@ -5,7 +5,7 @@
   },
   "HomePage": {
     "addItem": "Adicionar item",
-    "description": "Este starter não tem estilos de propósito. Construa a partir daqui.",
+    "description": "Bootstrap StyleX e tokens. Substitua os tokens e esta página.",
     "errorHeading": "Exemplo de página de erro",
     "itemCount": "{count, plural, =0 {Nenhum item} one {# item} other {# itens}}",
     "notFoundHeading": "Exemplo de página não encontrada",
@@ -17,5 +17,11 @@
     "description": "Não encontrado",
     "home": "Início",
     "title": "Não encontrado"
+  },
+  "Theme": {
+    "dark": "Escuro",
+    "label": "Esquema de cores",
+    "light": "Claro",
+    "system": "Sistema"
   }
 }
