@@ -36,6 +36,18 @@ Source of truth is Tokens Studio JSON in `tokens/` (`core.json`, `light.json`, `
 - Remove MSW: delete `mocks/`, drop `MswGate` from `app/providers.tsx`. Full sweep: [`mocks/README.md`](mocks/README.md).
 - Query (`lib/query/`) stays when MSW goes.
 
+## Dependency updates
+
+Direct deps are exact versions (no `^`, no `latest`). `packageManager` pins pnpm. Renovate opens grouped PRs weekly; nothing auto-merges.
+
+This repo cannot install the GitHub App or flip Dependabot alerts for you. After the files are on `main`:
+
+```bash
+./scripts/enable-dep-loop.sh
+```
+
+When a Renovate PR lands, open it in Cursor if you want plain-English “what changed / should I / bump vs CLI”.
+
 ## Git hooks
 
 `commit-msg`, `pre-commit`, and `pre-push` run through lefthook. Do not pass `--no-verify` to dodge them.
