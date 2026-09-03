@@ -4,6 +4,7 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 import perfectionist from "eslint-plugin-perfectionist";
+import sonarjs from "eslint-plugin-sonarjs";
 import storybook from "eslint-plugin-storybook";
 import { defineConfig, globalIgnores } from "eslint/config";
 import path from "node:path";
@@ -97,6 +98,24 @@ const adrRules = {
       ],
     },
   ],
+};
+
+/**
+ * Sonar reader pack: how hard a function is to follow, plus copy-paste
+ * control flow. Not the full SonarJS recommended set. Threshold 15 is
+ * Sonar's Cognitive Complexity default. Rewrite until a reader can
+ * follow the function — do not disable these to go green.
+ */
+const readerPackRules = {
+  "sonarjs/cognitive-complexity": ["error", 15],
+  "sonarjs/no-all-duplicated-branches": "error",
+  "sonarjs/no-duplicated-branches": "error",
+  "sonarjs/no-identical-conditions": "error",
+  "sonarjs/no-identical-expressions": "error",
+  "sonarjs/no-identical-functions": "error",
+  "sonarjs/no-nested-assignment": "error",
+  "sonarjs/no-nested-conditional": "error",
+  "sonarjs/no-nested-template-literals": "error",
 };
 
 const sortingRules = {
@@ -225,6 +244,21 @@ const eslintConfig = defineConfig([
         },
       ],
     },
+  },
+  {
+    files: [
+      "app/**/*.{ts,tsx}",
+      "domain/**/*.{ts,tsx}",
+      "features/**/*.{ts,tsx}",
+      "i18n/**/*.{ts,tsx}",
+      "lib/**/*.{ts,tsx}",
+      "proxy.ts",
+      "theme/**/*.{ts,tsx}",
+      "ui/**/*.{ts,tsx}",
+    ],
+    ignores: ["**/*.stories.*", "**/*.test.*", "**/*.spec.*"],
+    plugins: { sonarjs },
+    rules: readerPackRules,
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([
