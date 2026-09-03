@@ -1,12 +1,14 @@
 ---
-description: Use block comments for multi-line comments
+description: Block comments for multi-line comments; write comments in plain English
 globs: "**/*.{ts,tsx,js,jsx,mjs,cjs}"
 alwaysApply: false
 ---
 
-# Multi-line comments
+# Comments
 
 A single-line comment uses `//`. Anything spanning more than one line uses a `/** */` block, one `*`-prefixed line per line of text.
+
+Write every comment in the maximum possible plain English. Its job is so tomorrow-you does not WTF — no jargon, abbreviations, or clever phrasing to decode.
 
 ```ts
 // one line is fine
