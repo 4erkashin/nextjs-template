@@ -1,3 +1,12 @@
+/**
+ * Cross-browser reset from modern-normalize,
+ * imported into a low-priority `resets` cascade layer
+ * so app styles always win over it without needing `!important` or specificity hacks.
+ *
+ * The bare specifier `modern-normalize/...` (no leading `./` or `/`) isn't a file path;
+ * the bundler resolves it to the `modern-normalize` package in `node_modules`
+ * and pulls in that package's `modern-normalize.css`.
+ */
 @import "modern-normalize/modern-normalize.css" layer(resets);
 
 @stylex;
