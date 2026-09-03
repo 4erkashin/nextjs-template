@@ -1,0 +1,18 @@
+---
+description: Use block comments for multi-line comments
+globs: "**/*.{ts,tsx,js,jsx,mjs,cjs}"
+alwaysApply: false
+---
+
+# Multi-line comments
+
+A single-line comment uses `//`. Anything spanning more than one line uses a `/** */` block, one `*`-prefixed line per line of text.
+
+```ts
+// one line is fine
+
+/**
+ * More than one line goes in a block,
+ * not stacked `//` lines.
+ */
+```
