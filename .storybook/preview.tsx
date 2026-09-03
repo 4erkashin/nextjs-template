@@ -49,6 +49,14 @@ function StylexThemeProvider({
   return <div {...themeRootProps(name)}>{children}</div>;
 }
 
+/** Toolbar captions only. Locale ids come from `nextIntl`; a missing caption shows the id. */
+const localeLabels: Record<string, string> = {
+  en: "EN",
+  "pt-BR": "PT-BR",
+  ru: "RU",
+  uk: "UA",
+};
+
 const preview: Preview = {
   async beforeEach({ msw }) {
     msw.use(...mswHandlers);
@@ -70,13 +78,13 @@ const preview: Preview = {
     ),
   ],
   initialGlobals: {
-    locale: "en",
-    locales: {
-      en: "EN",
-      "pt-BR": "PT-BR",
-      ru: "RU",
-      uk: "UA",
-    },
+    locale: nextIntl.defaultLocale,
+    locales: Object.fromEntries(
+      Object.keys(nextIntl.messagesByLocale).map((locale) => [
+        locale,
+        localeLabels[locale] ?? locale,
+      ]),
+    ),
   },
   loaders: [mswLoader()],
   parameters: {

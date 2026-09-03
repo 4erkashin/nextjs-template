@@ -12,6 +12,7 @@
     "format:check": "prettier --check .",
     "tokens:build": "node tokens/build.js",
     "typecheck": "pnpm tokens:build && tsc --noEmit",
+    "test:unit": "vitest run --project unit",
     "storybook": "pnpm tokens:build && storybook dev -p 6006",
     "build-storybook": "pnpm tokens:build && storybook build"
   },

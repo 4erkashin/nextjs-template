@@ -41,6 +41,9 @@ pre-commit:
 
 pre-push:
   jobs:
+    - name: unit
+      run: pnpm test:unit
+      fail_text: Unit tests failed. Run pnpm test:unit.
     - name: typecheck
       glob:
         - "*.{ts,tsx,mts,cts}"
