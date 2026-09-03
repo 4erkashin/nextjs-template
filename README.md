@@ -25,6 +25,7 @@ Source of truth is Tokens Studio JSON in `tokens/` (`core.json`, `light.json`, `
 - Import colors, space, and type from the generated `*.stylex.ts` files with **relative paths**. StyleX resolves `defineVars` itself and does not honor tsconfig `@/` for those files. Apply `light` / `dark` / `system` from `@/tokens/generated/themes` (cookie `theme` on `<html>`, default `system`). The theme switcher lives next to the locale switcher.
 - Author styles with `stylex.create`. Conditions nest _inside_ the property (`default`, `:hover`, `@media`). Raw hex / `rgb()` / `px`/`rem`/`em` literals in app code are lint errors; use generated vars. Allow `0`, `100%`, and `currentColor`.
 - Next compiles StyleX with Babel + PostCSS (`@stylex;` in `app/globals.css`). Storybook Vite uses `@stylexjs/unplugin` (it does not run `next/babel`) and `@storybook/addon-themes` (toolbar is not the Next cookie).
+- Storybook Vite can log lightningcss `Invalid empty selector` on the first CSS collect: `defineConsts` in `queries.stylex.ts` (cookbook `[queries.wide]` keys) may not be resolved yet, so StyleX emits `var(--hash)` as a selector. Next.js PostCSS never hits this. Later HMR is valid CSS; the log is not a failed story.
 - Reset is `modern-normalize` in `globals.css`. The at-rule cookbook is `ui/stylex-cookbook.stories.tsx`.
 
 ## Client data (Query + MSW)
