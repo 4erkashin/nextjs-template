@@ -1,7 +1,12 @@
 import * as stylex from "@stylexjs/stylex";
 
 import { queries } from "../tokens/generated/queries.stylex";
-import { colors, fonts, spacing } from "../tokens/generated/tokens.stylex";
+import {
+  colors,
+  fonts,
+  motion,
+  spacing,
+} from "../tokens/generated/tokens.stylex";
 
 const pulse = stylex.keyframes({
   from: { opacity: 1 },
@@ -17,10 +22,13 @@ const styles = stylex.create({
     borderColor: colors.accent,
     borderStyle: "solid",
     borderWidth: spacing.s,
-    animationDuration: "1s",
+    animationDuration: motion.duration_fade,
     animationIterationCount: "infinite",
-    animationName: pulse,
-    animationTimingFunction: "ease-in-out",
+    animationName: {
+      default: pulse,
+      [queries.reducedMotion]: "none",
+    },
+    animationTimingFunction: motion.easing_standard,
     backgroundColor: colors.bg,
     color: {
       default: colors.text,
@@ -50,7 +58,7 @@ export function StylexCookbook() {
     <section {...stylex.props(styles.box)}>
       <p {...stylex.props(styles.marker)}>
         StyleX cookbook: hover, ::before, keyframes, @media, @supports,
-        @container.
+        @container, prefers-reduced-motion. Not the Motion layout cookbook.
       </p>
     </section>
   );

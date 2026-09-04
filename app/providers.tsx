@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 
+import { MotionProvider } from "@/lib/motion/provider";
 import { QueryProvider } from "@/lib/query/query-provider";
 import { MswGate } from "@/mocks/msw-gate";
 
@@ -12,7 +13,9 @@ export function Providers({
 }>) {
   return (
     <MswGate>
-      <QueryProvider>{children}</QueryProvider>
+      <QueryProvider>
+        <MotionProvider>{children}</MotionProvider>
+      </QueryProvider>
     </MswGate>
   );
 }

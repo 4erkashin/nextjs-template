@@ -1,6 +1,6 @@
 # nextjs-template
 
-A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, TanStack Query, and browser MSW. Visual language is bootstrap; the CSS pipeline is not.
+A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, Motion (`motion/react`) for layout / drag / springs, TanStack Query, and browser MSW. Visual language is bootstrap; the CSS pipeline is not.
 
 ## Create an app from this template
 
@@ -22,11 +22,13 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 
 Source of truth is Tokens Studio JSON in `tokens/` (`core.json`, `light.json`, `dark.json`, `$themes.json`). `pnpm tokens:build` (Style Dictionary + `@tokens-studio/sd-transforms`) emits gitignored StyleX files under `tokens/generated/`. Do not edit those files. `dev`, `typecheck`, `storybook`, and `build` run the generate step first.
 
-- Import colors, space, and type from the generated `*.stylex.ts` files with **relative paths**. StyleX resolves `defineVars` itself and does not honor tsconfig `@/` for those files. Apply `light` / `dark` / `system` from `@/tokens/generated/themes` (cookie `theme` on `<html>`, default `system`). The theme switcher lives next to the locale switcher.
-- Author styles with `stylex.create`. Conditions nest _inside_ the property (`default`, `:hover`, `@media`). Raw hex / `rgb()` / `px`/`rem`/`em` literals in app code are lint errors; use generated vars. Allow `0`, `100%`, and `currentColor`.
+- Import colors, space, type, and motion from the generated `*.stylex.ts` files with **relative paths**. StyleX resolves `defineVars` itself and does not honor tsconfig `@/` for those files. Apply `light` / `dark` / `system` from `@/tokens/generated/themes` (cookie `theme` on `<html>`, default `system`). The theme switcher lives next to the locale switcher. Tween seconds and bezier points for Motion come from generated `tokens/generated/motion.ts` (canonical timings; reduced motion is `MotionConfig`, not this file).
+- Author styles with `stylex.create`. Conditions nest _inside_ the property (`default`, `:hover`, `@media`). Raw hex / `rgb()` / `px`/`rem`/`em` / `ms`/`s` / `ease-*` / `cubic-bezier()` literals in app code are lint errors; use generated vars. Allow `0`, `100%`, and `currentColor`.
+- CSS motion (hover, opacity, keyframes) uses generated `motion` vars and `queries.reducedMotion`. `duration_move` collapses to `0ms` under `prefers-reduced-motion: reduce`; `duration_fade` does not. Looping or large movement must also nest on the property that creates it (`animationName: "none"`). The at-rule cookbook is `ui/stylex-cookbook.stories.tsx`.
+- Motion (`import { motion } from "motion/react"`) is for layout projection, drag, springs, and sequenced animation — not hover color and not App Router page transitions. `MotionProvider` sets `reducedMotion="user"` (the library default is `"never"`). Never spread `stylex.props()` on the same node as `motion.*`. Tween `duration` / `ease` literals are lint errors; import `motionTime`. Springs (stiffness / damping) are allowed. The layout cookbook is `ui/motion-cookbook.stories.tsx`.
 - Next compiles StyleX with Babel + PostCSS (`@stylex;` in `app/globals.css`). Storybook Vite uses `@stylexjs/unplugin` (it does not run `next/babel`) and `@storybook/addon-themes` (toolbar is not the Next cookie).
 - Storybook Vite can log lightningcss `Invalid empty selector` on the first CSS collect: `defineConsts` in `queries.stylex.ts` (cookbook `[queries.wide]` keys) may not be resolved yet, so StyleX emits `var(--hash)` as a selector. Next.js PostCSS never hits this. Later HMR is valid CSS; the log is not a failed story.
-- Reset is `modern-normalize` in `globals.css`. The at-rule cookbook is `ui/stylex-cookbook.stories.tsx`.
+- Reset is `modern-normalize` in `globals.css`.
 
 ## Client data (Query + MSW)
 

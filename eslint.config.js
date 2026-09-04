@@ -35,6 +35,36 @@ const stylexTokenLiteralSyntax = [
     message: "Use generated StyleX tokens instead of raw length literals.",
     selector: "Literal[value=/^\\d+(\\.\\d+)?(px|rem|em)$/]",
   },
+  {
+    message: "Use generated StyleX motion tokens instead of raw time literals.",
+    selector: "Literal[value=/^\\d+(\\.\\d+)?(ms|s)$/]",
+  },
+  {
+    message:
+      "Use generated StyleX motion tokens instead of raw easing keywords.",
+    selector: "Literal[value=/^(ease|ease-in|ease-out|ease-in-out|linear)$/i]",
+  },
+  {
+    message:
+      "Use generated StyleX motion tokens instead of raw cubic-bezier() literals.",
+    selector: "Literal[value=/^cubic-bezier\\(/i]",
+  },
+];
+
+const motionTweenLiteralSyntax = [
+  {
+    message:
+      "Use generated motionTime.fade / motionTime.move for tween duration.",
+    selector: "Property[key.name='duration'] > Literal",
+  },
+  {
+    message: "Use generated motionTime.easingStandard for tween ease.",
+    selector: "Property[key.name='ease'] > Literal",
+  },
+  {
+    message: "Use generated motionTime.easingStandard for tween ease.",
+    selector: "Property[key.name='ease'] > ArrayExpression",
+  },
 ];
 
 /** Destination ownership stays out of `ui/` (callers pass typed href). */
@@ -198,7 +228,11 @@ const eslintConfig = defineConfig([
       "@stylexjs/sort-keys": "warn",
       "@stylexjs/valid-shorthands": ["error", { preferInline: true }],
       "@stylexjs/valid-styles": "error",
-      "no-restricted-syntax": ["error", ...stylexTokenLiteralSyntax],
+      "no-restricted-syntax": [
+        "error",
+        ...stylexTokenLiteralSyntax,
+        ...motionTweenLiteralSyntax,
+      ],
       "perfectionist/sort-objects": "off",
     },
   },
@@ -209,6 +243,7 @@ const eslintConfig = defineConfig([
       "no-restricted-syntax": [
         "error",
         ...stylexTokenLiteralSyntax,
+        ...motionTweenLiteralSyntax,
         ...uiDestinationOwnershipSyntax,
       ],
     },

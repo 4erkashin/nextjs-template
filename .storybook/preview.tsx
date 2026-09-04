@@ -5,6 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { mswLoader } from "msw-storybook-addon/csf3";
 import { type ReactNode, useState } from "react";
 
+import { MotionProvider } from "@/lib/motion/provider";
 import { makeQueryClient } from "@/lib/query/query-client";
 import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
 import { themeRootProps } from "@/theme/root-props";
@@ -75,7 +76,9 @@ const preview: Preview = {
     },
     (Story, context) => (
       <StoryQueryRoot key={context.id}>
-        <Story />
+        <MotionProvider>
+          <Story />
+        </MotionProvider>
       </StoryQueryRoot>
     ),
   ],

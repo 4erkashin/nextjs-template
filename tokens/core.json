@@ -19,6 +19,37 @@
       "$value": "40rem"
     }
   },
+  "motion": {
+    "duration": {
+      "fade": {
+        "$type": "duration",
+        "$value": {
+          "unit": "ms",
+          "value": 150
+        }
+      },
+      "move": {
+        "$type": "duration",
+        "$value": {
+          "unit": "ms",
+          "value": 250
+        }
+      },
+      "none": {
+        "$type": "duration",
+        "$value": {
+          "unit": "ms",
+          "value": 0
+        }
+      }
+    },
+    "easing": {
+      "standard": {
+        "$type": "cubicBezier",
+        "$value": [0.4, 0, 0.2, 1]
+      }
+    }
+  },
   "space": {
     "m": {
       "$type": "dimension",
