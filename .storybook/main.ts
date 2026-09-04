@@ -5,6 +5,7 @@ import autoprefixer from "autoprefixer";
 
 // Relative path: Node loads this file, so @/ aliases do not work.
 import { stylexOptions } from "../babel.config.js";
+import { appendShellFirstPaint } from "./shell-theme.ts";
 import { stylexConstsPreloadPlugin } from "./stylex-consts-preload.ts";
 
 const config: StorybookConfig = {
@@ -20,6 +21,13 @@ const config: StorybookConfig = {
     "storybook-next-intl",
   ],
   framework: "@storybook/nextjs-vite",
+  /**
+   * Colors <html> from the OS before manager.ts runs, so the chrome
+   * is not white while JS loads. Colors come from shell-theme.ts —
+   * not a second palette. manager.ts overwrites this once it knows
+   * the toolbar pick.
+   */
+  managerHead: appendShellFirstPaint,
   staticDirs: ["../public"],
   stories: [
     "../app/**/*.stories.@(js|jsx|mjs|ts|tsx)",
