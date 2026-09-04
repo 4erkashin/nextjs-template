@@ -96,3 +96,43 @@ Add `app/[locale]/favicon.ico` next to the root layout. Next.js injects the `<li
 Optionally add `app/[locale]/icon.png` / `icon.tsx` and `apple-icon.png` for other sizes / Apple.
 
 This starter ships no icon so consumers are not stuck with another product’s brand.
+
+## Bundle analysis
+
+This app builds with Turbopack. When a client import looks heavy, inspect the production graph (Next 16.1+):
+
+```bash
+pnpm next experimental-analyze
+```
+
+`--output` writes `.next/diagnostics/analyze` for before/after diffs. The command is experimental; there is no `analyze` script so clones do not inherit a frozen CLI name. Storybook is Vite — this UI does not cover it.
+
+## Not shipping
+
+Tools that look useful and are still out. `create-next-app --example` copies every script and CI job; “strip it later” is only true for this git history.
+
+### Knip
+
+[Knip](https://knip.dev/) finds unused files, unused exports, and leftover `package.json` dependencies. ESLint only sees unused locals inside a file.
+
+It auto-detects Next `app/**/page` and Storybook `*.stories.*`. It does not understand `tokens/build.js`, gitignored StyleX under `tokens/generated/`, `scripts/enable-dep-loop.sh`, the MSW worker in `public/`, or empty `features/` / `domain/` placeholders. That ignore/entry list would become starter contract: every clone pays it, and this repo would have to keep it honest.
+
+Unused locals stay an ESLint warning. Unused packages stay a Renovate/review problem. Run `npx knip` ad hoc if you want a one-shot report; do not add the dependency.
+
+### Cycle detection
+
+File cycles (`a.ts` → `b.ts` → `a.ts`) can yield `undefined` at module init. This starter does not fail CI on them.
+
+`import/no-cycle` skips type-only imports (this repo uses those on purpose) and gets expensive as clones grow. madge / dependency-cruiser need the same ignore/entry list as Knip: generated tokens, Storybook, scripts, mixed `@/` and relative StyleX paths. Clones inherit that list.
+
+Layer *direction* is already ESLint: `ui/` must not import `features/` or `domain/`. Barrels (`index.ts` as a public API) are allowed; do not add a scanner to police them.
+
+Run `npx madge --circular --extensions ts,tsx --ts-config tsconfig.json app ui lib theme i18n mocks features domain` ad hoc if you want a one-shot report. Do not add the dependency.
+
+### `@next/bundle-analyzer`
+
+The Webpack plugin (`ANALYZE=true next build`). Extra dependency, wraps `next.config`, and does not replace the Turbopack analyzer above. Do not add it.
+
+### Bundle-size budget
+
+No kilobyte cap in CI. CI does not run `next build`. An absolute first-load cap is wrong the day a clone adds a feature; a percent-vs-`main` check needs a stored baseline and a production build on every PR. Use **Bundle analysis** when something feels wrong. Do not add `size-limit`, bundlesize, or a first-load JS gate.
