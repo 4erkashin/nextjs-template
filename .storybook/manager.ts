@@ -7,7 +7,7 @@ import { addons } from "storybook/manager-api";
 import { getPreferredColorScheme } from "storybook/theming";
 
 import { isThemeName, type ThemeName } from "../theme/cookie.ts";
-import { type ShellMode, shellTheme } from "./shell-theme.ts";
+import { type ShellMode, shellTheme } from "./theme-shell.ts";
 
 // Toolbar pick. "system" until Storybook's channel tells us the real value.
 let toolbarTheme: ThemeName = "system";
