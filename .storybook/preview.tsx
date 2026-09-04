@@ -3,7 +3,7 @@ import type { Preview } from "@storybook/nextjs-vite";
 import { DecoratorHelpers } from "@storybook/addon-themes";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { mswLoader } from "msw-storybook-addon/csf3";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useLayoutEffect, useState } from "react";
 
 import { MotionProvider } from "@/lib/motion/provider";
 import { makeQueryClient } from "@/lib/query/query-client";
@@ -37,6 +37,58 @@ function StoryQueryRoot({
   );
 }
 
+/**
+ * The app puts themeRootProps on <html>. A wrapper div only paints its own
+ * box, so the iframe stays white around the story. Apply the same props to
+ * the iframe root and undo them when the toolbar theme changes.
+ */
+function ThemeHtml({
+  children,
+  theme,
+}: Readonly<{
+  children: ReactNode;
+  theme: ThemeName;
+}>) {
+  useLayoutEffect(() => {
+    const html = document.documentElement;
+    const { className, style } = themeRootProps(theme);
+    const classes = className?.split(/\s+/).filter(Boolean) ?? [];
+
+    if (classes.length > 0) {
+      html.classList.add(...classes);
+    }
+
+    if (style) {
+      Object.assign(html.style, style);
+    }
+
+    return () => {
+      if (classes.length > 0) {
+        html.classList.remove(...classes);
+      }
+
+      if (style) {
+        for (const key of Object.keys(style)) {
+          clearHtmlStyleProperty(html, key);
+        }
+      }
+    };
+  }, [theme]);
+
+  return children;
+}
+
+function clearHtmlStyleProperty(html: HTMLElement, key: string) {
+  if (key.startsWith("--")) {
+    html.style.removeProperty(key);
+    return;
+  }
+
+  html.style.removeProperty(
+    key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`),
+  );
+}
+
 // Toolbar captions only. Locale ids come from `nextIntl`; a missing caption shows the id.
 const localeLabels: Record<string, string> = {
   en: "EN",
@@ -60,7 +112,7 @@ const preview: Preview = {
   decorators: [
     /**
      * Toolbar already stored the picked name. A story can override it.
-     * Pass that name into themeRootProps — same as the app.
+     * Pass that name into themeRootProps on the iframe <html> — same as the app.
      * Empty (toolbar not ready yet) → "system".
      */
     (Story, context) => {
@@ -69,9 +121,9 @@ const preview: Preview = {
         "system") as ThemeName;
 
       return (
-        <div {...themeRootProps(theme)}>
+        <ThemeHtml theme={theme}>
           <Story />
-        </div>
+        </ThemeHtml>
       );
     },
     (Story, context) => (
@@ -93,6 +145,14 @@ const preview: Preview = {
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
       test: "todo",
+    },
+
+    /**
+     * Built-in light/dark swatches paint .sb-show-main and would override
+     * the iframe <html> page color. Theme toolbar is the only picker.
+     */
+    backgrounds: {
+      disable: true,
     },
 
     controls: {

@@ -27,7 +27,7 @@ Source of truth is Tokens Studio JSON in `tokens/` (`core.json`, `light.json`, `
 - CSS motion (hover, opacity, keyframes) uses generated `motion` vars and `queries.reducedMotion`. `duration_move` collapses to `0ms` under `prefers-reduced-motion: reduce`; `duration_fade` does not. Looping or large movement must also nest on the property that creates it (`animationName: "none"`). The at-rule cookbook is `ui/stylex-cookbook.stories.tsx`.
 - Motion (`import { motion } from "motion/react"`) is for layout projection, drag, springs, and sequenced animation — not hover color and not App Router page transitions. `MotionProvider` sets `reducedMotion="user"` (the library default is `"never"`). Never spread `stylex.props()` on the same node as `motion.*`. Tween `duration` / `ease` literals are lint errors; import `motionTime`. Springs (stiffness / damping) are allowed. The layout cookbook is `ui/motion-cookbook.stories.tsx`.
 - Next compiles StyleX with Babel + PostCSS (`@stylex;` in `app/globals.css`). Storybook Vite uses `@stylexjs/unplugin` (it does not run `next/babel`) and `@storybook/addon-themes` (toolbar is not the Next cookie).
-- Storybook Vite can log lightningcss `Invalid empty selector` on the first CSS collect: `defineConsts` in `queries.stylex.ts` (cookbook `[queries.wide]` keys) may not be resolved yet, so StyleX emits `var(--hash)` as a selector. Next.js PostCSS never hits this. Later HMR is valid CSS; the log is not a failed story.
+- Storybook Vite pre-transforms generated StyleX consts (`tokens/generated/*.stylex.ts`) before `/virtual:stylex.css`, so `[queries.*]` keys resolve in dev. Next.js PostCSS never needed this.
 - Reset is `modern-normalize` in `globals.css`.
 
 ## Client data (Query + MSW)

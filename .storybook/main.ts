@@ -5,6 +5,7 @@ import autoprefixer from "autoprefixer";
 
 // Relative path: Node loads this file, so @/ aliases do not work.
 import { stylexOptions } from "../babel.config.js";
+import { stylexConstsPreloadPlugin } from "./stylex-consts-preload.ts";
 
 const config: StorybookConfig = {
   // Package names, not file paths. Storybook loads them from node_modules.
@@ -35,10 +36,12 @@ const config: StorybookConfig = {
    * top of the file, so Vite is only loaded when Storybook actually needs
    * this hook.
    *
-   * We merge in PostCSS + Autoprefixer and the StyleX Vite plugin (same
-   * options as `babel.config.js`, plus CSS layers). Without this hook,
-   * Storybook would still start, but StyleX styles and Autoprefixer would
-   * not be wired into its Vite pipeline.
+   * We merge in PostCSS + Autoprefixer, a preload so generated StyleX
+   * consts compile before `/virtual:stylex.css`, and the StyleX Vite
+   * plugin (same options as `babel.config.js`, plus CSS layers). The
+   * preload plugin must stay first. Without this hook, Storybook would
+   * still start, but StyleX styles and Autoprefixer would not be wired
+   * into its Vite pipeline.
    */
   async viteFinal(viteConfig) {
     const { mergeConfig } = await import("vite");
@@ -50,6 +53,7 @@ const config: StorybookConfig = {
         },
       },
       plugins: [
+        stylexConstsPreloadPlugin(),
         stylex.vite({
           ...stylexOptions,
           useCSSLayers: true,
