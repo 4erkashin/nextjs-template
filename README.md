@@ -1,6 +1,6 @@
 # nextjs-template
 
-A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, Motion (`motion/react`) for layout / drag / springs, TanStack Query, and browser MSW. Visual language is bootstrap; the CSS pipeline is not.
+A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, Motion (`motion/react`) for layout / drag / springs, TanStack Query, and browser MSW. Visual language is aged phosphor; the CSS pipeline is not a framework.
 
 ## Create an app from this template
 
@@ -125,7 +125,7 @@ File cycles (`a.ts` → `b.ts` → `a.ts`) can yield `undefined` at module init.
 
 `import/no-cycle` skips type-only imports (this repo uses those on purpose) and gets expensive as clones grow. madge / dependency-cruiser need the same ignore/entry list as Knip: generated tokens, Storybook, scripts, mixed `@/` and relative StyleX paths. Clones inherit that list.
 
-Layer *direction* is already ESLint: `ui/` must not import `features/` or `domain/`. Barrels (`index.ts` as a public API) are allowed; do not add a scanner to police them.
+Layer _direction_ is already ESLint: `ui/` must not import `features/` or `domain/`. Barrels (`index.ts` as a public API) are allowed; do not add a scanner to police them.
 
 Run `npx madge --circular --extensions ts,tsx --ts-config tsconfig.json app ui lib theme i18n mocks features domain` ad hoc if you want a one-shot report. Do not add the dependency.
 

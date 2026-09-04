@@ -1,6 +1,11 @@
 "use client";
 
+import * as stylex from "@stylexjs/stylex";
 import { useTranslations } from "next-intl";
+
+import { failureLockupStyles } from "@/ui/failure-lockup";
+
+import { spacing } from "../../tokens/generated/tokens.stylex";
 
 /**
  * Fallback UI when something in this route (or a nested one) throws at runtime.
@@ -19,12 +24,30 @@ export default function Error({
   const t = useTranslations("Error");
 
   return (
-    <main>
-      <h1>{t("title")}</h1>
-      <p>{error.message}</p>
-      <button onClick={() => retry()} type="button">
+    <main {...stylex.props(failureLockupStyles.root, styles.page)}>
+      <h1 {...stylex.props(failureLockupStyles.title)}>{t("title")}</h1>
+      <p {...stylex.props(failureLockupStyles.description)}>
+        {t("description")}
+      </p>
+      <button
+        onClick={() => retry()}
+        type="button"
+        {...stylex.props(failureLockupStyles.action)}
+      >
         {t("tryAgain")}
       </button>
+      {error.digest ? (
+        <p {...stylex.props(failureLockupStyles.digest)}>
+          {t("ref", { digest: error.digest })}
+        </p>
+      ) : null}
     </main>
   );
 }
+
+const styles = stylex.create({
+  page: {
+    paddingBlock: spacing.m,
+    paddingInline: spacing.m,
+  },
+});

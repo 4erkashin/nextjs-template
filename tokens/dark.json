@@ -2,19 +2,19 @@
   "color": {
     "accent": {
       "$type": "color",
-      "$value": "#f87171"
+      "$value": "#c45c3e"
     },
     "bg": {
       "$type": "color",
-      "$value": "#1a1a1a"
+      "$value": "#16140f"
     },
     "muted": {
       "$type": "color",
-      "$value": "#c4bfb3"
+      "$value": "#8a8070"
     },
     "text": {
       "$type": "color",
-      "$value": "#f4f0e6"
+      "$value": "#e8dcc4"
     }
   }
 }

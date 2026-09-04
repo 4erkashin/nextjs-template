@@ -6,7 +6,9 @@ import ErrorPage from "./error";
 
 const meta = {
   args: {
-    error: new Error("Triggered from the home page"),
+    error: Object.assign(new Error("Triggered from the home page"), {
+      digest: "abc123",
+    }),
     retry: fn(),
   },
   component: ErrorPage,
@@ -17,10 +19,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ args, canvas }) => {
-    await expect(canvas.getByRole("paragraph")).toHaveTextContent(
-      args.error.message,
-    );
+  play: async ({ canvas }) => {
+    await expect(
+      canvas.getByRole("heading", {
+        name: "This view could not be loaded.",
+      }),
+    ).toBeVisible();
+    await expect(
+      canvas.getByText("The page failed before it could render."),
+    ).toBeVisible();
+    await expect(canvas.getByText("Ref abc123")).toBeVisible();
   },
 };
 

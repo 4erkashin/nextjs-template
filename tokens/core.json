@@ -8,6 +8,10 @@
       "$type": "dimension",
       "$value": "1rem"
     },
+    "sizeDisplay": {
+      "$type": "dimension",
+      "$value": "2.5rem"
+    },
     "sizeLg": {
       "$type": "dimension",
       "$value": "1.25rem"
@@ -21,6 +25,13 @@
   },
   "motion": {
     "duration": {
+      "breathe": {
+        "$type": "duration",
+        "$value": {
+          "unit": "s",
+          "value": 12
+        }
+      },
       "fade": {
         "$type": "duration",
         "$value": {
@@ -51,9 +62,17 @@
     }
   },
   "space": {
+    "l": {
+      "$type": "dimension",
+      "$value": "40px"
+    },
     "m": {
       "$type": "dimension",
       "$value": "16px"
+    },
+    "px": {
+      "$type": "dimension",
+      "$value": "1px"
     },
     "s": {
       "$type": "dimension",

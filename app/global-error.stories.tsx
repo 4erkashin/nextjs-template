@@ -30,7 +30,9 @@ import GlobalError from "./global-error";
  */
 const meta = {
   args: {
-    error: new Error("Layout failed to render"),
+    error: Object.assign(new Error("Layout failed to render"), {
+      digest: "abc123",
+    }),
     retry: fn(),
   },
   component: GlobalError,
@@ -42,10 +44,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ args, canvas }) => {
-    await expect(canvas.getByRole("paragraph")).toHaveTextContent(
-      args.error.message,
-    );
+  play: async ({ canvas }) => {
+    await expect(
+      canvas.getByRole("heading", {
+        name: "This view could not be loaded.",
+      }),
+    ).toBeVisible();
+    await expect(
+      canvas.getByText("The page failed before it could render."),
+    ).toBeVisible();
+    await expect(canvas.getByText("Ref abc123")).toBeVisible();
   },
 };
 
