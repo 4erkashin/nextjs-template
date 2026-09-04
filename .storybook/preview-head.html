@@ -1,0 +1,26 @@
+<!--
+  The iframe is a blank page until JS runs. Browsers paint that as light.
+  color-scheme: light dark makes the page follow the OS, same as the
+  app's "system" theme (the toolbar default).
+
+  That rule sits in a named layer so StyleX can override it after JS
+  loads. Without the layer, this file would keep winning and the
+  toolbar's light/dark color-scheme would never apply.
+
+  Storybook's loading sheet (.sb-preparing-story) is hardcoded white.
+  It shows if a story takes more than 100ms. Canvas is the browser's
+  name for the page color, which follows color-scheme, so that sheet
+  is not a white flash at night.
+-->
+<style>
+  @layer storybook-first-paint {
+    html {
+      color-scheme: light dark;
+    }
+  }
+
+  .sb-preparing-story,
+  .sb-preparing-docs {
+    background-color: Canvas;
+  }
+</style>
