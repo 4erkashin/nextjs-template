@@ -1,10 +1,9 @@
+import { routing } from "@/i18n/routing";
 import { readCookie } from "@/lib/cookie";
-
-import en from "../messages/en.json";
-import ptBR from "../messages/pt-BR.json";
-import ru from "../messages/ru.json";
-import uk from "../messages/uk.json";
-import { routing } from "./routing";
+import en from "@/messages/en.json";
+import ptBR from "@/messages/pt-BR.json";
+import ru from "@/messages/ru.json";
+import uk from "@/messages/uk.json";
 
 /**
  * next-intl's default locale cookie. Named here so the crashed tree
@@ -23,10 +22,6 @@ const catalogs = {
 
 export function getFailureCopy(locale: AppLocale) {
   return catalogs[locale];
-}
-
-export function formatFailureRef(template: string, digest: string) {
-  return template.replace("{digest}", digest);
 }
 
 export function resolveDocumentLocale(

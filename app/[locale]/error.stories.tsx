@@ -2,12 +2,14 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { expect, fn } from "storybook/test";
 
+import { EXAMPLE_ERROR_DIGEST } from "@/features/error-widget";
+
 import ErrorPage from "./error";
 
 const meta = {
   args: {
     error: Object.assign(new Error("Triggered from the home page"), {
-      digest: "abc123",
+      digest: EXAMPLE_ERROR_DIGEST,
     }),
     retry: fn(),
   },
@@ -28,7 +30,7 @@ export const Default: Story = {
     await expect(
       canvas.getByText("The page failed before it could render."),
     ).toBeVisible();
-    await expect(canvas.getByText("Ref abc123")).toBeVisible();
+    await expect(canvas.getByText(`hash ${EXAMPLE_ERROR_DIGEST}`)).toBeVisible();
   },
 };
 

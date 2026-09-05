@@ -1,7 +1,6 @@
 {
   "Error": {
     "description": "The page failed before it could render.",
-    "ref": "Ref {digest}",
     "title": "This view could not be loaded.",
     "tryAgain": "Try again"
   },

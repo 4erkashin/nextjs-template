@@ -1,7 +1,6 @@
 {
   "Error": {
     "description": "A página falhou antes de poder ser exibida.",
-    "ref": "Ref {digest}",
     "title": "Esta página não pôde ser carregada.",
     "tryAgain": "Tentar novamente"
   },
