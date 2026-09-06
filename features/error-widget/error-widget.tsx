@@ -1,6 +1,9 @@
 "use client";
 
+import * as stylex from "@stylexjs/stylex";
 import { Share_Tech_Mono } from "next/font/google";
+
+import { colors } from "@/tokens/generated/tokens.stylex";
 
 import styles from "./error-widget.module.css";
 
@@ -16,6 +19,31 @@ const shareTech = Share_Tech_Mono({
   subsets: ["latin"],
   variable: "--error-widget-mono",
   weight: "400",
+});
+
+const colorStyles = stylex.create({
+  root: {
+    color: colors.decorativeAccent,
+  },
+  live: {
+    color: colors.decorativeAccent,
+    "::before": {
+      backgroundColor: colors.decorativeAccent,
+      boxShadow: `0 0 8px ${colors.decorativeAccent}`,
+    },
+  },
+  retry: {
+    borderColor: colors.decorativeAccent,
+    backgroundColor: {
+      default: null,
+      ":focus-visible": colors.decorativeAccent,
+      ":hover": colors.decorativeAccent,
+    },
+    color: colors.decorativeAccent,
+    "::after": {
+      backgroundColor: colors.decorativeAccent,
+    },
+  },
 });
 
 const HEX_LINES = [
@@ -47,9 +75,15 @@ export function ErrorWidget({
   const dump = [...HEX_LINES, ...HEX_LINES].join("\n");
 
   return (
-    <section className={`${styles.root} ${shareTech.variable}`}>
+    <section
+      className={`${styles.root} ${shareTech.variable} ${stylex.props(colorStyles.root).className}`}
+    >
       <header className={styles.status}>
-        <span className={styles.live}>link up</span>
+        <span
+          className={`${styles.live} ${stylex.props(colorStyles.live).className}`}
+        >
+          link up
+        </span>
         <span className={styles.trace}>trace 14%</span>
         <span>ice active</span>
       </header>
@@ -63,7 +97,11 @@ export function ErrorWidget({
           <p className={styles.path}>{"//breach/view/render"}</p>
           <h1 className={styles.title}>{title}</h1>
           <p className={styles.description}>{description}</p>
-          <button className={styles.retry} onClick={onRetry} type="button">
+          <button
+            className={`${styles.retry} ${stylex.props(colorStyles.retry).className}`}
+            onClick={onRetry}
+            type="button"
+          >
             {tryAgain}
           </button>
         </div>

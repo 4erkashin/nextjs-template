@@ -227,8 +227,26 @@ function motionVarLines(tokens) {
   });
 }
 
-function varsFile(light) {
-  const colorLines = keysWithPrefix(light, "color").map(
+// Read declarations before set merging so primitives remain reference-only.
+function semanticColorKeys(set) {
+  const keys = [];
+  function visit(group, prefix) {
+    for (const [name, token] of Object.entries(group)) {
+      if (name.startsWith("$")) continue;
+      const key = `${prefix}.${name}`;
+      if ("$value" in token) {
+        keys.push(key);
+      } else {
+        visit(token, key);
+      }
+    }
+  }
+  visit(tokenSets[set].color ?? {}, "color");
+  return keys.sort();
+}
+
+function varsFile(light, colorKeys) {
+  const colorLines = colorKeys.map(
     (key) => `  ${leafName(key, "color")}: ${jsString(light.get(key))},`,
   );
   const spaceLines = keysWithPrefix(light, "space").map(
@@ -282,10 +300,9 @@ export const queries = stylex.defineConsts({
 /**
  * @param {Map<string, string>} light
  * @param {Map<string, string>} dark
+ * @param {string[]} colorKeys
  */
-function themesFile(light, dark) {
-  const colorKeys = keysWithPrefix(light, "color");
-
+function themesFile(light, dark, colorKeys) {
   const lightOverrides = colorKeys.map(
     (key) => `  ${leafName(key, "color")}: ${jsString(light.get(key))},`,
   );
@@ -351,14 +368,25 @@ export const motionTime = {
 `;
 }
 
+const colorKeys = semanticColorKeys("light");
+if (JSON.stringify(colorKeys) !== JSON.stringify(semanticColorKeys("dark"))) {
+  throw new Error("light and dark must declare the same semantic color paths");
+}
+
 const light = await resolveSets(["primitive", "light"]);
 const dark = await resolveSets(["primitive", "dark"]);
 
 await mkdir(generatedDir, { recursive: true });
-await writeFile(path.join(generatedDir, "tokens.stylex.ts"), varsFile(light));
+await writeFile(
+  path.join(generatedDir, "tokens.stylex.ts"),
+  varsFile(light, colorKeys),
+);
 await writeFile(
   path.join(generatedDir, "queries.stylex.ts"),
   queriesFile(light),
 );
-await writeFile(path.join(generatedDir, "themes.ts"), themesFile(light, dark));
+await writeFile(
+  path.join(generatedDir, "themes.ts"),
+  themesFile(light, dark, colorKeys),
+);
 await writeFile(path.join(generatedDir, "motion.ts"), motionTimeFile(light));

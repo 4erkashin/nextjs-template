@@ -2,27 +2,36 @@
 
 Throwaway notes. Not an ADR. Not project law.
 
-**Now:** 2. Collapse to `tokens.json` — complete. Chunk 3 is awaiting an agreed Goal card.
+**Overall goal.** Integrate the error-widget POC into the system while sharpening the system through real use. Nothing in this repo is sacred: architecture, visuals, and existing conventions can change through shared agreement. The current chunk's fences bound this iteration, not future decisions.
 
-**Goal.** One file is the write path. Rename the token set `core` → `primitive`; keep the token paths and values inside it unchanged. No new color.
+**Now:** 5. Remaining widget colors — draft Goal card; needs grilling.
 
-**Done when.** `tokens/tokens.json` holds keys `primitive`, `light`, `dark`, plus `$themes` and `$metadata`. `tokens/build.js` reads that file. Preserve the existing theme selections and metadata ordering, replacing `core` with `primitive` in both. Remove the five old JSON source files, including `$themes.json` and `$metadata.json`; keep the build script and generated output directory. A short migration note in this file (or next to `tokens/`) explains how to split back into files if paid folder sync is adopted. README token paths match the one file.
+**Goal (draft).** Settle the remaining widget palette and connect the agreed colors through the token system, including effect colors and opacity. Use the mint integration to sharpen the system as concrete limitations appear.
 
-**Verify.** Before changing storage, run `pnpm tokens:build` and save a copy of the generated `.ts` files outside `tokens/`. After the change, run `pnpm tokens:build` and `pnpm typecheck`. Compare the generated files with the baseline: exported names, token paths, resolved values, and theme behavior must remain unchanged. Set names are storage metadata, not a new prefix on generated token paths.
+**Done when (draft).** The agreed remaining color uses consume their agreed semantic bindings, with explicit light/dark behavior. Primitive colors remain reference-only in app-facing exports. The exact palette, roles, opacity representation, migration boundary, and intended visual changes await grilling.
 
-**Don't.** Don't add a color primitive. Don't add a `component` key. Don't change the widget CSS. Don't rewrite `light` / `dark` hexes as a cleanup. Don't keep the folder as a second source.
+**Verify (draft).** Run the token build, typecheck, and lint; verify the agreed visuals in both themes, including interaction states and effects. Define concrete appearance and contrast checks after the palette and scope are agreed.
 
-**Result.** The one-file migration is complete. `pnpm tokens:build` and `pnpm typecheck` pass. All four generated `.ts` files are byte-for-byte identical to the pre-migration baseline. Source token values, theme selections, and metadata ordering were compared with the old files; only the set name changed.
+**Scope.** Remaining widget colors, including translucent mint, backgrounds, text, borders, glitch shadows, glow, scanlines, and vignette colors, are candidates for this chunk. The queue title does not commit us to migrating them all at once. Typography, spacing, sizing, motion, copy, and error-boundary plumbing are separate chunks. Effect geometry stays in CSS unless a different approach is agreed.
+
+**Starting point.** Mint already uses shared `decorativeAccent` in both themes. Colocated StyleX styles consuming semantic tokens are the provisional component layer; revisit that choice only when a concrete flaw appears. The existing green skin and identical widget appearance in both themes are current behavior, not an agreed final palette.
+
+**Open decisions.** Which remaining uses to include and in what order; which colors and semantic roles they need; how light and dark should differ; how opacity and effect colors are represented and consumed; whether existing semantic roles can be reused without unintended changes to other consumers; and what implementation and verification complete this chunk. No implementation until the complete card is agreed.
 
 ## Queue
 
 - [x] 0. This file
 - [x] 1. Token architecture grilling (gate)
 - [x] 2. Collapse to `tokens.json`
-- [ ] 3. First color primitive (one hex)
-- [ ] 4. Rename retry-specific props to action props
-- [ ] 5. not-found uses the same module
-- 6+. Not queued until something is actually changing
+- [x] 3. First color primitive (one hex)
+- [x] 4. First connected color — all literal-mint declarations consume shared decorative accent through colocated StyleX bindings
+- [ ] 5. Remaining widget colors — current draft; settle palette and migration scope, including effect colors and opacity
+- [ ] 6. Typography — agree font and locale coverage, then integrate type values
+- [ ] 7. Spacing, sizing, and motion — reuse and sharpen tokens; migrate values, retaining CSS effect recipes unless a different approach is agreed
+- [ ] 8. Rename retry-specific props to action props
+- [ ] 9. not-found uses the same module
+
+This is the agreed provisional sequence. Revisit it in later grilling sessions as integration reveals new decisions; later titles remain checkpoints, not implementation specs.
 
 ## The rest
 
@@ -30,9 +39,8 @@ Throwaway notes. Not an ADR. Not project law.
 
 Each parked topic needs its own grilling: discuss the unresolved design choices with the human and record the agreed scope before implementing it.
 
-- **Component token home** — third layer is named, not housed. Binding will live in the feature. The _name_ of a widget-only color is not decided. Fence: no `component` key; no widget-specific roles (such as glitch or hex-column colors) in `light` / `dark`; a CSS hex is not the layer.
 - **Chrome voice** — `link up`, `trace 14%`, `ice active`, `//breach/view/render`, `net::session`, digest label `hash …`. Tweak to something useful or funny later. Not i18n vs dialect today.
-- **Type / `Share_Tech_Mono`** — Latin-only vs `ru` / `uk` is a landmine. Should become a token; when/where is the type grill.
+- **Type / `Share_Tech_Mono` (chunk 6)** — Latin-only vs `ru` / `uk` is a landmine. Agree font choice, token home, and locale coverage in the type grill.
 - **Composition** — slots are shared; how screens differ (hex column, status bar, path, 404) is later.
 - **Locale survival as a module** — default: no.
 
@@ -55,7 +63,7 @@ Do not do these because they feel like organizing:
 
 The top of the file is the current chunk (Goal / Done when / Verify / Don't). When asked to implement it, proceed within that scope; the completed architecture gate does not need another approval.  
 The queue is names in order. Titles are not specs or authorization to implement later chunks.  
-After a chunk finishes: update Facts that changed, check its queue box, and mark the current card complete. Stop there unless the human has authorized further work. Propose the next Goal card for discussion; replace the current card once its scope is agreed.  
+After a chunk finishes: update Facts that changed, check its queue box, and record its result below. Replace the top card with a draft for the next chunk that separates agreed scope from open decisions. Stop implementation unless the human has authorized further work. Mark it ready only once the complete card is agreed.  
 Reviewing or editing this document alone does not authorize implementing its chunks.
 
 ### Facts
@@ -65,13 +73,15 @@ Current state and agreed direction. Future work and existing exceptions are call
 **DTCG**  
 Layers are primitive → semantic → component. All types, not color only.  
 Only a primitive token may hold a hex. Semantic and component tokens are references when we fill them.  
+For chunk 4, the agreed provisional component layer is colocated StyleX styles that consume a shared semantic token directly, without a separate component-token declaration. Revisit when a concrete flaw appears.  
 This is a house rule. DTCG does not require it.  
 A primitive is the same color in light and in dark.  
 For colors, app code uses semantic tokens; StyleX `colors` must not export primitives. The intended Figma role for primitive colors is Source / reference-only; revisit that binding with the component grill. Current set selection statuses are described under Theme.  
 Existing non-color tokens (`font.*`, `space.*`, `motion.*`, `layout.*`) are grandfathered: they live in `primitive` and keep their current generated exports and app usage. Adding semantic indirection for them needs its own agreed scope.  
-"Only this screen uses it" is not a reason to leave a literal in CSS. A widget-only color still needs a token home. That home is parked.
+"Only this screen uses it" is not a reason to leave a literal in CSS. For mint, the agreed home is the shared decorative-accent semantic role plus a colocated widget StyleX binding. Other colors await their own decisions.
 
 **Storage**  
+Chunk 2 is complete: build and typecheck passed, and all four generated `.ts` files matched the pre-migration baseline byte-for-byte. Token values, theme selections, and metadata ordering were preserved; only the set name changed.  
 The write path is `tokens/tokens.json`. Sets are keys. `$themes` and `$metadata` live in the same file. The five old JSON source files are gone.  
 The metadata orders the sets as `primitive`, `light`, `dark`. `tokens/build.js` selects `primitive` plus `light` or `dark`, then the Tokens Studio preprocessor removes set wrappers before resolving tokens. Metadata is not passed as token input.  
 Single-file storage was chosen so this template does not require paid Tokens Studio folder sync. Recheck product capabilities if that decision is revisited.
@@ -83,11 +93,14 @@ Single-file storage was chosen so this template does not require paid Tokens Stu
 3. Point Tokens Studio sync at the folder, remove `tokens/tokens.json` so there is only one write path, and update README paths. Rebuild, compare generated outputs against a fresh baseline, and run `pnpm typecheck`.
 
 **Color**  
-Four semantic names in `light` and `dark`: `bg`, `text`, `muted`, `accent`. They are hexes. That is debt, not a pattern. Chunk 2 preserved them; a later palette decision may replace them.  
+Four legacy semantic names in `light` and `dark`: `bg`, `text`, `muted`, `accent`. They are hexes. That is debt, not a pattern. Chunk 2 preserved them; a later palette decision may replace them.  
 Primitive color names are not job names. Never `bg` / `text` / `muted` / `accent`.  
 More hexes live in the widget CSS (glitch, hex-column, glow). Those are colors too. They are not tokens yet.  
 The green skin on the widget may change. Do not treat it as the real palette.  
-First color chunk (chunk 3): one hex in `primitive`, then stop. No CSS change. No semantic fill. No `component` key.
+Chunk 3 is complete: `primitive.color.mint` holds provisional `#7cffb2`. Chunk 4 is complete: `light.color.decorativeAccent` and `dark.color.decorativeAccent` both reference `{color.mint}`, and colocated widget StyleX styles consume `colors.decorativeAccent` directly. Existing `accent` is not repurposed. The build exports only color paths declared in the semantic sets, requires matching light/dark declarations, and keeps primitives available for reference resolution.  
+Chunk 3 verification: build, typecheck, and lint passed. All four generated `.ts` files and widget CSS matched the fresh baseline byte-for-byte; mint was the only source token addition. An isolated fixture verified that a nested semantic alias resolves mint without exporting it, and that mismatched theme declarations fail clearly.
+
+**Chunk 4 result.** Implemented all eight bindings. The retained translucent button background lives in an `error-widget-base` CSS layer; hover/focus uses `revert-layer` there so the StyleX mint fill wins regardless of layer registration order. Other colors and translucent mint values remain in the CSS module. Token build, typecheck, and component lint passed. Browser checks found no errors: light/dark default screenshots were byte-for-byte identical to the fresh baseline, and computed styles matched for default, hover, keyboard focus, and pseudo-elements. Generated color exports include `decorativeAccent` and exclude `mint`. Repository lint, run with the existing generated `storybook-static/**` directory excluded, found a pre-existing named-export ordering error in `features/error-widget/index.ts:1`; that file is unchanged.
 
 **Theme**  
 Light / dark / system already switch on `<html>` (cookie + StyleX).  

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Initiative"
+  short_description: "Seed a durable plan for grilling and implementation"
+  default_prompt: "Use $initiative to create a draft initiative file from my goal and project context, ready for a later grill-me session."
