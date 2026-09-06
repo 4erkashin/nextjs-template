@@ -4,7 +4,6 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100dvh;
-  background: #050806;
   font-family: var(--error-widget-mono), ui-monospace, monospace;
   isolation: isolate;
 }
@@ -13,13 +12,6 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgb(0 0 0 / 0%) 0,
-    rgb(0 0 0 / 0%) 2px,
-    rgb(0 0 0 / 22%) 2px,
-    rgb(0 0 0 / 22%) 3px
-  );
   content: "";
   pointer-events: none;
 }
@@ -28,11 +20,6 @@
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: radial-gradient(
-    ellipse at center,
-    rgb(0 0 0 / 0%) 50%,
-    rgb(0 0 0 / 45%) 100%
-  );
   content: "";
   pointer-events: none;
 }
@@ -51,9 +38,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.65rem 1rem;
-  border-color: #16351f;
   border-style: solid;
-  color: #4a8f63;
   font-size: 0.7rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -76,10 +61,6 @@
   content: "";
 }
 
-.trace {
-  color: #e8ff6a;
-}
-
 .deck {
   display: grid;
   grid-template-columns: minmax(12rem, 28%) 1fr;
@@ -89,8 +70,8 @@
 .hex {
   overflow: hidden;
   padding: 1rem 0.85rem;
-  border-right: 1px solid #16351f;
-  color: #245c38;
+  border-right-width: 1px;
+  border-right-style: solid;
   font-size: 0.68rem;
   line-height: 1.55;
   user-select: none;
@@ -111,7 +92,6 @@
 
 .path {
   margin: 0;
-  color: #4a8f63;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
 }
@@ -120,18 +100,13 @@
   position: relative;
   margin: 0;
   animation: error-widget-glitch 3.6s steps(2, end) infinite;
-  color: #b8ffd4;
   font-size: clamp(1.4rem, 3.2vw, 2.15rem);
   font-weight: 400;
   line-height: 1.2;
-  text-shadow:
-    -2px 0 #ff3d6e,
-    2px 0 #3df0ff;
 }
 
 .description {
   margin: 0;
-  color: #4a8f63;
 }
 
 .description::before {
@@ -146,30 +121,13 @@
   padding: 0.55rem 0.85rem;
   border-width: 1px;
   border-style: solid;
-  box-shadow:
-    0 0 0 1px #050806,
-    0 0 18px rgb(124 255 178 / 18%);
   cursor: pointer;
   font: inherit;
   letter-spacing: 0.08em;
   text-transform: lowercase;
 }
 
-/* Keep the untokenized tint here while yielding hover/focus fill to StyleX,
- * regardless of which stylesheet registers its layers first. */
-@layer error-widget-base {
-  .retry {
-    background: rgb(124 255 178 / 6%);
-  }
-
-  .retry:hover,
-  .retry:focus-visible {
-    background: revert-layer;
-  }
-}
-
 .retry::before {
-  color: #e8ff6a;
   content: ">";
 }
 
@@ -182,16 +140,7 @@
 
 .retry:hover,
 .retry:focus-visible {
-  color: #050806;
   outline: none;
-}
-
-.retry:hover::before,
-.retry:focus-visible::before,
-.retry:hover::after,
-.retry:focus-visible::after {
-  background: #050806;
-  color: #050806;
 }
 
 .hash {

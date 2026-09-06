@@ -22,8 +22,16 @@ const shareTech = Share_Tech_Mono({
 });
 
 const colorStyles = stylex.create({
-  root: {
-    color: colors.decorativeAccent,
+  chrome: {
+    borderColor: colors.border,
+    color: colors.textSecondary,
+  },
+  description: {
+    color: colors.textSecondary,
+  },
+  hex: {
+    color: colors.textFaint,
+    borderRightColor: colors.border,
   },
   live: {
     color: colors.decorativeAccent,
@@ -32,17 +40,53 @@ const colorStyles = stylex.create({
       boxShadow: `0 0 8px ${colors.decorativeAccent}`,
     },
   },
+  path: {
+    color: colors.textSecondary,
+  },
   retry: {
     borderColor: colors.decorativeAccent,
     backgroundColor: {
-      default: null,
+      default: colors.decorativeAccentSubtle,
       ":focus-visible": colors.decorativeAccent,
       ":hover": colors.decorativeAccent,
     },
+    boxShadow: `0 0 0 1px ${colors.surface}, 0 0 18px ${colors.decorativeAccentGlow}`,
+    color: {
+      default: colors.decorativeAccent,
+      ":focus-visible": colors.onDecorativeAccent,
+      ":hover": colors.onDecorativeAccent,
+    },
+    "::after": {
+      backgroundColor: {
+        default: colors.decorativeAccent,
+        ":focus-visible": colors.onDecorativeAccent,
+        ":hover": colors.onDecorativeAccent,
+      },
+    },
+    "::before": {
+      color: {
+        default: colors.highlight,
+        ":focus-visible": colors.onDecorativeAccent,
+        ":hover": colors.onDecorativeAccent,
+      },
+    },
+  },
+  root: {
+    backgroundColor: colors.surface,
     color: colors.decorativeAccent,
     "::after": {
-      backgroundColor: colors.decorativeAccent,
+      backgroundImage: `radial-gradient(ellipse at center, transparent 50%, ${colors.overlayStrong} 100%)`,
     },
+    "::before": {
+      backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent 2px, ${colors.overlay} 2px, ${colors.overlay} 3px)`,
+    },
+  },
+  title: {
+    color: colors.textHeading,
+    textShadow: `-2px 0 ${colors.decorativeShift}, 2px 0 ${colors.decorativeShiftAlt}`,
+  },
+  trace: {
+    color: colors.highlight,
   },
 });
 
@@ -78,25 +122,46 @@ export function ErrorWidget({
     <section
       className={`${styles.root} ${shareTech.variable} ${stylex.props(colorStyles.root).className}`}
     >
-      <header className={styles.status}>
+      <header
+        className={`${styles.status} ${stylex.props(colorStyles.chrome).className}`}
+      >
         <span
           className={`${styles.live} ${stylex.props(colorStyles.live).className}`}
         >
           link up
         </span>
-        <span className={styles.trace}>trace 14%</span>
+        <span
+          className={`${styles.trace} ${stylex.props(colorStyles.trace).className}`}
+        >
+          trace 14%
+        </span>
         <span>ice active</span>
       </header>
 
       <div className={styles.deck}>
-        <aside aria-hidden="true" className={styles.hex}>
+        <aside
+          aria-hidden="true"
+          className={`${styles.hex} ${stylex.props(colorStyles.hex).className}`}
+        >
           <pre className={styles.hexInner}>{dump}</pre>
         </aside>
 
         <div className={styles.main}>
-          <p className={styles.path}>{"//breach/view/render"}</p>
-          <h1 className={styles.title}>{title}</h1>
-          <p className={styles.description}>{description}</p>
+          <p
+            className={`${styles.path} ${stylex.props(colorStyles.path).className}`}
+          >
+            {"//breach/view/render"}
+          </p>
+          <h1
+            className={`${styles.title} ${stylex.props(colorStyles.title).className}`}
+          >
+            {title}
+          </h1>
+          <p
+            className={`${styles.description} ${stylex.props(colorStyles.description).className}`}
+          >
+            {description}
+          </p>
           <button
             className={`${styles.retry} ${stylex.props(colorStyles.retry).className}`}
             onClick={onRetry}
@@ -107,7 +172,9 @@ export function ErrorWidget({
         </div>
       </div>
 
-      <footer className={styles.foot}>
+      <footer
+        className={`${styles.foot} ${stylex.props(colorStyles.chrome).className}`}
+      >
         <span className={styles.hash}>
           {digest ? `hash ${digest}` : "hash —"}
         </span>

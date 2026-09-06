@@ -4,19 +4,19 @@ Throwaway notes. Not an ADR. Not project law.
 
 **Overall goal.** Integrate the error-widget POC into the system while sharpening the system through real use. Nothing in this repo is sacred: architecture, visuals, and existing conventions can change through shared agreement. The current chunk's fences bound this iteration, not future decisions.
 
-**Now:** 5. Remaining widget colors — draft Goal card; needs grilling.
+**Now:** 6. Proper light / dark cooking — draft Goal card; needs grilling.
 
-**Goal (draft).** Settle the remaining widget palette and connect the agreed colors through the token system, including effect colors and opacity. Use the mint integration to sharpen the system as concrete limitations appear.
+**Goal (draft).** Make light and dark actually differ by retargeting semantic colors. Do not fake a light skin from leftover phosphor.
 
-**Done when (draft).** The agreed remaining color uses consume their agreed semantic bindings, with explicit light/dark behavior. Primitive colors remain reference-only in app-facing exports. The exact palette, roles, opacity representation, migration boundary, and intended visual changes await grilling.
+**Done when (draft).** Agreed semantic roles resolve to different primitives (or values) in light vs dark where that is the intended look. Widget and chrome appearance in each theme is explicit. Which roles split, the light palette, and whether CRT jobs stay shared await grilling.
 
-**Verify (draft).** Run the token build, typecheck, and lint; verify the agreed visuals in both themes, including interaction states and effects. Define concrete appearance and contrast checks after the palette and scope are agreed.
+**Verify (draft).** Token build, typecheck, and lint. Visual checks await grilling.
 
-**Scope.** Remaining widget colors, including translucent mint, backgrounds, text, borders, glitch shadows, glow, scanlines, and vignette colors, are candidates for this chunk. The queue title does not commit us to migrating them all at once. Typography, spacing, sizing, motion, copy, and error-boundary plumbing are separate chunks. Effect geometry stays in CSS unless a different approach is agreed.
+**Scope.** Color semantics and their theme bindings. Typography, spacing, motion, copy, and plumbing stay later. Do not treat identical CRT-in-both-themes as the finished product; that was chunk 5's preservation target.
 
-**Starting point.** Mint already uses shared `decorativeAccent` in both themes. Colocated StyleX styles consuming semantic tokens are the provisional component layer; revisit that choice only when a concrete flaw appears. The existing green skin and identical widget appearance in both themes are current behavior, not an agreed final palette.
+**Starting point.** Chunk 5 wired the widget through tokens. Light and dark still share the CRT bindings. Legacy `bg` / `text` / `muted` / `accent` already differ by theme (oklch literals, debt). New widget roles currently alias the same primitives in both sets.
 
-**Open decisions.** Which remaining uses to include and in what order; which colors and semantic roles they need; how light and dark should differ; how opacity and effect colors are represented and consumed; whether existing semantic roles can be reused without unintended changes to other consumers; and what implementation and verification complete this chunk. No implementation until the complete card is agreed.
+**Open decisions.** Which roles should differ; what the light (and any revised dark) look is; whether CRT decorative roles stay theme-identical; how that interacts with the homepage/cookbooks; verification. No implementation until the complete card is agreed.
 
 ## Queue
 
@@ -25,11 +25,12 @@ Throwaway notes. Not an ADR. Not project law.
 - [x] 2. Collapse to `tokens.json`
 - [x] 3. First color primitive (one hex)
 - [x] 4. First connected color — all literal-mint declarations consume shared decorative accent through colocated StyleX bindings
-- [ ] 5. Remaining widget colors — current draft; settle palette and migration scope, including effect colors and opacity
-- [ ] 6. Typography — agree font and locale coverage, then integrate type values
-- [ ] 7. Spacing, sizing, and motion — reuse and sharpen tokens; migrate values, retaining CSS effect recipes unless a different approach is agreed
-- [ ] 8. Rename retry-specific props to action props
-- [ ] 9. not-found uses the same module
+- [x] 5. Remaining widget colors — leftover CSS colors through tokens, oklch literals, keep current look in both themes
+- [ ] 6. Proper light / dark cooking — retarget semantic colors so the themes actually differ; do not fake a light skin from leftover phosphor
+- [ ] 7. Typography — agree font and locale coverage, then integrate type values
+- [ ] 8. Spacing, sizing, and motion — reuse and sharpen tokens; migrate values, retaining CSS effect recipes unless a different approach is agreed
+- [ ] 9. Rename retry-specific props to action props
+- [ ] 10. not-found uses the same module
 
 This is the agreed provisional sequence. Revisit it in later grilling sessions as integration reveals new decisions; later titles remain checkpoints, not implementation specs.
 
@@ -40,7 +41,7 @@ This is the agreed provisional sequence. Revisit it in later grilling sessions a
 Each parked topic needs its own grilling: discuss the unresolved design choices with the human and record the agreed scope before implementing it.
 
 - **Chrome voice** — `link up`, `trace 14%`, `ice active`, `//breach/view/render`, `net::session`, digest label `hash …`. Tweak to something useful or funny later. Not i18n vs dialect today.
-- **Type / `Share_Tech_Mono` (chunk 6)** — Latin-only vs `ru` / `uk` is a landmine. Agree font choice, token home, and locale coverage in the type grill.
+- **Type / `Share_Tech_Mono` (chunk 7)** — Latin-only vs `ru` / `uk` is a landmine. Agree font choice, token home, and locale coverage in the type grill.
 - **Composition** — slots are shared; how screens differ (hex column, status bar, path, 404) is later.
 - **Locale survival as a module** — default: no.
 
@@ -72,13 +73,13 @@ Current state and agreed direction. Future work and existing exceptions are call
 
 **DTCG**  
 Layers are primitive → semantic → component. All types, not color only.  
-Only a primitive token may hold a hex. Semantic and component tokens are references when we fill them.  
+Only a primitive token may hold a color literal, and for colors that literal is `oklch()`, not hex. Semantic and component tokens are references when we fill them. A semantic may keep a reference `$value` and a Tokens Studio `alpha` modifier with `"space": "oklch"`; the build resolves that to a color string. The modifier is not a second literal in source. The legacy four (`bg` / `text` / `muted` / `accent`) stay semantic literals until a later palette grill.  
 For chunk 4, the agreed provisional component layer is colocated StyleX styles that consume a shared semantic token directly, without a separate component-token declaration. Revisit when a concrete flaw appears.  
 This is a house rule. DTCG does not require it.  
 A primitive is the same color in light and in dark.  
 For colors, app code uses semantic tokens; StyleX `colors` must not export primitives. The intended Figma role for primitive colors is Source / reference-only; revisit that binding with the component grill. Current set selection statuses are described under Theme.  
 Existing non-color tokens (`font.*`, `space.*`, `motion.*`, `layout.*`) are grandfathered: they live in `primitive` and keep their current generated exports and app usage. Adding semantic indirection for them needs its own agreed scope.  
-"Only this screen uses it" is not a reason to leave a literal in CSS. For mint, the agreed home is the shared decorative-accent semantic role plus a colocated widget StyleX binding. Other colors await their own decisions.
+"Only this screen uses it" is not a reason to leave a literal in CSS. Widget colors use the chunk 5 semantic map plus colocated StyleX bindings.
 
 **Storage**  
 Chunk 2 is complete: build and typecheck passed, and all four generated `.ts` files matched the pre-migration baseline byte-for-byte. Token values, theme selections, and metadata ordering were preserved; only the set name changed.  
@@ -93,14 +94,16 @@ Single-file storage was chosen so this template does not require paid Tokens Stu
 3. Point Tokens Studio sync at the folder, remove `tokens/tokens.json` so there is only one write path, and update README paths. Rebuild, compare generated outputs against a fresh baseline, and run `pnpm typecheck`.
 
 **Color**  
-Four legacy semantic names in `light` and `dark`: `bg`, `text`, `muted`, `accent`. They are hexes. That is debt, not a pattern. Chunk 2 preserved them; a later palette decision may replace them.  
+Four legacy semantic names in `light` and `dark`: `bg`, `text`, `muted`, `accent`. They are oklch literals in the semantic set. That is debt, not a pattern. Chunk 5 converted their hexes in place and did not add primitives for them or change which jobs they paint.  
 Primitive color names are not job names. Never `bg` / `text` / `muted` / `accent`.  
-More hexes live in the widget CSS (glitch, hex-column, glow). Those are colors too. They are not tokens yet.  
+Chunk 5 primitives (oklch conversions of the old CSS hexes): `mint`, `void`, `pine`, `fern`, `kelp`, `foam`, `citron`, `magenta`, `cyan`, `black`. Widget semantics (same in light and dark): `surface` and `onDecorativeAccent` → void; `border` → pine; `textSecondary` → fern; `textFaint` → kelp; `textHeading` → foam; `highlight` → citron; `decorativeAccent` → mint; `decorativeAccentSubtle` / `Glow` → decorativeAccent + alpha 0.06 / 0.18; `overlay` / `overlayStrong` → black + alpha 0.22 / 0.45; `decorativeShift` / `Alt` → magenta / cyan. Gradient 0% stops are CSS `transparent`. `bg` / `text` / `muted` / `accent` consumers: `theme/root-style.ts`, `app/[locale]/page.tsx`, `ui/stylex-cookbook.tsx`, `ui/motion-cookbook.tsx`.  
 The green skin on the widget may change. Do not treat it as the real palette.  
-Chunk 3 is complete: `primitive.color.mint` holds provisional `#7cffb2`. Chunk 4 is complete: `light.color.decorativeAccent` and `dark.color.decorativeAccent` both reference `{color.mint}`, and colocated widget StyleX styles consume `colors.decorativeAccent` directly. Existing `accent` is not repurposed. The build exports only color paths declared in the semantic sets, requires matching light/dark declarations, and keeps primitives available for reference resolution.  
+Chunk 3 is complete: `primitive.color.mint` was introduced as hex; chunk 5 rewrote it to oklch. Chunk 4 connected mint through `decorativeAccent`. The build exports only color paths declared in the semantic sets, requires matching light/dark declarations, and keeps primitives available for reference resolution.  
 Chunk 3 verification: build, typecheck, and lint passed. All four generated `.ts` files and widget CSS matched the fresh baseline byte-for-byte; mint was the only source token addition. An isolated fixture verified that a nested semantic alias resolves mint without exporting it, and that mismatched theme declarations fail clearly.
 
 **Chunk 4 result.** Implemented all eight bindings. The retained translucent button background lives in an `error-widget-base` CSS layer; hover/focus uses `revert-layer` there so the StyleX mint fill wins regardless of layer registration order. Other colors and translucent mint values remain in the CSS module. Token build, typecheck, and component lint passed. Browser checks found no errors: light/dark default screenshots were byte-for-byte identical to the fresh baseline, and computed styles matched for default, hover, keyboard focus, and pseudo-elements. Generated color exports include `decorativeAccent` and exclude `mint`. Repository lint, run with the existing generated `storybook-static/**` directory excluded, found a pre-existing named-export ordering error in `features/error-widget/index.ts:1`; that file is unchanged.
+
+**Chunk 5 result.** Converted all color hexes in `tokens.json` to equivalent `oklch()` (colorjs precision 5). Added the agreed primitive set and semantic map; alpha modifiers resolve in the build (`decorativeAccentSubtle` / `Glow`, `overlay` / `overlayStrong`). Color-bearing widget declarations live in colocated StyleX; the CSS module has no color literals; the `error-widget-base` layer is gone. Generated color exports include the new semantics and omit primitives. Token build, typecheck, and widget lint passed. No Storybook, `next dev`, or screenshots.
 
 **Theme**  
 Light / dark / system already switch on `<html>` (cookie + StyleX).  
@@ -121,7 +124,7 @@ Some names in there already smell like jobs (`motion.duration.fade`, `layout.wid
 The CSS module stays until its values have a token home. The first color chunk does not delete the file.  
 Slots we want: title, description, action, optional diagnostic. Today the action is still named retry.  
 Rename that before `not-found` uses the widget. 404's button is "home", not remount.  
-Scanline / vignette / glitch _recipes_ (how the effect is drawn) are still CSS. The colors and timings inside them are values — those should become tokens.  
+Scanline / vignette / glitch _recipes_ (how the effect is drawn) stay literals — clip-path and keyframes in the CSS module, gradient stops and shadow offsets in StyleX strings. Their colors are tokens. Timings are still CSS.  
 `HEX_LINES` is fake dump text in JS, not a palette. Do not treat it as colors.
 
 **Already extracted, leave it**  
