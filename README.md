@@ -20,7 +20,7 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 
 ## StyleX and tokens
 
-Source of truth is Tokens Studio JSON in `tokens/` (`core.json`, `light.json`, `dark.json`, `$themes.json`). `pnpm tokens:build` (Style Dictionary + `@tokens-studio/sd-transforms`) emits gitignored StyleX files under `tokens/generated/`. Do not edit those files. `dev`, `typecheck`, `storybook`, and `build` run the generate step first.
+Source of truth is `tokens/tokens.json`: token sets `primitive`, `light`, and `dark`, plus `$themes` and `$metadata`. `pnpm tokens:build` (Style Dictionary + `@tokens-studio/sd-transforms`) selects `primitive` plus one theme set, removes the set wrappers, and emits gitignored StyleX files under `tokens/generated/`. Do not edit those files. `dev`, `typecheck`, `storybook`, and `build` run the generate step first.
 
 - Import colors, space, type, and motion from the generated `*.stylex.ts` files with **relative paths**. StyleX resolves `defineVars` itself and does not honor tsconfig `@/` for those files. Apply `light` / `dark` / `system` from `@/tokens/generated/themes` (cookie `theme` on `<html>`, default `system`). The theme switcher lives next to the locale switcher. Tween seconds and bezier points for Motion come from generated `tokens/generated/motion.ts` (canonical timings; reduced motion is `MotionConfig`, not this file).
 - Author styles with `stylex.create`. Conditions nest _inside_ the property (`default`, `:hover`, `@media`). Raw hex / `rgb()` / `px`/`rem`/`em` / `ms`/`s` / `ease-*` / `cubic-bezier()` literals in app code are lint errors; use generated vars. Allow `0`, `100%`, and `currentColor`.
