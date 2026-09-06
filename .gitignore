@@ -21,6 +21,11 @@
 # production
 /build
 
+# editor — share settings and recommendations only
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
 # misc
 .DS_Store
 *.pem
