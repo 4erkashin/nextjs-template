@@ -17,7 +17,7 @@ import path from "node:path";
  */
 const absoluteLayerPath = (dir) => path.join(import.meta.dirname, dir);
 
-const stylexTokenLiteralSyntax = [
+const stylexColorLiteralSyntax = [
   {
     message: "Use generated StyleX color tokens instead of raw color literals.",
     selector:
@@ -31,6 +31,9 @@ const stylexTokenLiteralSyntax = [
     message: "Use generated StyleX color tokens instead of raw color literals.",
     selector: "Literal[value=/^rgba?\\(/i]",
   },
+];
+
+const stylexLengthAndMotionLiteralSyntax = [
   {
     message: "Use generated StyleX tokens instead of raw length literals.",
     selector: "Literal[value=/^\\d+(\\.\\d+)?(px|rem|em)$/]",
@@ -49,6 +52,11 @@ const stylexTokenLiteralSyntax = [
       "Use generated StyleX motion tokens instead of raw cubic-bezier() literals.",
     selector: "Literal[value=/^cubic-bezier\\(/i]",
   },
+];
+
+const stylexTokenLiteralSyntax = [
+  ...stylexColorLiteralSyntax,
+  ...stylexLengthAndMotionLiteralSyntax,
 ];
 
 const motionTweenLiteralSyntax = [
@@ -234,6 +242,21 @@ const eslintConfig = defineConfig([
         ...motionTweenLiteralSyntax,
       ],
       "perfectionist/sort-objects": "off",
+    },
+  },
+  /**
+   * Step 3 of the error-widget initiative: leftover rem/em/s stay StyleX
+   * literals until the parked tokens.json pass. Color literals still go
+   * through tokens.
+   */
+  {
+    files: ["features/error-widget/error-widget.tsx"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        ...stylexColorLiteralSyntax,
+        ...motionTweenLiteralSyntax,
+      ],
     },
   },
   {

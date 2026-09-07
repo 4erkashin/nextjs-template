@@ -2,9 +2,8 @@
 
 import * as stylex from "@stylexjs/stylex";
 
-import { colors, fonts } from "@/tokens/generated/tokens.stylex";
-
-import styles from "./error-widget.module.css";
+import { queries } from "@/tokens/generated/queries.stylex";
+import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
 
 export type ErrorWidgetProps = {
   description: string;
@@ -14,73 +13,38 @@ export type ErrorWidgetProps = {
   tryAgain: string;
 };
 
-const colorStyles = stylex.create({
-  chrome: {
-    borderColor: colors.border,
-    color: colors.textSecondary,
+const blink = stylex.keyframes({
+  "50%": {
+    opacity: 0,
   },
-  description: {
-    color: colors.textSecondary,
+});
+
+const scroll = stylex.keyframes({
+  to: {
+    transform: "translateY(-50%)",
   },
-  hex: {
-    color: colors.textFaint,
-    borderRightColor: colors.border,
+});
+
+const glitch = stylex.keyframes({
+  "0%": {
+    clipPath: "inset(0 0 0 0)",
+    transform: "none",
   },
-  live: {
-    color: colors.decorativeAccent,
-    "::before": {
-      backgroundColor: colors.decorativeAccent,
-      boxShadow: `0 0 8px ${colors.decorativeAccent}`,
-    },
+  "86%": {
+    clipPath: "inset(0 0 0 0)",
+    transform: "none",
   },
-  path: {
-    color: colors.textSecondary,
+  "88%": {
+    clipPath: "inset(12% 0 54% 0)",
+    transform: "translate(3px, -1px)",
   },
-  retry: {
-    borderColor: colors.decorativeAccent,
-    backgroundColor: {
-      default: colors.decorativeAccentSubtle,
-      ":focus-visible": colors.decorativeAccent,
-      ":hover": colors.decorativeAccent,
-    },
-    boxShadow: `0 0 0 1px ${colors.surface}, 0 0 18px ${colors.decorativeAccentGlow}`,
-    color: {
-      default: colors.decorativeAccent,
-      ":focus-visible": colors.onDecorativeAccent,
-      ":hover": colors.onDecorativeAccent,
-    },
-    "::after": {
-      backgroundColor: {
-        default: colors.decorativeAccent,
-        ":focus-visible": colors.onDecorativeAccent,
-        ":hover": colors.onDecorativeAccent,
-      },
-    },
-    "::before": {
-      color: {
-        default: colors.highlight,
-        ":focus-visible": colors.onDecorativeAccent,
-        ":hover": colors.onDecorativeAccent,
-      },
-    },
+  "92%": {
+    clipPath: "inset(40% 0 18% 0)",
+    transform: "translate(-4px, 1px)",
   },
-  root: {
-    backgroundColor: colors.surface,
-    color: colors.decorativeAccent,
-    fontFamily: fonts.mono,
-    "::after": {
-      backgroundImage: `radial-gradient(ellipse at center, transparent 50%, ${colors.overlayStrong} 100%)`,
-    },
-    "::before": {
-      backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent 2px, ${colors.overlay} 2px, ${colors.overlay} 3px)`,
-    },
-  },
-  title: {
-    color: colors.textHeading,
-    textShadow: `-2px 0 ${colors.decorativeShift}, 2px 0 ${colors.decorativeShiftAlt}`,
-  },
-  trace: {
-    color: colors.highlight,
+  "100%": {
+    clipPath: "inset(0 0 0 0)",
+    transform: "none",
   },
 });
 
@@ -99,6 +63,213 @@ const HEX_LINES = [
   "5B38CC AAAFFF 555AAA FFF000 000FFF ABC123 DEF456 789ABC",
 ];
 
+const styles = stylex.create({
+  chrome: {
+    borderColor: colors.border,
+    borderStyle: "solid",
+    borderWidth: 0,
+    gap: "1rem",
+    paddingBlock: "0.65rem",
+    paddingInline: "1rem",
+    alignItems: "center",
+    color: colors.textSecondary,
+    display: "flex",
+    fontSize: "0.7rem",
+    justifyContent: "space-between",
+    letterSpacing: "0.16em",
+    position: "relative",
+    textTransform: "uppercase",
+    zIndex: 1,
+  },
+  deck: {
+    display: "grid",
+    gridTemplateColumns: {
+      default: "minmax(12rem, 28%) 1fr",
+      "@media (width < 48rem)": "1fr",
+    },
+    position: "relative",
+    zIndex: 1,
+    minHeight: 0,
+  },
+  description: {
+    margin: 0,
+    color: colors.textSecondary,
+    "::before": {
+      content: '"# "',
+    },
+  },
+  foot: {
+    borderTopWidth: spacing.px,
+  },
+  hash: {
+    letterSpacing: "0.14em",
+  },
+  hex: {
+    overflow: "hidden",
+    paddingBlock: "1rem",
+    paddingInline: "0.85rem",
+    borderInlineEndColor: colors.border,
+    borderInlineEndStyle: "solid",
+    borderInlineEndWidth: spacing.px,
+    color: colors.textFaint,
+    display: {
+      default: "block",
+      "@media (width < 48rem)": "none",
+    },
+    fontSize: "0.68rem",
+    lineHeight: 1.55,
+    userSelect: "none",
+  },
+  hexInner: {
+    animationDuration: "22s",
+    animationIterationCount: "infinite",
+    animationName: {
+      default: scroll,
+      [queries.reducedMotion]: "none",
+    },
+    animationTimingFunction: "linear",
+  },
+  live: {
+    color: colors.decorativeAccent,
+    "::before": {
+      animationDuration: "1.1s",
+      animationIterationCount: "infinite",
+      animationName: {
+        default: blink,
+        [queries.reducedMotion]: "none",
+      },
+      animationTimingFunction: "step-end",
+      backgroundColor: colors.decorativeAccent,
+      boxShadow: `0 0 8px ${colors.decorativeAccent}`,
+      content: '""',
+      display: "inline-block",
+      marginInlineEnd: "0.45rem",
+      height: "0.45rem",
+      width: "0.45rem",
+    },
+  },
+  main: {
+    gap: "1.25rem",
+    paddingInline: "2rem",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    maxWidth: "42rem",
+    paddingBottom: "3.5rem",
+    paddingTop: "2.5rem",
+  },
+  path: {
+    margin: 0,
+    color: colors.textSecondary,
+    fontSize: "0.75rem",
+    letterSpacing: "0.08em",
+  },
+  retry: {
+    font: "inherit",
+    borderColor: colors.decorativeAccent,
+    borderStyle: "solid",
+    borderWidth: spacing.px,
+    gap: "0.65rem",
+    outline: {
+      ":focus-visible": "none",
+      ":hover": "none",
+    },
+    paddingBlock: "0.55rem",
+    paddingInline: "0.85rem",
+    alignItems: "center",
+    backgroundColor: {
+      default: colors.decorativeAccentSubtle,
+      ":focus-visible": colors.decorativeAccent,
+      ":hover": colors.decorativeAccent,
+    },
+    boxShadow: `0 0 0 1px ${colors.surface}, 0 0 18px ${colors.decorativeAccentGlow}`,
+    color: {
+      default: colors.decorativeAccent,
+      ":focus-visible": colors.onDecorativeAccent,
+      ":hover": colors.onDecorativeAccent,
+    },
+    cursor: "pointer",
+    display: "inline-flex",
+    letterSpacing: "0.08em",
+    textTransform: "lowercase",
+    width: "fit-content",
+    "::after": {
+      animationDuration: "0.9s",
+      animationIterationCount: "infinite",
+      animationName: {
+        default: blink,
+        [queries.reducedMotion]: "none",
+      },
+      animationTimingFunction: "step-end",
+      backgroundColor: {
+        default: colors.decorativeAccent,
+        ":focus-visible": colors.onDecorativeAccent,
+        ":hover": colors.onDecorativeAccent,
+      },
+      content: '""',
+      height: "1em",
+      width: "0.55rem",
+    },
+    "::before": {
+      color: {
+        default: colors.highlight,
+        ":focus-visible": colors.onDecorativeAccent,
+        ":hover": colors.onDecorativeAccent,
+      },
+      content: '">"',
+    },
+  },
+  root: {
+    overflow: "hidden",
+    backgroundColor: colors.surface,
+    color: colors.decorativeAccent,
+    display: "grid",
+    fontFamily: fonts.mono,
+    gridTemplateRows: "auto 1fr auto",
+    isolation: "isolate",
+    position: "relative",
+    minHeight: "100dvh",
+    "::after": {
+      inset: 0,
+      backgroundImage: `radial-gradient(ellipse at center, transparent 50%, ${colors.overlayStrong} 100%)`,
+      content: '""',
+      pointerEvents: "none",
+      position: "absolute",
+      zIndex: 3,
+    },
+    "::before": {
+      inset: 0,
+      backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent 2px, ${colors.overlay} 2px, ${colors.overlay} 3px)`,
+      content: '""',
+      pointerEvents: "none",
+      position: "absolute",
+      zIndex: 2,
+    },
+  },
+  status: {
+    borderBottomWidth: spacing.px,
+  },
+  title: {
+    margin: 0,
+    animationDuration: "3.6s",
+    animationIterationCount: "infinite",
+    animationName: {
+      default: glitch,
+      [queries.reducedMotion]: "none",
+    },
+    animationTimingFunction: "steps(2, end)",
+    color: colors.textHeading,
+    fontSize: "clamp(1.4rem, 3.2vw, 2.15rem)",
+    fontWeight: 400,
+    lineHeight: 1.2,
+    position: "relative",
+    textShadow: `-2px 0 ${colors.decorativeShift}, 2px 0 ${colors.decorativeShiftAlt}`,
+  },
+  trace: {
+    color: colors.highlight,
+  },
+});
+
 /**
  * Failure lockup for `error.tsx` and `global-error.tsx`.
  * Callers pass copy and retry; this file owns the look.
@@ -113,63 +284,34 @@ export function ErrorWidget({
   const dump = [...HEX_LINES, ...HEX_LINES].join("\n");
 
   return (
-    <section
-      className={`${styles.root} ${stylex.props(colorStyles.root).className}`}
-    >
-      <header
-        className={`${styles.status} ${stylex.props(colorStyles.chrome).className}`}
-      >
-        <span
-          className={`${styles.live} ${stylex.props(colorStyles.live).className}`}
-        >
-          link up
-        </span>
-        <span
-          className={`${styles.trace} ${stylex.props(colorStyles.trace).className}`}
-        >
-          trace 14%
-        </span>
+    <section {...stylex.props(styles.root)}>
+      <header {...stylex.props(styles.chrome, styles.status)}>
+        <span {...stylex.props(styles.live)}>link up</span>
+        <span {...stylex.props(styles.trace)}>trace 14%</span>
         <span>ice active</span>
       </header>
 
-      <div className={styles.deck}>
-        <aside
-          aria-hidden="true"
-          className={`${styles.hex} ${stylex.props(colorStyles.hex).className}`}
-        >
-          <pre className={styles.hexInner}>{dump}</pre>
+      <div {...stylex.props(styles.deck)}>
+        <aside aria-hidden="true" {...stylex.props(styles.hex)}>
+          <pre {...stylex.props(styles.hexInner)}>{dump}</pre>
         </aside>
 
-        <div className={styles.main}>
-          <p
-            className={`${styles.path} ${stylex.props(colorStyles.path).className}`}
-          >
-            {"//breach/view/render"}
-          </p>
-          <h1
-            className={`${styles.title} ${stylex.props(colorStyles.title).className}`}
-          >
-            {title}
-          </h1>
-          <p
-            className={`${styles.description} ${stylex.props(colorStyles.description).className}`}
-          >
-            {description}
-          </p>
+        <div {...stylex.props(styles.main)}>
+          <p {...stylex.props(styles.path)}>{"//breach/view/render"}</p>
+          <h1 {...stylex.props(styles.title)}>{title}</h1>
+          <p {...stylex.props(styles.description)}>{description}</p>
           <button
-            className={`${styles.retry} ${stylex.props(colorStyles.retry).className}`}
             onClick={onRetry}
             type="button"
+            {...stylex.props(styles.retry)}
           >
             {tryAgain}
           </button>
         </div>
       </div>
 
-      <footer
-        className={`${styles.foot} ${stylex.props(colorStyles.chrome).className}`}
-      >
-        <span className={styles.hash}>
+      <footer {...stylex.props(styles.chrome, styles.foot)}>
+        <span {...stylex.props(styles.hash)}>
           {digest ? `hash ${digest}` : "hash —"}
         </span>
         <span>net::session</span>
