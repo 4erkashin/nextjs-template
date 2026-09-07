@@ -4,6 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import StyleDictionary from "style-dictionary";
 
+import { FONT_MONO_VAR } from "./font-mono-var.ts";
+
 register(StyleDictionary, { excludeParentKeys: true });
 
 const root = path.dirname(fileURLToPath(import.meta.url));
@@ -375,6 +377,13 @@ if (JSON.stringify(colorKeys) !== JSON.stringify(semanticColorKeys("dark"))) {
 
 const light = await resolveSets(["primitive", "light"]);
 const dark = await resolveSets(["primitive", "dark"]);
+
+const fontMono = light.get("font.mono");
+if (!fontMono?.includes(`var(${FONT_MONO_VAR})`)) {
+  throw new Error(
+    `tokens/tokens.json primitive font.mono must include var(${FONT_MONO_VAR})`,
+  );
+}
 
 await mkdir(generatedDir, { recursive: true });
 await writeFile(

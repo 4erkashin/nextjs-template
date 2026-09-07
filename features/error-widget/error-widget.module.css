@@ -4,7 +4,6 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100dvh;
-  font-family: var(--error-widget-mono), ui-monospace, monospace;
   isolation: isolate;
 }
 

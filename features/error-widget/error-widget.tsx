@@ -1,11 +1,11 @@
 "use client";
 
 import * as stylex from "@stylexjs/stylex";
-import { Share_Tech_Mono } from "next/font/google";
 
-import { colors } from "@/tokens/generated/tokens.stylex";
+import { colors, fonts } from "@/tokens/generated/tokens.stylex";
 
 import styles from "./error-widget.module.css";
+import { jetbrainsMono } from "./fonts";
 
 export type ErrorWidgetProps = {
   description: string;
@@ -14,12 +14,6 @@ export type ErrorWidgetProps = {
   title: string;
   tryAgain: string;
 };
-
-const shareTech = Share_Tech_Mono({
-  subsets: ["latin"],
-  variable: "--error-widget-mono",
-  weight: "400",
-});
 
 const colorStyles = stylex.create({
   chrome: {
@@ -74,6 +68,7 @@ const colorStyles = stylex.create({
   root: {
     backgroundColor: colors.surface,
     color: colors.decorativeAccent,
+    fontFamily: fonts.mono,
     "::after": {
       backgroundImage: `radial-gradient(ellipse at center, transparent 50%, ${colors.overlayStrong} 100%)`,
     },
@@ -120,7 +115,7 @@ export function ErrorWidget({
 
   return (
     <section
-      className={`${styles.root} ${shareTech.variable} ${stylex.props(colorStyles.root).className}`}
+      className={`${styles.root} ${jetbrainsMono.variable} ${stylex.props(colorStyles.root).className}`}
     >
       <header
         className={`${styles.status} ${stylex.props(colorStyles.chrome).className}`}
