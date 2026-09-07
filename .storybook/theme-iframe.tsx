@@ -1,6 +1,7 @@
 import { type ReactNode, useLayoutEffect } from "react";
 
 import { type ThemeName } from "@/theme/cookie";
+import { jetbrainsMono } from "@/theme/fonts";
 import { themeRootProps } from "@/theme/root-props";
 
 /**
@@ -40,7 +41,10 @@ function undoHtmlInlineStyle(html: HTMLElement, style: object) {
 function applyThemeToHtml(theme: ThemeName) {
   const html = document.documentElement;
   const { className, style } = themeRootProps(theme);
-  const classes = classesFrom(className);
+  const classes = [
+    ...classesFrom(className),
+    jetbrainsMono.variable,
+  ].filter(Boolean);
   const nextStyle = style ?? {};
 
   if (lastHtmlTheme) {

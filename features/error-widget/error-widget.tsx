@@ -5,7 +5,6 @@ import * as stylex from "@stylexjs/stylex";
 import { colors, fonts } from "@/tokens/generated/tokens.stylex";
 
 import styles from "./error-widget.module.css";
-import { jetbrainsMono } from "./fonts";
 
 export type ErrorWidgetProps = {
   description: string;
@@ -115,7 +114,7 @@ export function ErrorWidget({
 
   return (
     <section
-      className={`${styles.root} ${jetbrainsMono.variable} ${stylex.props(colorStyles.root).className}`}
+      className={`${styles.root} ${stylex.props(colorStyles.root).className}`}
     >
       <header
         className={`${styles.status} ${stylex.props(colorStyles.chrome).className}`}

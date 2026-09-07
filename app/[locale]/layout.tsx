@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { locale } from "next/root-params";
 
 import { routing } from "@/i18n/routing";
+import { withMonoFontClass } from "@/theme/fonts";
 import { getTheme } from "@/theme/get-theme";
 import { themeRootProps } from "@/theme/root-props";
 import { rootStyles } from "@/theme/root-style";
@@ -37,9 +38,14 @@ export default async function RootLayout({
   }
 
   const theme = await getTheme();
+  const root = themeRootProps(theme);
 
   return (
-    <html {...themeRootProps(theme)} lang={currentLocale}>
+    <html
+      {...root}
+      className={withMonoFontClass(root.className)}
+      lang={currentLocale}
+    >
       <body {...stylex.props(rootStyles.body)}>
         <NextIntlClientProvider>
           <Providers>

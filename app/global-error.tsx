@@ -23,6 +23,7 @@ import ptBR from "@/messages/pt-BR.json";
 import ru from "@/messages/ru.json";
 import uk from "@/messages/uk.json";
 import { themeFromCookie } from "@/theme/cookie";
+import { withMonoFontClass } from "@/theme/fonts";
 import { themeRootProps } from "@/theme/root-props";
 import { rootStyles } from "@/theme/root-style";
 
@@ -111,7 +112,11 @@ function readDocumentLocale() {
   return routing.defaultLocale;
 }
 
-export default function GlobalError({ error, retry }: ErrorPageProps) {
+export default function GlobalError({
+  error,
+  locale: localeOverride,
+  retry,
+}: ErrorPageProps & { locale?: AppLocale }) {
   /**
    * This page replaces the root layout, so the theme and locale providers are gone.
    * We read the cookie and the browser language list ourselves.
@@ -133,16 +138,22 @@ export default function GlobalError({ error, retry }: ErrorPageProps) {
     () => "system" as const,
   );
 
-  const locale = useSyncExternalStore(
+  const localeFromBrowser = useSyncExternalStore(
     ignoreStoreUpdates,
     readDocumentLocale,
     () => routing.defaultLocale,
   );
+  const locale = localeOverride ?? localeFromBrowser;
 
   const copy = copyByLocale[locale];
+  const root = themeRootProps(theme);
 
   return (
-    <html {...themeRootProps(theme)} lang={locale}>
+    <html
+      {...root}
+      className={withMonoFontClass(root.className)}
+      lang={locale}
+    >
       <body {...stylex.props(rootStyles.body)}>
         <title>{copy.title}</title>
 

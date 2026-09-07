@@ -26,8 +26,8 @@ Later titles are checkpoints, not implementation specs. Revisit the sequence whe
 - A primitive is the same color in both themes. App code uses semantic tokens; StyleX `colors` must not export primitives. Color literals in source are `oklch()` on primitives. Semantics are references (plus Tokens Studio alpha modifiers where used). `olive` is the dark pair of `citron`, used by light `highlight`.
 - Token write path is [`tokens/tokens.json`](../../tokens/tokens.json). Build is [`tokens/build.js`](../../tokens/build.js). Sets: `primitive`, `light`, `dark`. Color tokens need a matching declaration in both themes.
 - `bg` / `text` / `muted` / `accent` exist for Storybook cookbooks only. They are out of this initiative.
-- `ErrorWidget` is the one adapter. `not-found` does not use it yet. Action is still named retry. Scanline / vignette / glitch recipes stay in CSS and StyleX strings; their colors are tokens. `HEX_LINES` is dump text, not a palette. Family is primitive `font.mono` (`var(--font-mono), ui-monospace, monospace`) via StyleX `fonts.mono`. Loader is [`fonts.ts`](fonts.ts) (`JetBrains_Mono`, subsets `cyrillic` / `latin` / `latin-ext`, weight `400`). CSS variable name is [`tokens/font-mono-var.ts`](../../tokens/font-mono-var.ts); next/font keeps a written literal; the token build asserts the stack. App sans is primitive `font.family` (`system-ui`). Widget sizes stay in CSS (`0.7rem`, `0.68rem`, `0.75rem`, title `clamp`). `next/font` options must be written string literals (SWC). The font class is on the widget root, not locale layout or `global-error` `<html>`.
-- `global-error` stays in `app/` (must render `<html>` / `<body>` / `<title>`). Locale there is inlined. Theme there already uses `theme/`. Keep `error-page.ts` (`ErrorPageProps`) and `EXAMPLE_ERROR_DIGEST`.
+- `ErrorWidget` is the one adapter. `not-found` does not use it yet. Action is still named retry. Scanline / vignette / glitch recipes stay in CSS and StyleX strings; their colors are tokens. `HEX_LINES` is dump text, not a palette. Family is primitive `font.mono` (`var(--font-mono), ui-monospace, monospace`) via StyleX `fonts.mono`. Loader is [`theme/fonts.ts`](../../theme/fonts.ts) (`JetBrains_Mono`, subsets `cyrillic` / `latin` / `latin-ext`, weight `400`). CSS variable name is [`tokens/font-mono-var.ts`](../../tokens/font-mono-var.ts); next/font keeps a written literal; the token build asserts the stack. App sans is primitive `font.family` (`system-ui`). Widget sizes stay in CSS (`0.7rem`, `0.68rem`, `0.75rem`, title `clamp`). `next/font` options must be written string literals (SWC). The font class is on document `<html>`.
+- `global-error` stays in `app/` (must render `<html>` / `<body>` / `<title>`). Locale there is inlined. Theme there already uses `theme/`. Keep `error-page.ts` (`ErrorPageProps`) and `EXAMPLE_ERROR_DIGEST`. Stories pass the toolbar locale so isolation does not follow the `NEXT_LOCALE` cookie from `:3000`.
 
 ## Decisions
 
@@ -42,14 +42,14 @@ Later titles are checkpoints, not implementation specs. Revisit the sequence whe
 - Face is `JetBrains_Mono` (weight `400`). `Share_Tech_Mono` cannot cover Cyrillic.
 - `fontFamily` tokens store a CSS stack, not files or subsets. Add primitive `font.mono`: `var(--font-mono), ui-monospace, monospace`. Leave `font.family` as system-ui this step.
 - next/font stays a written literal `variable: "--font-mono"`. Guard with a TypeScript const (`satisfies`) and a token-build check that `font.mono` contains `var(--font-mono)`. Tokens do not feed the loader.
-- Put the next/font class on the widget root only (module the widget imports). Locale layout and `global-error` `<html>` do not get the class this step. `global-error` still gets the face because it renders the widget.
+- Put the next/font class on document `<html>` (locale layout, `global-error`, Storybook iframe via ThemeHtml). StyleX `defineVars` for `font.mono` live on `:root`. If `--font-mono` is only on the widget, `var(--font-mono)` in that token is invalid at computed-value time and the face falls back to `html` sans. Home still uses `font.family` (system-ui). Loader lives in [`theme/fonts.ts`](../../theme/fonts.ts).
 - This step is family only. Sizes, line-height, and letter-spacing wait for step 3. Title `clamp` is not a token type we agreed.
 
 ## Progress and results
 
 Step 1 is done in tokens. Widget StyleX bindings were already on semantic names; only `tokens.json` changed. Token build, typecheck, and widget lint passed. Visual check (`next dev`, both themes) was not run; the user asked not to start the dev server or Storybook.
 
-Step 2 is done. `font.mono` is in the primitive set. Widget root uses `fonts.mono` and `jetbrainsMono.variable`. Token build, typecheck, and widget lint passed. No preview server.
+Step 2 is done. `font.mono` is in the primitive set. Widget root uses `fonts.mono`. The next/font class is on document `<html>`. Token build, typecheck, and widget lint passed.
 
 ## Parked
 
@@ -58,9 +58,8 @@ Each parked topic needs its own grilling before implementation.
 - Widget chrome copy — `link up`, `trace 14%`, `ice active`, `//breach/view/render`, `net::session`, digest label `hash …`
 - Composition — slots are shared; how screens differ (hex column, status bar, path, 404)
 - Locale survival as a module — default: no
-- Home, root `html`, and cookbook colors — after widget tokens settle
+- Home, root `html` color tokens, and cookbook colors — after widget tokens settle
 - Per-locale typefaces — product work if a locale needs its own face
-- `font.mono` on document `<html>` — later, if other surfaces consume the stack
 
 ## Continue from this file
 
