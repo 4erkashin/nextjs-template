@@ -1,6 +1,6 @@
 # nextjs-template
 
-A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, Motion (`motion/react`) for layout / drag / springs, TanStack Query, and browser MSW. Visual language is aged phosphor; the CSS pipeline is not a framework.
+A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, Motion (`motion/react`) for layout / drag / springs, TanStack Query, and browser MSW. The CSS pipeline is not a framework.
 
 ## Create an app from this template
 

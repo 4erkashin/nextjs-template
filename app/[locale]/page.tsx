@@ -6,7 +6,7 @@ import { useState, useTransition } from "react";
 
 import { useRouter } from "@/i18n/navigation";
 
-import { colors, spacing } from "../../tokens/generated/tokens.stylex";
+import { spacing } from "../../tokens/generated/tokens.stylex";
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
@@ -18,7 +18,7 @@ export default function HomePage() {
     <main {...stylex.props(styles.main)}>
       <h1>{t("title")}</h1>
 
-      <p {...stylex.props(styles.muted)}>{t("description")}</p>
+      <p>{t("description")}</p>
 
       <p>{t("itemCount", { count })}</p>
       <button onClick={() => setCount((value) => value + 1)} type="button">
@@ -60,8 +60,5 @@ const styles = stylex.create({
     display: "flex",
     flexDirection: "column",
     paddingBlockEnd: spacing.m,
-  },
-  muted: {
-    color: colors.muted,
   },
 });

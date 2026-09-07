@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 
 import { queries } from "../tokens/generated/queries.stylex";
-import { colors, fonts, spacing } from "../tokens/generated/tokens.stylex";
+import { fonts, spacing } from "../tokens/generated/tokens.stylex";
 
 export const rootStyles = stylex.create({
   body: {
@@ -26,8 +26,6 @@ export const rootStyles = stylex.create({
     colorScheme: "light dark",
   },
   html: {
-    backgroundColor: colors.bg,
-    color: colors.text,
     fontFamily: fonts.family,
     fontSize: fonts.size,
   },
