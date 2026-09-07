@@ -4,22 +4,22 @@ Working context for this initiative. Read this file before planning or implement
 
 **Goal.** Share project editor settings through git. Keep ESLint and typecheck from failing or wasting time on vendor or generated files.
 
-**Current step.** 2. Sanity-check `.vscode` against current user settings — draft. Confirm workspace objects did not drop user keys. Intentional overrides stay: import organize/sort `never`, ESLint fix `always`.
+**Current step.** 3. Review installed editor extensions — grilling. Decide what to recommend in this template, what stays personal, and what to uninstall as stale.
 
-**Done when.** Proposed: Cursor user settings were compared to [workspace settings](.vscode/settings.json); every replaced object or array is either a full copy of the user keys we still want, or an agreed override. Accidental drops are fixed or recorded.
+**Done when.** Proposed: each installed Cursor extension is classified (recommend in `.vscode/extensions.json` / keep personal / uninstall). Agreed `extensions.json` changes are in git. Uninstalls happen only for extensions the user marked drop.
 
-**Open questions.** Does the written workspace file miss any user `codeActionsOnSave` or ESLint keys besides the agreed overrides? Should any other user-level objects be copied so they cannot be frozen later by a partial workspace value?
+**Open questions.** Anything beyond ESLint and Prettier belong in this template's recommendations? Which installed extensions are leftover from other stacks and should be uninstalled?
 
 ## Steps
 
 - [x] 1. Commit useful VS Code workspace settings
-- [ ] 2. Sanity-check `.vscode` against current user settings so workspace objects do not drop user keys by accident
+- [x] 2. Sanity-check `.vscode` and user settings — understand the shape, drop stale keys, keep workspace from undoing what remains
 - [ ] 3. Review installed editor extensions — keep, recommend, or drop stale ones
 - [ ] 4. Keep agent-run ESLint and typecheck off vendor-shipped / generated trees
 
 ## Continue from this file
 
-Use the repo's [grill-me skill](.agents/skills/grill-me/SKILL.md) to resolve open questions. Save agreed decisions and their reasons after each round. Mark the current step ready when the user confirms it.
+Ask an agent to read this file, resolve the current step's open questions, and save agreed decisions with their reasons. Set the current step to **ready to implement** when its frontier is empty.
 
 Implement when the user requests it. If an agreed decision must change, ask the user. Record progress and check the result against **Done when**.
 
@@ -27,16 +27,21 @@ When the step is complete, mark it done and prepare the next step for discussion
 
 ## Decisions
 
-- Shared workspace settings are conflict-prevention plus clone format/lint wiring, not a broader convenience dump. Personal UI stays local. Reason: the editor must not fight Prettier and ESLint, which is the same rule as the existing import-sort setting.
-- Step 1 `extensions.json` recommends only `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode`. Step 3 reviews the machine install for more recommendations, personal-only tools, and stale extensions.
+- Shared workspace settings are conflict-prevention plus clone format/lint wiring, not a broader convenience dump. Personal UI stays local. Reason: the editor must not fight Prettier and ESLint.
 - One `.vscode` set for both Cursor and VS Code. No editor-specific overlay unless a later round finds a setting only one honors.
-- Workspace-wide `editor.formatOnSave` and Prettier as `editor.defaultFormatter`. Keep the existing import organize/sort `never` keys.
 - `.gitignore` ignores `.vscode/*` and un-ignores `settings.json` and `extensions.json`.
-- Workspace `editor.codeActionsOnSave` must list every user key we care about, because the object is replaced, not merged. `source.fixAll.eslint` is `always` (try it; change if it annoys). Import organize/sort stay `never`.
-- Copy Cursor user auto-save wiring into the workspace: `files.autoSave: onFocusChange`, plus `editor.formatOnSave`. Snapshot source is Cursor user settings, not VS Code.
-- Copy Cursor user ESLint extension keys: `eslint.enable`, `eslint.useFlatConfig`, and `eslint.validate` (JS/TS list). Do not copy `prettier.enableDebugLogs` or VS Code's `eslint.format.enable` (that would fight Prettier).
-- Step 2 reviews the written `.vscode` files against current user settings so a partial object cannot undo user keys by accident.
-- Step 1 payload is confirmed: workspace `settings.json` as listed below; `extensions.json` recommends `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode` only. Intentional user-setting overrides: import organize/sort `never`, ESLint fix `always` instead of `explicit`. `eslint.validate` stays in the workspace (frozen language list for this folder).
+- Snapshot source is Cursor user settings, not VS Code.
+- Step 1 workspace payload, after step 2, is in [workspace settings](.vscode/settings.json): Prettier as default formatter, `editor.formatOnSave`, `files.autoSave: onFocusChange`, and `editor.codeActionsOnSave` (`source.fixAll.eslint: always`; import organize/sort `never`). No `eslint.enable` / `useFlatConfig` / `validate`. Do not copy `prettier.enableDebugLogs` or VS Code's `eslint.format.enable`.
+- [Recommended extensions](.vscode/extensions.json) list only `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode`. Step 3 reviews the machine install for more recommendations, personal-only tools, and stale extensions.
+- Step 2 is a full Cursor user-settings pass, plus the VS Code user file, plus `.vscode`. Agent edits those files when the user asks to implement. Extension uninstall stays step 3; this step only drops stale settings.
+- Drop `eslint.enable`, `eslint.useFlatConfig`, and `eslint.validate` from Cursor user settings and from `.vscode`. Reason: ESLint 10 ignores `useFlatConfig`; `enable` is the default; a `validate` list limits probing.
+- User `codeActionsOnSave` keeps `source.fixAll.eslint: explicit` and `source.organizeImports: explicit`; drops `source.sortImports`. This workspace still overrides ESLint to `always` and organize to `never`.
+- Drop from Cursor user settings: `javascript.suggest.autoImports`, `typescript.suggest.autoImports`, `typescript.validate.enable`, `diffEditor.renderSideBySide`, `workbench.preferredDarkColorTheme`, `prettier.enableDebugLogs`, `yaml.disableSchemaDetection`.
+- VS Code user file: drop `eslint.format.enable`, the atlascode `yaml.schemas` absolute path, `codestream.serverUrl`, `github.copilot.editor.enableAutoCompletions`, the `*.copilotmd` editor association, and `javascript.suggest.autoImports` / `typescript.suggest.autoImports`. Do not make the two user files identical.
+- Keep `source.sortImports: never` in `.vscode` after it leaves the user file, so a later user-level paste cannot fight `perfectionist`.
+- Remaining Cursor user keys stay (Tab/partial accepts, Prettier, font/tab/linked editing, explorer and git nags, auto-save, update-imports-on-move, terminal keybindings, color scheme/zoom, Cursor Light, vscode-icons, SVG as text, tree double-click, `jock.svg`, Docker engine prompt off, queue=`steer`). Extension uninstall is step 3.
+
+Agreed workspace `settings.json` after step 2:
 
 ```json
 {
@@ -47,14 +52,6 @@ When the step is complete, mark it done and prepare the next step for discussion
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "eslint.enable": true,
-  "eslint.useFlatConfig": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
   "files.autoSave": "onFocusChange"
 }
 ```
@@ -62,6 +59,7 @@ When the step is complete, mark it done and prepare the next step for discussion
 ## Progress and results
 
 - Step 1 written: [workspace settings](.vscode/settings.json) match the agreed payload; [recommended extensions](.vscode/extensions.json) list ESLint and Prettier; [.gitignore](.gitignore) ignores other `.vscode` files. `git check-ignore` reports `launch.json` / `tasks.json` ignored and the two shared files not ignored.
+- Step 2 applied: workspace file matches the agreed JSON (no ESLint `enable` / `useFlatConfig` / `validate`; import-sort lock kept). Cursor and VS Code user settings had the agreed keys removed, except Cursor `yaml.disableSchemaDetection`: vscode-yaml writes that list back immediately. Treat it as extension-owned until step 3.
 
 ## Parked
 
@@ -69,10 +67,13 @@ When the step is complete, mark it done and prepare the next step for discussion
 
 ## Facts and references
 
-- [Workspace settings](.vscode/settings.json) and [recommended extensions](.vscode/extensions.json) are the shared files. Other `.vscode` paths are ignored.
+- This repo uses ESLint 10.9.1. For ESLint ≥10 the ESLint extension **ignores** `eslint.useFlatConfig`. `eslint.enable: true` matches the extension default. An `eslint.validate` list replaces probing and can **limit** languages the extension would otherwise pick up.
+- Cursor user `yaml.disableSchemaDetection` is written by vscode-yaml at runtime when Docker/GitHub Actions extensions are present. Step 2 removes it; the extension may write it back until those extensions are reviewed in step 3.
+- `prettier.enableDebugLogs: true` is a troubleshooting leftover (default is false).
+- Cursor and VS Code user settings have drifted (VS Code has `eslint.format.enable`, atlascode YAML schema path, CodeStream URL, Copilot keys; Cursor has `useFlatConfig` / `validate` / `sortImports`).
 - [Git hooks](lefthook.yml) run Prettier with `--write` on staged files, then ESLint without `--fix`.
 - Cursor user settings (snapshot source) use `files.autoSave: onFocusChange`, `editor.formatOnSave: true`, Prettier as default formatter, `source.fixAll.eslint: explicit`, and organize/sort imports `explicit`. VS Code user settings are similar but include `eslint.format.enable: true` and omit `eslint.useFlatConfig` / `eslint.validate` / `source.sortImports`.
-- `files.autoSave` is a string; user and workspace do not merge it. A workspace value replaces the user value. Including `onFocusChange` matches Cursor today. `editor.codeActionsOnSave` and `eslint.validate` are replaced as a whole, so every key/item we still want must be listed.
+- `files.autoSave` is a string; user and workspace do not merge it. A workspace value replaces the user value. `editor.codeActionsOnSave` and `eslint.validate` are replaced as a whole, so every key/item we still want must be listed.
 - `always` code actions run on auto-save; `explicit` does not. `formatOnSave` runs when auto-save is `onFocusChange` or `onWindowChange`.
 - Cursor has ESLint and Prettier installed, plus extensions for other stacks (Tailwind, Docker, Prisma, GraphQL, Biome, WGSL). This repo has no Tailwind, Docker, Prisma, GraphQL, Biome, or `.editorconfig`. Step 3 will review that list.
 - [ESLint configuration](eslint.config.js) lists generated files to ignore. Check whether engine defaults also exclude vendor files.
