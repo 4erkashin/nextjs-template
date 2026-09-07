@@ -67,6 +67,12 @@
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
       "computedHash": "2449db6ab1ded9581f69fcc56c1f64818112d05e271fd4c5da23c6523f9d3d9d"
     },
+    "initiative": {
+      "source": "4erkashin/skills",
+      "sourceType": "github",
+      "skillPath": "skills/initiative/SKILL.md",
+      "computedHash": "4e6e26f2d8a1a653af3c0d467a5560f60e10d2fa13048e62ff9578a9f70ee0f4"
+    },
     "prototype": {
       "source": "mattpocock/skills",
       "sourceType": "github",

@@ -4,7 +4,7 @@ Working context for this initiative. Read this file before planning or implement
 
 **Goal.** [The result of the whole initiative and why it matters.]
 
-**Current step.** [Number and bounded outcome] — draft. [Include scope limits here only when useful. Mark proposed choices as proposed.]
+**Current step.** [Number and bounded outcome] — grilling. [Use **grilling** while current-step questions remain. Use **ready to implement** when its frontier is empty. Include scope limits here only when useful. Mark proposed choices as proposed.]
 
 **Done when.** [Observable completion conditions, including how to check them. Mark proposed conditions as proposed.]
 
@@ -17,14 +17,13 @@ Working context for this initiative. Read this file before planning or implement
 
 ## Continue from this file
 
-Use the repo's [grill-me skill](.agents/skills/grill-me/SKILL.md) to resolve open questions. Save agreed decisions and their reasons after each round. Mark the current step ready when the user confirms it.
+Ask an agent to read this file, resolve the current step's open questions, and save agreed decisions with their reasons. Set the current step to **ready to implement** when its frontier is empty.
 
 Implement when the user requests it. If an agreed decision must change, ask the user. Record progress and check the result against **Done when**.
 
 When the step is complete, mark it done and prepare the next step for discussion.
 
 <!-- Template instructions: remove this comment from the generated file.
-Resolve the skill link relative to the output file.
 Keep the four opening fields and the Steps and Continue sections.
 Add these sections only when they have useful content:
 - Facts and references: findings that affect decisions, with source links and necessary agent checks. Leave detailed configuration in its source files.
