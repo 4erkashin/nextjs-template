@@ -17,7 +17,6 @@ export type ShellMode = keyof typeof desk;
 
 /**
  * Inline CSS for <html> before manager.ts runs. Follows the OS only.
- * manager.ts overwrites this once it knows the toolbar pick.
  */
 export function shellFirstPaintCss(): string {
   return `html {

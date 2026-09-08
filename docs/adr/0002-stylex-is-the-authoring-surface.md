@@ -1,0 +1,3 @@
+# Product UI authors StyleX on native HTML
+
+StyleX compiles tokens and styles; it is not a component library. Product UI uses `stylex.create` / `stylex.props` on real HTML elements, with generated tokens for closed families (color, space/length, type, motion). We do not ship a `Box`/`Text` style wrappers. JSX `style=` and `className` are banned in product UI except documented infrastructure helpers (today: merging the mono font onto the document root). File-scoped ESLint overrides are the exception path. A constrained component API is allowed only when a shipped component earns it, not as the default vocabulary.

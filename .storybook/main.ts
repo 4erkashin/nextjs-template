@@ -22,10 +22,9 @@ const config: StorybookConfig = {
   ],
   framework: "@storybook/nextjs-vite",
   /**
-   * Colors <html> from the OS before manager.ts runs, so the chrome
-   * is not white while JS loads. Colors come from theme-shell.ts —
-   * not a second palette. manager.ts overwrites this once it knows
-   * the toolbar pick.
+   * Paints manager <html> from the OS palette before manager.ts runs,
+   * so the chrome is not white while JS loads. manager.ts then applies
+   * the same OS theme to the chrome and the desk around the iframe.
    */
   managerHead: appendShellFirstPaint,
   staticDirs: ["../public"],
@@ -41,16 +40,17 @@ const config: StorybookConfig = {
    * (`framework`, `addons`, `stories`, and so on). Then it calls this hook
    * and passes that config in as `viteConfig`.
    *
-   * `async` lets us `await import("vite")` instead of importing Vite at the
-   * top of the file, so Vite is only loaded when Storybook actually needs
-   * this hook.
+   * `async` lets us load Vite only when Storybook calls this hook,
+   * instead of importing it at the top of the file.
    *
-   * We merge in PostCSS + Autoprefixer, as a preload plugin,
-   * so generated StyleX consts compile before `/virtual:stylex.css`,
-   * and the StyleX Vite plugin (same options as `babel.config.js`, plus CSS layers).
+   * We add PostCSS with Autoprefixer.
+   * We add a preload plugin that compiles generated StyleX consts
+   * before `/virtual:stylex.css`.
+   * We add the StyleX Vite plugin (same options as `babel.config.js`, plus CSS layers).
    * The preload plugin must stay first.
-   * Without this hook, Storybook would still start,
-   * but StyleX styles and Autoprefixer would not be wired into its Vite pipeline.
+   *
+   * Without this hook, Storybook still starts,
+   * but StyleX styles and Autoprefixer do not run.
    */
   async viteFinal(viteConfig) {
     const { mergeConfig } = await import("vite");

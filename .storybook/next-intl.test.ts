@@ -6,7 +6,7 @@ import { routing } from "../i18n/routing";
 import nextIntl from "./next-intl";
 
 /**
- * This file's folder (not `pwd` / process.cwd()). Then up one into messages/:
+ * This file's folder. Then up one into messages/:
  *   import.meta.dirname          →  /…/.storybook
  *   path.join(…, "../messages")  →  /…/messages
  */
