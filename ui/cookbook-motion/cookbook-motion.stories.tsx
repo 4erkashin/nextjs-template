@@ -8,7 +8,8 @@ const meta = {
     docs: {
       codePanel: true,
       source: {
-        code: `<AnimatePresence initial={false} mode="popLayout">
+        code: `<motion.ul layoutRoot>
+<AnimatePresence initial={false} mode="popLayout">
   <motion.li
     layout="position"
     layoutId={\`cookbook-motion-\${id}\`}
@@ -28,7 +29,8 @@ const meta = {
       },
     }}
   />
-</AnimatePresence>`,
+</AnimatePresence>
+</motion.ul>`,
         language: "tsx",
         type: "code",
       },

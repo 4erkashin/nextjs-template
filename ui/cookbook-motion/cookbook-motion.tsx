@@ -27,7 +27,8 @@ export function CookbookMotion() {
       <button onClick={addRow} type="button">
         Add row
       </button>
-      <ul {...stylex.props(styles.list)}>
+      {/* Keeps row layout animation from moving the Add button. */}
+      <motion.ul layoutRoot {...stylex.props(styles.list)}>
         <AnimatePresence initial={false} mode="popLayout">
           {items.map((id) => (
             <motion.li
@@ -60,7 +61,7 @@ export function CookbookMotion() {
             </motion.li>
           ))}
         </AnimatePresence>
-      </ul>
+      </motion.ul>
     </div>
   );
 }
