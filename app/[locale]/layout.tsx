@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import * as stylex from "@stylexjs/stylex";
+import { clsx } from "clsx";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { locale } from "next/root-params";
 
 import { routing } from "@/i18n/routing";
-import { withMonoFontClass } from "@/theme/fonts";
+import { jetbrainsMono } from "@/theme/fonts";
 import { getTheme } from "@/theme/get-theme";
 import { themeRootProps } from "@/theme/root-props";
 import { rootStyles } from "@/theme/root-style";
@@ -43,7 +44,7 @@ export default async function RootLayout({
   return (
     <html
       {...root}
-      className={withMonoFontClass(root.className)}
+      className={clsx(jetbrainsMono.variable, root.className)}
       lang={currentLocale}
     >
       <body {...stylex.props(rootStyles.body)}>

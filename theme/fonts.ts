@@ -7,7 +7,3 @@ export const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono" satisfies FontMonoVar,
   weight: "400",
 });
-
-export function withMonoFontClass(className?: string) {
-  return [jetbrainsMono.variable, className].filter(Boolean).join(" ");
-}

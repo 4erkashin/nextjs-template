@@ -1,31 +1,34 @@
 /**
- * `"use client"` is required because Next turns this file into a React error boundary:
- * a client wrapper around the crashed tree that catches the throw,
- * keeps that fact in client state, and shows this fallback instead.
- * That wrapper cannot live in a Server Component.
+ * `"use client"` is required because Next.js runs this file in the browser.
+ * It wraps the failed page, catches the throw, remembers that it happened,
+ * and shows this screen instead.
+ * A server-only file cannot do that.
  *
- * This is the last-resort fallback when the root layout itself throws.
+ * This is the last screen we can show when the root layout itself throws.
  * It replaces `layout.tsx`, so it must render `<html>` and `<body>`.
- * A nested `error.tsx` cannot catch layout errors. `retry()` remounts
- * the tree.
- * https://nextjs.org/docs/app/api-reference/file-conventions/error#global-error
+ * A nested `error.tsx` cannot catch layout errors.
+ * `retry()` tries to render the app again.
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/error#global-error
  */
 "use client";
 
 import * as stylex from "@stylexjs/stylex";
+import { clsx } from "clsx";
 import { useSyncExternalStore } from "react";
 
-import { type ErrorPageProps, ErrorWidget } from "@/features/error-widget";
+import { ErrorWidget } from "@/features/error-widget";
 import { routing } from "@/i18n/routing";
 import { readCookie } from "@/lib/cookie";
 import en from "@/messages/en.json";
 import ptBR from "@/messages/pt-BR.json";
 import ru from "@/messages/ru.json";
 import uk from "@/messages/uk.json";
-import { themeFromCookie } from "@/theme/cookie";
-import { withMonoFontClass } from "@/theme/fonts";
-import { themeRootProps } from "@/theme/root-props";
-import { rootStyles } from "@/theme/root-style";
+import {
+  jetbrainsMono,
+  rootStyles,
+  themeFromCookie,
+  themeRootProps,
+} from "@/theme";
 
 import "./globals.css";
 
@@ -44,7 +47,7 @@ const LOCALE_COOKIE = "NEXT_LOCALE";
  * These are the Error strings from each catalog
  * so this page can still speak the user's language.
  */
-const copyByLocale = {
+const stringsByLocale = {
   en: en.Error,
   "pt-BR": ptBR.Error,
   ru: ru.Error,
@@ -52,8 +55,10 @@ const copyByLocale = {
 };
 
 /**
- * Stays a named function outside the component so its identity does not change between renders.
- * An inline subscribe would be new every time, and React would unsubscribe and subscribe again.
+ * Named and kept outside the component
+ * so React sees the same function on every render.
+ * Written inside, it would be a new function each time,
+ * and React would stop listening and start listening again.
  *
  * @see https://react.dev/reference/react/useSyncExternalStore#my-subscribe-function-gets-called-after-every-re-render
  */
@@ -114,23 +119,18 @@ function readDocumentLocale() {
 
 export default function GlobalError({
   error,
-  locale: localeOverride,
+  localeOverride,
   retry,
-}: ErrorPageProps & { locale?: AppLocale }) {
+}: {
+  error: Error & { digest?: string };
+  // Storybook toolbar locale. Next.js never passes this.
+  localeOverride?: AppLocale;
+  retry: () => void;
+}) {
   /**
-   * This page replaces the root layout, so the theme and locale providers are gone.
-   * We read the cookie and the browser language list ourselves.
-   *
-   * Those live on `document` and `navigator`, which the server does not have.
-   * `useSyncExternalStore` is how React wants you to read something outside React:
-   * the last argument is what to render on the server (and on the first client paint, so it matches),
-   * and the middle argument is the real browser read after that.
-   * Reading `document` in render would crash on the server or paint a mismatch;
-   * `useState` plus `useEffect` would flash the default first.
-   *
-   * Subscribe does nothing. Cookies have no change event we listen to,
-   * and this screen does not need to update if they change.
-   * We only need that server-then-browser split.
+   * Layout is gone, so we read the cookie and the browser language list here.
+   * `useSyncExternalStore` splits server paint from the real browser read.
+   * Subscribe is empty: we do not listen for cookie changes.
    */
   const theme = useSyncExternalStore(
     ignoreStoreUpdates,
@@ -138,31 +138,33 @@ export default function GlobalError({
     () => "system" as const,
   );
 
+  // Cookie, then the browser language list. Server uses the default locale.
   const localeFromBrowser = useSyncExternalStore(
     ignoreStoreUpdates,
     readDocumentLocale,
     () => routing.defaultLocale,
   );
-  const locale = localeOverride ?? localeFromBrowser;
 
-  const copy = copyByLocale[locale];
-  const root = themeRootProps(theme);
+  const locale = localeOverride ?? localeFromBrowser;
+  const strings = stringsByLocale[locale];
+
+  const htmlProps = themeRootProps(theme);
 
   return (
     <html
-      {...root}
-      className={withMonoFontClass(root.className)}
+      {...htmlProps}
+      className={clsx(jetbrainsMono.variable, htmlProps.className)}
       lang={locale}
     >
       <body {...stylex.props(rootStyles.body)}>
-        <title>{copy.title}</title>
+        <title>{strings.title}</title>
 
         <ErrorWidget
-          description={copy.description}
+          description={strings.description}
           digest={error.digest}
           onRetry={retry}
-          title={copy.title}
-          tryAgain={copy.tryAgain}
+          title={strings.title}
+          tryAgain={strings.tryAgain}
         />
       </body>
     </html>

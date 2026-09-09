@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { fn } from "storybook/test";
 
-import { EXAMPLE_ERROR_DIGEST } from "@/features/error-widget";
+import { EXAMPLE_ERROR_DIGEST } from "@/.storybook/error-digest";
 import { routing } from "@/i18n/routing";
 
 import GlobalError from "./global-error";
@@ -16,9 +16,11 @@ const meta = {
   },
   component: GlobalError,
   render: (args, { globals }) => {
-    const locale = routing.locales.find((item) => item === globals.locale);
+    const localeOverride = routing.locales.find(
+      (item) => item === globals.locale,
+    );
 
-    return <GlobalError {...args} locale={locale} />;
+    return <GlobalError {...args} localeOverride={localeOverride} />;
   },
   tags: ["ai-generated"],
 } satisfies Meta<typeof GlobalError>;

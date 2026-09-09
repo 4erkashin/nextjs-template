@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 
-import { type ErrorPageProps, ErrorWidget } from "@/features/error-widget";
+import { ErrorWidget } from "@/features/error-widget";
 
 /**
  * Fallback UI when something in this route (or a nested one) throws at runtime.
@@ -11,7 +11,13 @@ import { type ErrorPageProps, ErrorWidget } from "@/features/error-widget";
  * https://nextjs.org/docs/app/api-reference/file-conventions/error
  */
 
-export default function Error({ error, retry }: ErrorPageProps) {
+export default function Error({
+  error,
+  retry,
+}: {
+  error: Error & { digest?: string };
+  retry: () => void;
+}) {
   const t = useTranslations("Error");
 
   return (
