@@ -23,28 +23,30 @@ export function MotionCookbook() {
   }
 
   return (
-    <section {...stylex.props(styles.box)}>
-      <p>
-        Motion cookbook: layout projection. Use StyleX for color, hover, and
-        opacity. This list is not the CSS cookbook.
-      </p>
+    <div {...stylex.props(styles.box)}>
       <button onClick={addRow} type="button">
         Add row
       </button>
       <ul {...stylex.props(styles.list)}>
-        <AnimatePresence>
+        <AnimatePresence initial={false} mode="popLayout">
           {items.map((id) => (
             <motion.li
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              initial={{ opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ opacity: 0, y: 8 }}
+              initial={{ height: 0, opacity: 0 }}
               key={id}
-              layout
+              layout="position"
               layoutId={`motion-cookbook-${id}`}
+              style={{ overflow: "hidden" }}
               transition={{
+                height: { type: "spring" },
                 layout: { type: "spring" },
                 opacity: {
                   duration: motionTime.fade,
+                  ease: motionTime.easingStandard,
+                },
+                y: {
+                  duration: motionTime.move,
                   ease: motionTime.easingStandard,
                 },
               }}
@@ -59,19 +61,20 @@ export function MotionCookbook() {
           ))}
         </AnimatePresence>
       </ul>
-    </section>
+    </div>
   );
 }
 
 const styles = stylex.create({
   box: {
+    margin: 0,
     padding: spacing.m,
-    borderColor: colors.accent,
+    borderColor: colors.foreground,
     borderStyle: "solid",
-    borderWidth: spacing.s,
+    borderWidth: spacing.px,
     gap: spacing.m,
-    backgroundColor: colors.bg,
-    color: colors.text,
+    backgroundColor: colors.background,
+    color: colors.foreground,
     display: "flex",
     flexDirection: "column",
     fontFamily: fonts.family,

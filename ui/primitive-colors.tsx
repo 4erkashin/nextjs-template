@@ -68,7 +68,7 @@ const styles = stylex.create({
     flexShrink: 0,
   },
   swatch: {
-    borderColor: colors.border,
+    borderColor: colors.foreground,
     borderStyle: "solid",
     borderWidth: spacing.px,
     backgroundColor: "var(--primitive-paint)",
@@ -77,12 +77,12 @@ const styles = stylex.create({
   },
   caption: {
     gap: spacing.s,
-    color: colors.text,
+    color: colors.foreground,
     display: "flex",
     flexDirection: "column",
   },
   code: {
-    color: colors.textSecondary,
+    color: colors.foreground,
     fontFamily: fonts.mono,
     whiteSpace: "nowrap",
   },

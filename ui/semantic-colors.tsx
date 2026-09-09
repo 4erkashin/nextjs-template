@@ -157,7 +157,7 @@ const styles = stylex.create({
   },
   caption: {
     gap: spacing.s,
-    color: colors.text,
+    color: colors.foreground,
     display: "flex",
     flexDirection: "column",
   },
@@ -166,7 +166,7 @@ const styles = stylex.create({
     display: "flex",
   },
   code: {
-    color: colors.textSecondary,
+    color: colors.foreground,
     fontFamily: fonts.mono,
     whiteSpace: "nowrap",
   },

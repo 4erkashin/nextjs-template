@@ -8,13 +8,14 @@ import ErrorPage from "./error";
 
 const meta = {
   args: {
-    error: Object.assign(new Error("Triggered from the home page"), {
+    error: Object.assign(new Error("Example error"), {
       digest: EXAMPLE_ERROR_DIGEST,
     }),
     retry: fn(),
   },
   component: ErrorPage,
   tags: ["ai-generated"],
+  title: "App/Error",
 } satisfies Meta<typeof ErrorPage>;
 
 export default meta;

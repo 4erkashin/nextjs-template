@@ -23,6 +23,7 @@ const meta = {
     return <GlobalError {...args} localeOverride={localeOverride} />;
   },
   tags: ["ai-generated"],
+  title: "App/Global error",
 } satisfies Meta<typeof GlobalError>;
 
 export default meta;

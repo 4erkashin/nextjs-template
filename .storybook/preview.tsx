@@ -107,9 +107,35 @@ const preview: Preview = {
       },
     },
 
+    /**
+     * Canvas Code tab is off. A cookbook file sets docs.codePanel: true.
+     * One story can set it false again if that example should not show source.
+     */
+    docs: {
+      codePanel: false,
+    },
+
     nextIntl,
     nextjs: {
       appDirectory: true,
+    },
+
+    /**
+     * Sidebar order. Titles live on each story file so the path
+     * (`[locale]`, kebab-case filenames) does not leak into the tree.
+     */
+    options: {
+      storySort: {
+        order: [
+          "App",
+          ["Home", "Not found", "Error", "Global error"],
+          "Features",
+          "Tokens",
+          ["Primitive colors", "Semantic colors"],
+          "Cookbooks",
+          ["StyleX", "Motion", "Intl"],
+        ],
+      },
     },
   },
 };

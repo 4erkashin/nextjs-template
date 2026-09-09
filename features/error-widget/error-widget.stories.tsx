@@ -18,6 +18,7 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
+  title: "Features/Error widget",
 } satisfies Meta<typeof ErrorWidget>;
 
 export default meta;

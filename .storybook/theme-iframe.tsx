@@ -1,8 +1,8 @@
 import { type ReactNode, useLayoutEffect } from "react";
 
+import { htmlPropsForTheme } from "@/app/global-styles";
 import { type ThemeName } from "@/theme/cookie";
 import { jetbrainsMono } from "@/theme/fonts";
-import { themeRootProps } from "@/theme/root-props";
 
 /**
  * Last theme we put on the iframe <html>.
@@ -40,7 +40,7 @@ function undoHtmlInlineStyle(html: HTMLElement, style: object) {
  */
 function applyThemeToHtml(theme: ThemeName) {
   const html = document.documentElement;
-  const { className, style } = themeRootProps(theme);
+  const { className, style } = htmlPropsForTheme(theme);
   const classes = [
     ...classesFrom(className),
     jetbrainsMono.variable,

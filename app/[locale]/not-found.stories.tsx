@@ -7,6 +7,7 @@ import NotFound from "./not-found";
 const meta = {
   component: NotFound,
   tags: ["ai-generated"],
+  title: "App/Not found",
 } satisfies Meta<typeof NotFound>;
 
 export default meta;
