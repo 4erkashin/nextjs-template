@@ -1,9 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
 
-import { queries } from "../tokens/generated/queries.stylex";
-import { dark, light } from "../tokens/generated/themes";
-import { colors, fonts, spacing } from "../tokens/generated/tokens.stylex";
-import tokens from "../tokens/tokens.json";
+import { queries } from "../../tokens/generated/queries.stylex";
+import { dark, light } from "../../tokens/generated/themes";
+import { colors, fonts, spacing } from "../../tokens/generated/tokens.stylex";
+import tokens from "../../tokens/tokens.json";
 import { wcag2ContrastCaption, wcag2ContrastRatio } from "./wcag-contrast";
 
 type PairCaption = {
@@ -19,7 +19,7 @@ const primitiveColors = tokens.primitive.color;
 const lightPair = pairCaption(tokens.light.color);
 const darkPair = pairCaption(tokens.dark.color);
 
-export function SemanticColors() {
+export function ColorsSemantic() {
   return (
     <section {...stylex.props(styles.section)}>
       <header {...stylex.props(styles.intro)}>

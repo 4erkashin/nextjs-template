@@ -4,12 +4,12 @@ import * as stylex from "@stylexjs/stylex";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
-import { motionTime } from "../tokens/generated/motion";
-import { colors, fonts, spacing } from "../tokens/generated/tokens.stylex";
+import { motionTime } from "../../tokens/generated/motion";
+import { colors, fonts, spacing } from "../../tokens/generated/tokens.stylex";
 
 const startingItems = [1, 2, 3];
 
-export function MotionCookbook() {
+export function CookbookMotion() {
   const [items, setItems] = useState(startingItems);
   const [nextId, setNextId] = useState(4);
 
@@ -36,7 +36,7 @@ export function MotionCookbook() {
               initial={{ height: 0, opacity: 0 }}
               key={id}
               layout="position"
-              layoutId={`motion-cookbook-${id}`}
+              layoutId={`cookbook-motion-${id}`}
               style={{ overflow: "hidden" }}
               transition={{
                 height: { type: "spring" },

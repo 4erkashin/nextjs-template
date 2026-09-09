@@ -6,7 +6,7 @@ import { useTransition } from "react";
 import { setTheme } from "@/theme/actions";
 import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
 
-export function ThemeSwitcher({ theme }: Readonly<{ theme: ThemeName }>) {
+export function SwitcherTheme({ theme }: Readonly<{ theme: ThemeName }>) {
   const t = useTranslations("Theme");
   const [, startTransition] = useTransition();
 

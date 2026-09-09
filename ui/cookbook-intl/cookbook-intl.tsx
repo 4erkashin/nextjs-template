@@ -4,7 +4,7 @@ import * as stylex from "@stylexjs/stylex";
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { colors, fonts, spacing } from "../tokens/generated/tokens.stylex";
+import { colors, fonts, spacing } from "../../tokens/generated/tokens.stylex";
 
 // Same instant every render. Switch the locale toolbar, not the clock.
 const EXAMPLE_INSTANT = new Date("2026-09-09T16:00:00.000Z");

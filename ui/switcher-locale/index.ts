@@ -1,2 +1,1 @@
 export { SwitcherLocale } from "./switcher-locale";
-export { SwitcherTheme } from "./switcher-theme";

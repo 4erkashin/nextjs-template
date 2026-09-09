@@ -8,7 +8,7 @@ import {
   ReducedMotion as ReducedMotionDemo,
   Supports as SupportsDemo,
   Wide as WideDemo,
-} from "./stylex-cookbook";
+} from "./cookbook-stylex";
 
 function snippet(code: string) {
   return {

@@ -2,13 +2,13 @@ import type { CSSProperties } from "react";
 
 import * as stylex from "@stylexjs/stylex";
 
-import { colors, fonts, spacing } from "../tokens/generated/tokens.stylex";
-import tokens from "../tokens/tokens.json";
+import { colors, fonts, spacing } from "../../tokens/generated/tokens.stylex";
+import tokens from "../../tokens/tokens.json";
 import { groupPrimitiveColors } from "./primitive-color-groups";
 
 const groups = groupPrimitiveColors(tokens.primitive.color);
 
-export function PrimitiveColors() {
+export function ColorsPrimitive() {
   return (
     <div {...stylex.props(styles.palette)}>
       {groups.map((group) => (

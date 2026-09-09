@@ -130,6 +130,7 @@ const preview: Preview = {
           "App",
           ["Home", "Not found", "Error", "Global error"],
           "Features",
+          "UI",
           "Tokens",
           ["Primitive colors", "Semantic colors"],
           "Cookbooks",

@@ -12,7 +12,7 @@ const labels = {
   uk: "UA",
 } as const;
 
-export function LocaleSwitcher() {
+export function SwitcherLocale() {
   const locale = useLocale();
   const pathname = usePathname();
 

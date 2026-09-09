@@ -12,7 +12,7 @@ import { routing } from "@/i18n/routing";
 import { getTheme, jetbrainsMono } from "@/theme";
 import { queries } from "@/tokens/generated/queries.stylex";
 import { spacing } from "@/tokens/generated/tokens.stylex";
-import { LocaleSwitcher, ThemeSwitcher } from "@/ui";
+import { SwitcherLocale, SwitcherTheme } from "@/ui";
 
 import { Providers } from "../providers";
 
@@ -101,9 +101,9 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <Providers>
             <header {...stylex.props(styles.header)}>
-              <LocaleSwitcher />
+              <SwitcherLocale />
 
-              <ThemeSwitcher theme={theme} />
+              <SwitcherTheme theme={theme} />
             </header>
 
             {children}

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { PrimitiveColors } from "./primitive-colors";
+import { ColorsPrimitive } from "./colors-primitive";
 
 const meta = {
-  component: PrimitiveColors,
+  component: ColorsPrimitive,
   title: "Tokens/Primitive colors",
-} satisfies Meta<typeof PrimitiveColors>;
+} satisfies Meta<typeof ColorsPrimitive>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

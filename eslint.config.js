@@ -245,12 +245,12 @@ const eslintConfig = defineConfig([
     },
   },
   /**
-   * Step 3 of the error-widget initiative: leftover rem/em/s stay StyleX
-   * literals until the parked tokens.json pass. Color literals still go
-   * through tokens.
+   * Leftover rem/em/s stay StyleX literals until the parked tokens.json
+   * pass. Color literals still go through tokens. The button copied the
+   * error-widget look, so it shares this exemption.
    */
   {
-    files: ["features/error-widget/error-widget.tsx"],
+    files: ["features/error-widget/error-widget.tsx", "ui/button/button.tsx"],
     rules: {
       "no-restricted-syntax": [
         "error",
@@ -261,7 +261,7 @@ const eslintConfig = defineConfig([
   },
   {
     files: ["ui/**/*.{ts,tsx}"],
-    ignores: ["ui/**/__tests__/**"],
+    ignores: ["ui/**/__tests__/**", "ui/button/button.tsx"],
     rules: {
       "no-restricted-syntax": [
         "error",

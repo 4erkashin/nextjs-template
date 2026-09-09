@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { MotionCookbook } from "./motion-cookbook";
+import { CookbookMotion } from "./cookbook-motion";
 
 const meta = {
-  component: MotionCookbook,
+  component: CookbookMotion,
   parameters: {
     docs: {
       codePanel: true,
@@ -11,7 +11,7 @@ const meta = {
         code: `<AnimatePresence initial={false} mode="popLayout">
   <motion.li
     layout="position"
-    layoutId={\`motion-cookbook-\${id}\`}
+    layoutId={\`cookbook-motion-\${id}\`}
     initial={{ height: 0, opacity: 0 }}
     animate={{ height: "auto", opacity: 1 }}
     exit={{ opacity: 0, y: 8 }}
@@ -35,7 +35,7 @@ const meta = {
     },
   },
   title: "Cookbooks/Motion",
-} satisfies Meta<typeof MotionCookbook>;
+} satisfies Meta<typeof CookbookMotion>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

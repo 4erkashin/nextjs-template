@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import {
   DateTime as DateTimeDemo,
   Plural as PluralDemo,
-} from "./intl-cookbook";
+} from "./cookbook-intl";
 
 function snippet(code: string) {
   return {

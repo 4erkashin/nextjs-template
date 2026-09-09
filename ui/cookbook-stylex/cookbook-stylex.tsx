@@ -1,13 +1,13 @@
 import * as stylex from "@stylexjs/stylex";
 import { type ReactNode } from "react";
 
-import { queries } from "../tokens/generated/queries.stylex";
+import { queries } from "../../tokens/generated/queries.stylex";
 import {
   colors,
   fonts,
   motion,
   spacing,
-} from "../tokens/generated/tokens.stylex";
+} from "../../tokens/generated/tokens.stylex";
 
 const pulse = stylex.keyframes({
   from: { opacity: 1 },
@@ -80,7 +80,7 @@ function Demo({
   extra,
 }: Readonly<{
   children: ReactNode;
-  extra?: Parameters<typeof stylex.props>[0];
+  extra?: stylex.StyleXStyles;
 }>) {
   return <div {...stylex.props(styles.box, extra)}>{children}</div>;
 }
