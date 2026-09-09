@@ -3,8 +3,8 @@
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 
-import { setTheme } from "./actions";
-import { THEME_NAMES, type ThemeName } from "./cookie";
+import { setTheme } from "@/theme/actions";
+import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
 
 export function ThemeSwitcher({ theme }: Readonly<{ theme: ThemeName }>) {
   const t = useTranslations("Theme");

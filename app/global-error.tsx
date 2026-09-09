@@ -16,6 +16,7 @@ import * as stylex from "@stylexjs/stylex";
 import { clsx } from "clsx";
 import { useSyncExternalStore } from "react";
 
+import { globalStyles, htmlPropsForTheme } from "@/app/global-styles";
 import { ErrorWidget } from "@/features/error-widget";
 import { routing } from "@/i18n/routing";
 import { readCookie } from "@/lib/cookie";
@@ -23,12 +24,8 @@ import en from "@/messages/en.json";
 import ptBR from "@/messages/pt-BR.json";
 import ru from "@/messages/ru.json";
 import uk from "@/messages/uk.json";
-import {
-  jetbrainsMono,
-  rootStyles,
-  themeFromCookie,
-  themeRootProps,
-} from "@/theme";
+import { themeFromCookie } from "@/theme/cookie";
+import { jetbrainsMono } from "@/theme/fonts";
 
 import "./globals.css";
 
@@ -148,7 +145,7 @@ export default function GlobalError({
   const locale = localeOverride ?? localeFromBrowser;
   const strings = stringsByLocale[locale];
 
-  const htmlProps = themeRootProps(theme);
+  const htmlProps = htmlPropsForTheme(theme);
 
   return (
     <html
@@ -156,7 +153,7 @@ export default function GlobalError({
       className={clsx(jetbrainsMono.variable, htmlProps.className)}
       lang={locale}
     >
-      <body {...stylex.props(rootStyles.body)}>
+      <body {...stylex.props(globalStyles.body)}>
         <title>{strings.title}</title>
 
         <ErrorWidget

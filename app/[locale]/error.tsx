@@ -5,10 +5,9 @@ import { useTranslations } from "next-intl";
 import { ErrorWidget } from "@/features/error-widget";
 
 /**
- * Fallback UI when something in this route (or a nested one) throws at runtime.
- * Next.js wraps the segment in a React Error Boundary; this file is what users
- * see instead of a crash. `retry()` re-renders the segment.
- * https://nextjs.org/docs/app/api-reference/file-conventions/error
+ * Shown when this page or a nested one throws.
+ * `retry()` tries to render it again.
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/error
  */
 
 export default function Error({

@@ -8,6 +8,16 @@ import { useRouter } from "@/i18n/navigation";
 
 import { spacing } from "../../tokens/generated/tokens.stylex";
 
+const styles = stylex.create({
+  main: {
+    gap: spacing.m,
+    paddingInline: spacing.m,
+    display: "flex",
+    flexDirection: "column",
+    paddingBlockEnd: spacing.m,
+  },
+});
+
 export default function HomePage() {
   const t = useTranslations("HomePage");
   const [, startTransition] = useTransition();
@@ -52,13 +62,3 @@ export default function HomePage() {
     </main>
   );
 }
-
-const styles = stylex.create({
-  main: {
-    gap: spacing.m,
-    paddingInline: spacing.m,
-    display: "flex",
-    flexDirection: "column",
-    paddingBlockEnd: spacing.m,
-  },
-});
