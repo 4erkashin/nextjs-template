@@ -4,80 +4,127 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 import { type ComponentProps } from "react";
 
-import { queries } from "../../tokens/generated/queries.stylex";
-import { colors, spacing } from "../../tokens/generated/tokens.stylex";
+import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
 
-const blink = stylex.keyframes({
-  "50%": {
-    opacity: 0,
-  },
-});
+export type ButtonProps = Omit<ComponentProps<typeof BaseButton>, "width"> & {
+  shape?: "rect" | "slash" | "tab";
+  surface?: "fill" | "outline";
+  width?: "hug" | "stretch";
+};
+
+/**
+ * Same unions as the props, without `undefined`. Stories use these so a
+ * `satisfies ButtonShape[]` list is only real shapes, not "shape or missing".
+ */
+export type ButtonShape = NonNullable<ButtonProps["shape"]>;
+export type ButtonSurface = NonNullable<ButtonProps["surface"]>;
+export type ButtonWidth = NonNullable<ButtonProps["width"]>;
 
 const styles = stylex.create({
   root: {
-    font: "inherit",
-    borderColor: colors.foreground,
-    borderStyle: "solid",
-    borderWidth: spacing.px,
-    gap: "0.65rem",
+    borderStyle: "none",
+    gap: spacing.s,
     outline: {
       ":focus-visible": "none",
       ":hover": "none",
     },
-    paddingBlock: "0.55rem",
-    paddingInline: "0.85rem",
+    paddingBlock: spacing.m,
+    paddingInline: spacing.l,
     alignItems: "center",
+    boxSizing: "border-box",
+    cursor: "pointer",
+    display: "inline-flex",
+    fontFamily: fonts.mono,
+    fontWeight: 800,
+    /**
+     * Own stacking context so the outline hole can sit at z-index -1
+     * (behind the label, in front of the ring) without falling through
+     * behind the parent page.
+     */
+    isolation: "isolate",
+    letterSpacing: "0.2em",
+    position: "relative",
+    textTransform: "uppercase",
+  },
+  fill: {
     backgroundColor: {
+      default: colors.foreground,
+      ":focus-visible": colors.background,
+      ":hover": colors.background,
+    },
+    color: {
       default: colors.background,
       ":focus-visible": colors.foreground,
       ":hover": colors.foreground,
     },
-    boxShadow: `0 0 0 1px ${colors.background}, 0 0 18px ${colors.foreground}`,
+  },
+  outline: {
+    backgroundColor: colors.foreground,
     color: {
       default: colors.foreground,
       ":focus-visible": colors.background,
       ":hover": colors.background,
     },
-    cursor: "pointer",
-    display: "inline-flex",
-    letterSpacing: "0.08em",
-    textTransform: "lowercase",
+  },
+  /**
+   * Smaller fill inside the clipped button. Border plus clip-path cannot
+   * stroke the cut: the border is a rectangle, the clip just slices it.
+   * The gap between this shape and the host is the outline. Hover and
+   * focus paint this the same as the host, so the gap disappears.
+   */
+  hole: {
+    inset: spacing.px,
+    backgroundColor: {
+      default: colors.background,
+      [stylex.when.ancestor(":focus-visible")]: colors.foreground,
+      [stylex.when.ancestor(":hover")]: colors.foreground,
+    },
+    clipPath: "inherit",
+    pointerEvents: "none",
+    position: "absolute",
+    zIndex: -1,
+  },
+  hug: {
     width: "fit-content",
-    "::after": {
-      animationDuration: "0.9s",
-      animationIterationCount: "infinite",
-      animationName: {
-        default: blink,
-        [queries.reducedMotion]: "none",
-      },
-      animationTimingFunction: "step-end",
-      backgroundColor: {
-        default: colors.foreground,
-        ":focus-visible": colors.background,
-        ":hover": colors.background,
-      },
-      content: '""',
-      height: "1em",
-      width: "0.55rem",
-    },
-    "::before": {
-      color: {
-        default: colors.foreground,
-        ":focus-visible": colors.background,
-        ":hover": colors.background,
-      },
-      content: '">"',
-    },
+  },
+  stretch: {
+    width: "100%",
+  },
+  rect: {
+    clipPath: "none",
+  },
+  slash: {
+    clipPath: `polygon(0 0, 100% 0, calc(100% - ${spacing.m}) 100%, 0 100%)`,
+  },
+  tab: {
+    clipPath: `polygon(0 0, calc(100% - ${spacing.s}) 0, 100% ${spacing.s}, 100% calc(100% - ${spacing.m}), calc(100% - ${spacing.m}) 100%, 0 100%)`,
   },
 });
 
-/**
- * Terminal action control. Look is StyleX; press, focus, and disabled
- * come from Base UI.
- */
 export function Button({
+  children,
+  shape = "tab",
+  surface = "fill",
   type = "button",
+  width = "hug",
   ...props
-}: ComponentProps<typeof BaseButton>) {
-  return <BaseButton type={type} {...props} {...stylex.props(styles.root)} />;
+}: ButtonProps) {
+  return (
+    <BaseButton
+      type={type}
+      {...props}
+      {...stylex.props(
+        styles.root,
+        styles[surface],
+        styles[width],
+        styles[shape],
+        stylex.defaultMarker(),
+      )}
+    >
+      {surface === "outline" && (
+        <span aria-hidden {...stylex.props(styles.hole)} />
+      )}
+      {children}
+    </BaseButton>
+  );
 }

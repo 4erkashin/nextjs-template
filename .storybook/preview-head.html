@@ -15,6 +15,14 @@
   so that sheet is not a white flash at night.
 -->
 <style>
+  /**
+   * Lock layer order in this HTML before Vite injects StyleX / globals.
+   * `resets` must stay under StyleX `priority*` or `button { font: inherit }`
+   * from modern-normalize wins and product font-family never shows.
+   */
+  @layer storybook-first-paint, resets, priority1, priority2, priority3,
+    priority4, priority5, priority6, priority7, priority8, priority9;
+
   @layer storybook-first-paint {
     html {
       color-scheme: light dark;

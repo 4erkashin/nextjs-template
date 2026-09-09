@@ -379,7 +379,7 @@ const light = await resolveSets(["primitive", "light"]);
 const dark = await resolveSets(["primitive", "dark"]);
 
 const fontMono = light.get("font.mono");
-if (!fontMono?.includes(`var(${FONT_MONO_VAR})`)) {
+if (!fontMono?.includes(`var(${FONT_MONO_VAR}`)) {
   throw new Error(
     `tokens/tokens.json primitive font.mono must include var(${FONT_MONO_VAR})`,
   );

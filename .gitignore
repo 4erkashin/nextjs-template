@@ -62,3 +62,6 @@ lefthook-local.yml
 
 *storybook.log
 storybook-static
+
+# references
+.references
