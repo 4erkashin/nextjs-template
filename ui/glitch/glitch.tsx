@@ -6,6 +6,8 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 import { queries } from "@/tokens/generated/queries.stylex";
 import { motion, spacing } from "@/tokens/generated/tokens.stylex";
 
+import { glitchPlay } from "./glitch-play.stylex";
+
 const bandCount = 5;
 const gapMin = 40;
 const gapSpan = 860;
@@ -130,6 +132,7 @@ export function Glitch({
           {...stylex.props(
             styles.layer,
             clip,
+            playing && band === index && glitchPlay,
             playing &&
               band === index &&
               (index % 2 === 0 ? playRight[reach] : playLeft[reach]),

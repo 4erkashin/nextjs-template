@@ -81,8 +81,16 @@ A short hard break in the image that then stops. An event, not rest chrome.
 _Avoid_: noise, distortion (as the product name)
 
 **Color split**:
-Two accent colors offset by a few pixels, then locked. Same family as glitch.
+Two accent colors offset by a few pixels, then locked. Same family as glitch. The paints are split and split-pair.
 _Avoid_: chromatic aberration, RGB split, fringing
+
+**Split**:
+The first channel of a color split.
+_Avoid_: coral (as the product token), red channel
+
+**Split pair**:
+The second channel of a color split, thrown the other way.
+_Avoid_: cyan (as the product token), blue channel
 
 **Glow**:
 Light that leaks past an edge. A signal on scan or alert, not the idle or hover fill of a control.

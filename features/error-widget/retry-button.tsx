@@ -4,6 +4,7 @@ import { type ReactNode, useState } from "react";
 
 import { Button } from "@/ui/button";
 import { Caret } from "@/ui/caret";
+import { ColorSplit } from "@/ui/color-split";
 import { Glitch } from "@/ui/glitch";
 
 export type RetryButtonProps = {
@@ -25,9 +26,11 @@ export function RetryButton({ children, onClick }: RetryButtonProps) {
       }}
     >
       <Glitch active={active}>
-        {">"}
-        {children}
-        <Caret />
+        <ColorSplit active={active}>
+          {">"}
+          {children}
+          <Caret />
+        </ColorSplit>
       </Glitch>
     </Button>
   );
