@@ -1,6 +1,20 @@
 # nextjs-template
 
-A personal Next.js starter: App Router, TypeScript, pnpm, ESLint/Prettier, SVGR (Turbopack), empty `app` / `ui` / `features` / `domain` / `lib` layers, next-intl (`en` / `ru` / `uk` / `pt-BR`), StyleX (Babel + PostCSS), Tokens Studio JSON → StyleX vars, Motion (`motion/react`) for layout / drag / springs, TanStack Query, and browser MSW. The CSS pipeline is not a framework.
+A personal Next.js starter:
+
+- App Router
+- TypeScript
+- `app` / `ui` / `features` / `domain` / `lib` layers
+- StyleX (Babel + PostCSS)
+- Tokens Studio JSON → StyleX vars
+- Storybook
+- Motion (`motion/react`) for layout and drag
+- next-intl (`en` / `ru` / `uk` / `pt-BR`)
+- TanStack Query
+- browser MSW
+- pnpm
+- ESLint / Prettier
+- SVGR (Turbopack)
 
 ## Create an app from this template
 
@@ -20,15 +34,15 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 
 ## StyleX and tokens
 
-Source of truth is `tokens/tokens.json`: token sets `primitive`, `light`, and `dark`, plus `$themes` and `$metadata`. `pnpm tokens:build` (Style Dictionary + `@tokens-studio/sd-transforms`) selects `primitive` plus one theme set, removes the set wrappers, and emits gitignored StyleX files under `tokens/generated/`. Color exports come only from matching paths declared in `light` and `dark`; primitive colors remain available for token references but are not exported. Do not edit those files. `dev`, `typecheck`, `storybook`, and `build` run the generate step first.
+`tokens/tokens.json` → gitignored `tokens/generated/`. Do not edit generated files. `dev`, `typecheck`, `storybook`, and `build` generate first.
 
-- Import colors, space, type, and motion from the generated `*.stylex.ts` files with **relative paths**. StyleX resolves `defineVars` itself and does not honor tsconfig `@/` for those files. Apply `light` / `dark` / `system` from `@/tokens/generated/themes` (cookie `theme` on `<html>`, default `system`). The theme switcher lives next to the locale switcher. Tween seconds and bezier points for Motion come from generated `tokens/generated/motion.ts` (canonical timings; reduced motion is `MotionConfig`, not this file).
-- Author styles with `stylex.create`. Conditions nest _inside_ the property (`default`, `:hover`, `@media`). Raw hex / `rgb()` / `px`/`rem`/`em` / `ms`/`s` / `ease-*` / `cubic-bezier()` literals in app code are lint errors; use generated vars. Allow `0`, `100%`, and `currentColor`.
-- CSS motion (hover, opacity, keyframes) uses generated `motion` vars and `queries.reducedMotion`. `duration_move` collapses to `0ms` under `prefers-reduced-motion: reduce`; `duration_fade` does not. Looping or large movement must also nest on the property that creates it (`animationName: "none"`). The at-rule cookbook is `ui/cookbook-stylex/cookbook-stylex.stories.tsx`.
-- Motion (`import { motion } from "motion/react"`) is for layout projection, drag, springs, and sequenced animation — not hover color and not App Router page transitions. `MotionProvider` sets `reducedMotion="user"` (the library default is `"never"`). Never spread `stylex.props()` on the same node as `motion.*`. Tween `duration` / `ease` literals are lint errors; import `motionTime`. Springs (stiffness / damping) are allowed. The layout cookbook is `ui/cookbook-motion/cookbook-motion.stories.tsx`.
-- Next compiles StyleX with Babel + PostCSS (`@stylex;` in `app/globals.css`). Storybook Vite uses `@stylexjs/unplugin` (it does not run `next/babel`) and `@storybook/addon-themes` (toolbar is not the Next cookie).
-- Storybook Vite pre-transforms generated StyleX consts (`tokens/generated/*.stylex.ts`) before `/virtual:stylex.css`, so `[queries.*]` keys resolve in dev. Next.js PostCSS never needed this.
-- Reset is `modern-normalize` in `globals.css`.
+- Themes: `light` / `dark` / `system` from `@/tokens/generated/themes`.
+- Motion tweens: `tokens/generated/motion.ts`. Reduced motion is `MotionConfig`.
+- `stylex.create`; nest conditions on the property. No raw hex / `px` / `ms` (allow `0`, `100%`, `currentColor`).
+- CSS motion: generated `motion` vars + `queries.reducedMotion`. Cookbook: `ui/cookbook-stylex/`.
+- `motion/react`: layout / drag / sequence, not hover color. Cookbook: `ui/cookbook-motion/`.
+- Next: Babel + PostCSS. Storybook: `@stylexjs/unplugin` + addon-themes (toolbar ≠ cookie).
+- Reset: `modern-normalize`.
 
 ## Client data (Query + MSW)
 
@@ -47,8 +61,6 @@ This repo cannot install the GitHub App or flip Dependabot alerts for you. After
 ```bash
 ./scripts/enable-dep-loop.sh
 ```
-
-When a Renovate PR lands, open it in Cursor if you want plain-English “what changed / should I / bump vs CLI”.
 
 ## Git hooks
 

@@ -4,8 +4,8 @@ import * as stylex from "@stylexjs/stylex";
 
 import { queries } from "@/tokens/generated/queries.stylex";
 import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
-import { Button } from "@/ui/button";
-import { Caret } from "@/ui/caret";
+
+import { RetryButton } from "./retry-button";
 
 export type ErrorWidgetProps = {
   description: string;
@@ -282,7 +282,7 @@ export function ErrorWidget({
           <p {...stylex.props(styles.path)}>{"//breach/view/render"}</p>
           <h1 {...stylex.props(styles.title)}>{title}</h1>
           <p {...stylex.props(styles.description)}>{description}</p>
-          <Button onClick={onRetry}>{">"}{tryAgain}<Caret /></Button>
+          <RetryButton onClick={onRetry}>{tryAgain}</RetryButton>
         </div>
       </div>
 

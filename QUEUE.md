@@ -1,4 +1,4 @@
 - If tokens.json changed how running dev and storybook should react
-- Fonts
+- sans fonts?
 - HTTP client
 - Open API < - > Tanstack Query < - > generated request types

@@ -42,6 +42,7 @@ const styles = stylex.create({
      * behind the parent page.
      */
     isolation: "isolate",
+    // extract after some system will emerge
     letterSpacing: "0.2em",
     position: "relative",
     textTransform: "uppercase",
@@ -85,6 +86,7 @@ const styles = stylex.create({
     clipPath: "inherit",
     pointerEvents: "none",
     position: "absolute",
+    // extract after some system will emerge
     zIndex: -1,
   },
   hug: {
