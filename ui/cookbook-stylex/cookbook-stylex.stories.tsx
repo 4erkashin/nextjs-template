@@ -73,8 +73,8 @@ animationIterationCount: "infinite",`),
 // Viewport toolbar is free here. Do not set globals.viewport — that locks it.
 export const Media: Story = {
   parameters: snippet(`padding: {
-  default: spacing.s,
-  [queries.wide]: spacing.m,
+  default: spacing.sm,
+  [queries.sm]: spacing.md,
 }`),
   render: () => <WideDemo />,
 };
@@ -91,8 +91,8 @@ gridTemplateColumns: "1fr 1fr",`),
 export const Container: Story = {
   parameters: snippet(`containerType: "inline-size",
 fontSize: {
-  default: fonts.size,
-  [queries.container]: fonts.sizeLg,
+  default: "1rem",
+  [queries.containerSm]: "1.25rem",
 }`),
   render: () => <ContainerDemo />,
 };

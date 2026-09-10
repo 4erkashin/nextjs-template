@@ -18,8 +18,8 @@ export const globalStyles = stylex.create({
     colorScheme: "light dark",
   },
   html: {
-    fontFamily: fonts.family,
-    fontSize: fonts.size,
+    fontFamily: fonts.sans,
+    fontSize: "1rem",
   },
 });
 

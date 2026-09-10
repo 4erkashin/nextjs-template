@@ -51,12 +51,12 @@ export function generateStaticParams() {
 
 const styles = stylex.create({
   header: {
-    padding: spacing.m,
-    gap: spacing.m,
+    padding: spacing.md,
+    gap: spacing.md,
     display: "flex",
     flexDirection: {
       default: "column",
-      [queries.wide]: "row",
+      [queries.sm]: "row",
     },
   },
 });

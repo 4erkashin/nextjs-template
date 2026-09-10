@@ -5,11 +5,11 @@ import { spacing } from "@/tokens/generated/tokens.stylex";
 
 const styles = stylex.create({
   main: {
-    gap: spacing.m,
-    paddingInline: spacing.m,
+    gap: spacing.md,
+    paddingInline: spacing.md,
     display: "flex",
     flexDirection: "column",
-    paddingBlockEnd: spacing.m,
+    paddingBlockEnd: spacing.md,
   },
 });
 

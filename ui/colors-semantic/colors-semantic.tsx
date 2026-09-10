@@ -101,46 +101,46 @@ function resolvePaint(tokenValue: string): { alias: string; oklch: string } {
 
 const styles = stylex.create({
   section: {
-    gap: spacing.m,
+    gap: spacing.md,
     display: "flex",
     flexDirection: "column",
-    fontFamily: fonts.family,
-    fontSize: fonts.size,
+    fontFamily: fonts.sans,
+    fontSize: "1rem",
   },
   intro: {
-    gap: spacing.s,
+    gap: spacing.sm,
     color: colors.foreground,
     display: "flex",
     flexDirection: "column",
   },
   title: {
     margin: 0,
-    fontSize: fonts.sizeLg,
+    fontSize: "1.25rem",
   },
   lede: {
     margin: 0,
   },
   row: {
-    gap: spacing.m,
+    gap: spacing.md,
     display: "flex",
     flexDirection: {
       default: "column",
-      [queries.wide]: "row",
+      [queries.sm]: "row",
     },
   },
   chip: {
-    gap: spacing.s,
+    gap: spacing.sm,
     display: "flex",
     flexBasis: {
       default: "auto",
-      [queries.wide]: 0,
+      [queries.sm]: 0,
     },
     flexDirection: "column",
     flexGrow: 1,
     flexShrink: 1,
   },
   pane: {
-    padding: spacing.l,
+    padding: spacing.lg,
     backgroundColor: colors.background,
     color: colors.foreground,
     display: "flex",
@@ -153,16 +153,16 @@ const styles = stylex.create({
   },
   job: {
     margin: 0,
-    fontSize: fonts.sizeLg,
+    fontSize: "1.25rem",
   },
   caption: {
-    gap: spacing.s,
+    gap: spacing.sm,
     color: colors.foreground,
     display: "flex",
     flexDirection: "column",
   },
   captionLine: {
-    gap: spacing.s,
+    gap: spacing.sm,
     display: "flex",
   },
   code: {

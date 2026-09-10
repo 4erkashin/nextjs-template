@@ -17,14 +17,14 @@ const pulse = stylex.keyframes({
 const styles = stylex.create({
   box: {
     margin: 0,
-    padding: spacing.m,
+    padding: spacing.md,
     borderColor: colors.foreground,
     borderStyle: "solid",
     borderWidth: spacing.px,
     backgroundColor: colors.background,
     color: colors.foreground,
-    fontFamily: fonts.family,
-    fontSize: fonts.size,
+    fontFamily: fonts.sans,
+    fontSize: "1rem",
   },
   hover: {
     backgroundColor: {
@@ -54,12 +54,12 @@ const styles = stylex.create({
   },
   wide: {
     padding: {
-      default: spacing.s,
-      [queries.wide]: spacing.m,
+      default: spacing.sm,
+      [queries.sm]: spacing.md,
     },
   },
   supportsGrid: {
-    gap: spacing.s,
+    gap: spacing.sm,
     display: {
       default: "block",
       "@supports (display: grid)": "grid",
@@ -69,8 +69,8 @@ const styles = stylex.create({
   container: {
     containerType: "inline-size",
     fontSize: {
-      default: fonts.size,
-      [queries.container]: fonts.sizeLg,
+      default: "1rem",
+      [queries.containerSm]: "1.25rem",
     },
   },
 });

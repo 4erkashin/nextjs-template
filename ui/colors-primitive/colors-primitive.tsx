@@ -46,22 +46,22 @@ export function ColorsPrimitive() {
 
 const styles = stylex.create({
   palette: {
-    gap: spacing.l,
+    gap: spacing.lg,
     display: "flex",
     flexDirection: "column",
-    fontFamily: fonts.family,
-    fontSize: fonts.size,
+    fontFamily: fonts.sans,
+    fontSize: "1rem",
   },
   group: {
     margin: 0,
     padding: 0,
-    gap: spacing.s,
+    gap: spacing.sm,
     display: "flex",
     flexWrap: "wrap",
     listStyleType: "none",
   },
   chip: {
-    gap: spacing.s,
+    gap: spacing.sm,
     display: "flex",
     flexDirection: "column",
     flexGrow: 0,
@@ -76,7 +76,7 @@ const styles = stylex.create({
     inlineSize: "100%",
   },
   caption: {
-    gap: spacing.s,
+    gap: spacing.sm,
     color: colors.foreground,
     display: "flex",
     flexDirection: "column",

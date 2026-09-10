@@ -23,13 +23,13 @@ export type ButtonWidth = NonNullable<ButtonProps["width"]>;
 const styles = stylex.create({
   root: {
     borderStyle: "none",
-    gap: spacing.s,
+    gap: spacing.sm,
     outline: {
       ":focus-visible": "none",
       ":hover": "none",
     },
-    paddingBlock: spacing.m,
-    paddingInline: spacing.l,
+    paddingBlock: spacing.md,
+    paddingInline: spacing.lg,
     alignItems: "center",
     boxSizing: "border-box",
     cursor: "pointer",
@@ -45,6 +45,9 @@ const styles = stylex.create({
     letterSpacing: "0.2em",
     position: "relative",
     textTransform: "uppercase",
+    transform: {
+      ":active": `translateY(${spacing.px})`,
+    },
   },
   fill: {
     backgroundColor: {
@@ -94,10 +97,10 @@ const styles = stylex.create({
     clipPath: "none",
   },
   slash: {
-    clipPath: `polygon(0 0, 100% 0, calc(100% - ${spacing.m}) 100%, 0 100%)`,
+    clipPath: `polygon(0 0, 100% 0, calc(100% - ${spacing.md}) 100%, 0 100%)`,
   },
   tab: {
-    clipPath: `polygon(0 0, calc(100% - ${spacing.s}) 0, 100% ${spacing.s}, 100% calc(100% - ${spacing.m}), calc(100% - ${spacing.m}) 100%, 0 100%)`,
+    clipPath: `polygon(0 0, calc(100% - ${spacing.sm}) 0, 100% ${spacing.sm}, 100% calc(100% - ${spacing.md}), calc(100% - ${spacing.md}) 100%, 0 100%)`,
   },
 });
 
@@ -124,6 +127,7 @@ export function Button({
       {surface === "outline" && (
         <span aria-hidden {...stylex.props(styles.hole)} />
       )}
+
       {children}
     </BaseButton>
   );

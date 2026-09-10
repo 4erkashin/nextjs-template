@@ -35,8 +35,8 @@ const stylexColorLiteralSyntax = [
 
 const stylexLengthAndMotionLiteralSyntax = [
   {
-    message: "Use generated StyleX tokens instead of raw length literals.",
-    selector: "Literal[value=/^\\d+(\\.\\d+)?(px|rem|em)$/]",
+    message: "Use generated StyleX tokens instead of raw px literals.",
+    selector: "Literal[value=/^\\d+(\\.\\d+)?px$/]",
   },
   {
     message: "Use generated StyleX motion tokens instead of raw time literals.",

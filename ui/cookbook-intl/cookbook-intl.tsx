@@ -12,17 +12,17 @@ const EXAMPLE_INSTANT = new Date("2026-09-09T16:00:00.000Z");
 const styles = stylex.create({
   box: {
     margin: 0,
-    padding: spacing.m,
+    padding: spacing.md,
     borderColor: colors.foreground,
     borderStyle: "solid",
     borderWidth: spacing.px,
-    gap: spacing.m,
+    gap: spacing.md,
     backgroundColor: colors.background,
     color: colors.foreground,
     display: "flex",
     flexDirection: "column",
-    fontFamily: fonts.family,
-    fontSize: fonts.size,
+    fontFamily: fonts.sans,
+    fontSize: "1rem",
   },
 });
 

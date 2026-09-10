@@ -13,18 +13,18 @@ const surfaces = ["fill", "outline"] as const satisfies ButtonSurface[];
 
 const layout = stylex.create({
   stack: {
-    gap: spacing.l,
+    gap: spacing.lg,
     display: "flex",
     flexDirection: "column",
   },
   row: {
-    gap: spacing.m,
+    gap: spacing.md,
     alignItems: "flex-end",
     display: "flex",
     flexWrap: "wrap",
   },
   option: {
-    gap: spacing.s,
+    gap: spacing.sm,
     display: "flex",
     flexDirection: "column",
   },
@@ -33,7 +33,7 @@ const layout = stylex.create({
     color: colors.foreground,
   },
   column: {
-    gap: spacing.s,
+    gap: spacing.sm,
     display: "flex",
     flexDirection: "column",
   },
