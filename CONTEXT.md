@@ -76,6 +76,10 @@ _Avoid_: morph
 A fill or hairline that travels along an edge or a bar.
 _Avoid_: spinner, pulse (when you mean travel)
 
+**Scanlines**:
+A repeating hatch of hairlines over a surface. Rest chrome, not a traveling scan.
+_Avoid_: CRT, raster, scan (when you mean the hatch)
+
 **Glitch**:
 A short hard break in the image that then stops. An event, not rest chrome.
 _Avoid_: noise, distortion (as the product name)

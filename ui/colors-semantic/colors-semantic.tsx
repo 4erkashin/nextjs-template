@@ -10,31 +10,40 @@ type PairCaption = {
   rows: { role: string; value: string }[];
 };
 
-type SemanticPair = {
+type SemanticColors = {
   background: { $value: string };
   foreground: { $value: string };
+  split: { $value: string };
+  splitPair: { $value: string };
 };
 
 const primitiveColors = tokens.primitive.color;
-const lightPair = pairCaption(tokens.light.color);
-const darkPair = pairCaption(tokens.dark.color);
+const lightCaption = semanticCaption(tokens.light.color);
+const darkCaption = semanticCaption(tokens.dark.color);
 
 export function ColorsSemantic() {
   return (
     <section {...stylex.props(styles.section)}>
       <header {...stylex.props(styles.intro)}>
-        <h2 {...stylex.props(styles.title)}>background / foreground</h2>
+        <h2 {...stylex.props(styles.title)}>
+          background / foreground / split
+        </h2>
         <p {...stylex.props(styles.lede)}>
           Fill the page with background. Print type and icons with foreground.
+          Offset a color split with split and split pair.
         </p>
       </header>
       <div {...stylex.props(styles.row)}>
         <PairPane
-          caption={lightPair}
+          caption={lightCaption}
           scheme={styles.paneLight}
           theme={light}
         />
-        <PairPane caption={darkPair} scheme={styles.paneDark} theme={dark} />
+        <PairPane
+          caption={darkCaption}
+          scheme={styles.paneDark}
+          theme={dark}
+        />
       </div>
     </section>
   );
@@ -53,6 +62,10 @@ function PairPane({
     <div {...stylex.props(styles.chip)}>
       <article {...stylex.props(theme, styles.pane, scheme)}>
         <p {...stylex.props(styles.job)}>Ink on this surface.</p>
+        <div {...stylex.props(styles.splitRow)}>
+          <div {...stylex.props(styles.tile, styles.splitPaint)} />
+          <div {...stylex.props(styles.tile, styles.splitPairPaint)} />
+        </div>
       </article>
       <div {...stylex.props(styles.caption)}>
         {caption.rows.map((row) => (
@@ -66,14 +79,18 @@ function PairPane({
   );
 }
 
-function pairCaption(semantic: SemanticPair): PairCaption {
+function semanticCaption(semantic: SemanticColors): PairCaption {
   const background = resolvePaint(semantic.background.$value);
   const foreground = resolvePaint(semantic.foreground.$value);
+  const split = resolvePaint(semantic.split.$value);
+  const splitPair = resolvePaint(semantic.splitPair.$value);
 
   return {
     rows: [
       { role: "background", value: background.alias },
       { role: "foreground", value: foreground.alias },
+      { role: "split", value: split.alias },
+      { role: "split pair", value: splitPair.alias },
       {
         role: "contrast",
         value: wcag2ContrastCaption(
@@ -141,9 +158,28 @@ const styles = stylex.create({
   },
   pane: {
     padding: spacing.lg,
+    gap: spacing.md,
     backgroundColor: colors.background,
     color: colors.foreground,
     display: "flex",
+    flexDirection: "column",
+  },
+  splitRow: {
+    gap: spacing.sm,
+    display: "flex",
+  },
+  tile: {
+    borderColor: colors.foreground,
+    borderStyle: "solid",
+    borderWidth: spacing.px,
+    flexGrow: 1,
+    minBlockSize: "5rem",
+  },
+  splitPaint: {
+    backgroundColor: colors.split,
+  },
+  splitPairPaint: {
+    backgroundColor: colors.splitPair,
   },
   paneLight: {
     colorScheme: "light",

@@ -4,6 +4,7 @@ import * as stylex from "@stylexjs/stylex";
 
 import { queries } from "@/tokens/generated/queries.stylex";
 import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
+import { Scanlines } from "@/ui/scanlines";
 
 import { RetryButton } from "./retry-button";
 
@@ -24,29 +25,6 @@ const blink = stylex.keyframes({
 const scroll = stylex.keyframes({
   to: {
     transform: "translateY(-50%)",
-  },
-});
-
-const glitch = stylex.keyframes({
-  "0%": {
-    clipPath: "inset(0 0 0 0)",
-    transform: "none",
-  },
-  "86%": {
-    clipPath: "inset(0 0 0 0)",
-    transform: "none",
-  },
-  "88%": {
-    clipPath: "inset(12% 0 54% 0)",
-    transform: "translate(3px, -1px)",
-  },
-  "92%": {
-    clipPath: "inset(40% 0 18% 0)",
-    transform: "translate(-4px, 1px)",
-  },
-  "100%": {
-    clipPath: "inset(0 0 0 0)",
-    transform: "none",
   },
 });
 
@@ -205,7 +183,6 @@ const styles = stylex.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    maxWidth: "42rem",
     paddingBottom: "3.5rem",
     paddingTop: "2.5rem",
   },
@@ -225,38 +202,14 @@ const styles = stylex.create({
     isolation: "isolate",
     position: "relative",
     minHeight: "100dvh",
-    "::after": {
-      inset: 0,
-      backgroundImage: `radial-gradient(ellipse at center, transparent 50%, ${colors.foreground} 100%)`,
-      content: '""',
-      pointerEvents: "none",
-      position: "absolute",
-      zIndex: 3,
-    },
-    "::before": {
-      inset: 0,
-      backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent 2px, ${colors.foreground} 2px, ${colors.foreground} 3px)`,
-      content: '""',
-      pointerEvents: "none",
-      position: "absolute",
-      zIndex: 2,
-    },
   },
   title: {
     margin: 0,
-    animationDuration: "3.6s",
-    animationIterationCount: "infinite",
-    animationName: {
-      default: glitch,
-      [queries.reducedMotion]: "none",
-    },
-    animationTimingFunction: "steps(2, end)",
     color: colors.foreground,
-    fontSize: "clamp(1.4rem, 3.2vw, 2.15rem)",
-    fontWeight: 400,
-    lineHeight: 1.2,
-    position: "relative",
-    textShadow: `-2px 0 ${colors.foreground}, 2px 0 ${colors.foreground}`,
+    fontSize: "clamp(1.75rem, 5vw, 3rem)",
+    fontWeight: 800,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
   },
 });
 
@@ -273,20 +226,22 @@ export function ErrorWidget({
 }: ErrorWidgetProps) {
   return (
     <section {...stylex.props(styles.root)}>
-      <Chrome slot="status" />
+      <Scanlines>
+        <Chrome slot="status" />
 
-      <div {...stylex.props(styles.deck)}>
-        <HexRail />
+        <div {...stylex.props(styles.deck)}>
+          <HexRail />
 
-        <div {...stylex.props(styles.main)}>
-          <p {...stylex.props(styles.path)}>{"//breach/view/render"}</p>
-          <h1 {...stylex.props(styles.title)}>{title}</h1>
-          <p {...stylex.props(styles.description)}>{description}</p>
-          <RetryButton onClick={onRetry}>{tryAgain}</RetryButton>
+          <div {...stylex.props(styles.main)}>
+            <p {...stylex.props(styles.path)}>{"//breach/view/render"}</p>
+            <h1 {...stylex.props(styles.title)}>{title}</h1>
+            <p {...stylex.props(styles.description)}>{description}</p>
+            <RetryButton onClick={onRetry}>{tryAgain}</RetryButton>
+          </div>
         </div>
-      </div>
 
-      <Chrome digest={digest} slot="foot" />
+        <Chrome digest={digest} slot="foot" />
+      </Scanlines>
     </section>
   );
 }

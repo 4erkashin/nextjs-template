@@ -44,6 +44,10 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 - Next: Babel + PostCSS. Storybook: `@stylexjs/unplugin` + addon-themes (toolbar ≠ cookie).
 - Reset: `modern-normalize`.
 
+## Typography
+
+Mono is JetBrains Mono in `theme/fonts.ts`, a **variable face**: one file, CSS var `--font-mono`, token `fonts.mono`. `fontWeight` 100–800 are real cuts, not fakes between 400 and 800. Sans is still the system stack.
+
 ## Client data (Query + MSW)
 
 `pnpm dev` starts a **browser** Mock Service Worker. Add handlers for endpoints that do not exist yet; everything else hits the real network. Handlers live in `mocks/handlers.ts` (empty until you add some).

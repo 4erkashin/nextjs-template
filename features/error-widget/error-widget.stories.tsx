@@ -11,7 +11,7 @@ const meta = {
     description: "The page failed before it could render.",
     digest: EXAMPLE_ERROR_DIGEST,
     onRetry: fn(),
-    title: "This view could not be loaded.",
+    title: "Could not be loaded",
     tryAgain: "Try again",
   },
   component: ErrorWidget,

@@ -5,7 +5,7 @@
   },
   "Error": {
     "description": "A página falhou antes de poder ser exibida.",
-    "title": "Esta página não pôde ser carregada.",
+    "title": "Não pôde ser carregada",
     "tryAgain": "Tentar novamente"
   },
   "HomePage": {

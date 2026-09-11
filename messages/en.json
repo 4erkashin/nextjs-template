@@ -5,7 +5,7 @@
   },
   "Error": {
     "description": "The page failed before it could render.",
-    "title": "This view could not be loaded.",
+    "title": "Could not be loaded",
     "tryAgain": "Try again"
   },
   "HomePage": {

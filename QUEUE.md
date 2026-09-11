@@ -1,4 +1,7 @@
-- If tokens.json changed how running dev and storybook should react
+- error widget title should be uppercased, but should i extract typography or not
+- how to react if tokens.json changed? running dev and storybook should react
 - sans fonts?
 - HTTP client
 - Open API < - > Tanstack Query < - > generated request types
+- how to cook vignette?
+- semantic colors should have better story
