@@ -19,10 +19,13 @@ export function ColorSplit({
     <span {...stylex.props(styles.host)}>
       {active && (
         <>
-          <span aria-hidden {...stylex.props(styles.ghost, styles.split)}>
+          <span aria-hidden {...stylex.props(styles.ghost, styles.glitch)}>
             {children}
           </span>
-          <span aria-hidden {...stylex.props(styles.ghost, styles.splitPair)}>
+          <span
+            aria-hidden
+            {...stylex.props(styles.ghost, styles.glitchPair)}
+          >
             {children}
           </span>
         </>
@@ -33,15 +36,15 @@ export function ColorSplit({
 }
 
 const styles = stylex.create({
-  split: {
-    color: colors.split,
+  glitch: {
+    color: colors.glitch,
     transform: {
       default: `translate(${spacing.px}, calc(-1 * ${spacing.px}))`,
       [stylex.when.ancestor(":is(*)", glitchPlay)]: `translate(${spacing.xs}, calc(-1 * ${spacing.xs}))`,
     },
   },
-  splitPair: {
-    color: colors.splitPair,
+  glitchPair: {
+    color: colors.glitchPair,
     transform: {
       default: `translate(calc(-1 * ${spacing.px}), ${spacing.px})`,
       [stylex.when.ancestor(":is(*)", glitchPlay)]: `translate(calc(-1 * ${spacing.xs}), ${spacing.xs})`,
@@ -54,7 +57,10 @@ const styles = stylex.create({
       default: "inline-flex",
       [queries.reducedMotion]: "none",
     },
-    opacity: 0.8,
+    opacity: {
+      default: 0,
+      [stylex.when.ancestor(":is(*)", glitchPlay)]: 0.8,
+    },
     pointerEvents: "none",
     position: "absolute",
     zIndex: -1,

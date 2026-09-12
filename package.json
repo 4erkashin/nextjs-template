@@ -1,20 +1,21 @@
 {
   "name": "nextjs-template",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@11.24.0",
   "scripts": {
-    "dev": "pnpm tokens:build && next dev",
+    "dev": "pnpm tokens:build && concurrently --kill-others --names tokens,next \"pnpm tokens:watch\" \"next dev\"",
     "build": "pnpm tokens:build && next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "tokens:build": "node tokens/build.js",
+    "tokens:watch": "node --watch-path=tokens/tokens.json --watch-path=tokens/build.js --watch-path=tokens/font-mono-var.ts tokens/build.js",
     "typecheck": "pnpm tokens:build && tsc --noEmit",
     "test:unit": "vitest run --config vitest.unit.config.ts",
-    "storybook": "pnpm tokens:build && storybook dev -p 6006",
+    "storybook": "pnpm tokens:build && concurrently --kill-others --names tokens,storybook \"pnpm tokens:watch\" \"storybook dev -p 6006\"",
     "build-storybook": "pnpm tokens:build && storybook build"
   },
   "dependencies": {
@@ -50,6 +51,7 @@
     "@vitest/browser-playwright": "4.1.11",
     "@vitest/coverage-v8": "4.1.11",
     "autoprefixer": "10.5.4",
+    "concurrently": "10.0.5",
     "eslint": "10.9.1",
     "eslint-config-next": "16.3.3",
     "eslint-config-prettier": "10.1.8",

@@ -58,7 +58,7 @@ const chromeStyles = stylex.create({
     borderBottomWidth: spacing.px,
   },
   strip: {
-    borderColor: colors.foreground,
+    borderColor: colors.border,
     borderStyle: "solid",
     borderWidth: 0,
     gap: "1rem",
@@ -135,7 +135,7 @@ const hexStyles = stylex.create({
     overflow: "hidden",
     paddingBlock: "1rem",
     paddingInline: "0.85rem",
-    borderInlineEndColor: colors.foreground,
+    borderInlineEndColor: colors.border,
     borderInlineEndStyle: "solid",
     borderInlineEndWidth: spacing.px,
     color: colors.foreground,

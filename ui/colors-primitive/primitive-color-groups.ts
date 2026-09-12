@@ -1,3 +1,5 @@
+import { parseOklch } from "../parse-oklch";
+
 /**
  * Split primitive paints into visual groups: near-gray neutrals at the
  * end, everything else in hue clusters, light to dark inside a group.
@@ -10,9 +12,6 @@ const HUE_GAP_DEGREES = 30;
  * so it sits with black instead of in the greens.
  */
 const NEUTRAL_CHROMA_MAX = 0.02;
-
-const oklchPattern =
-  /^oklch\(\s*([0-9.]+)%\s+([0-9.]+)\s+([0-9.]+|none)\s*\)$/i;
 
 export type PrimitivePaint = {
   chroma: number;
@@ -87,26 +86,6 @@ function clusterByHue(paints: ChromaticPaint[]): PrimitivePaint[][] {
 
 function isChromatic(paint: PrimitivePaint): paint is ChromaticPaint {
   return paint.hue !== null && paint.chroma > NEUTRAL_CHROMA_MAX;
-}
-
-function parseOklch(value: string): {
-  chroma: number;
-  hue: null | number;
-  lightness: number;
-} {
-  const match = oklchPattern.exec(value);
-  if (!match) {
-    throw new Error(`primitive color must be oklch(...), got ${value}`);
-  }
-
-  const hueToken = match[3];
-  const hue = hueToken.toLowerCase() === "none" ? null : Number(hueToken);
-
-  return {
-    chroma: Number(match[2]),
-    hue,
-    lightness: Number(match[1]),
-  };
 }
 
 function sortLightToDark(paints: PrimitivePaint[]): PrimitivePaint[] {

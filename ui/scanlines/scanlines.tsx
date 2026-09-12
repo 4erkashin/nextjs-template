@@ -25,7 +25,7 @@ export function Scanlines({ children }: ScanlinesProps) {
 const styles = stylex.create({
   hatch: {
     inset: 0,
-    backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent ${gap}, ${colors.foreground} ${gap}, ${colors.foreground} ${pitch})`,
+    backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent ${gap}, ${colors.muted} ${gap}, ${colors.muted} ${pitch})`,
     opacity: 0.1,
     pointerEvents: "none",
     position: "absolute",

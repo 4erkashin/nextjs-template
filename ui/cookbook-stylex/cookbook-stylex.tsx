@@ -18,7 +18,7 @@ const styles = stylex.create({
   box: {
     margin: 0,
     padding: spacing.md,
-    borderColor: colors.foreground,
+    borderColor: colors.border,
     borderStyle: "solid",
     borderWidth: spacing.px,
     backgroundColor: colors.background,

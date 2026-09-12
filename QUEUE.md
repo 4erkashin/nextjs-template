@@ -1,7 +1,10 @@
-- error widget title should be uppercased, but should i extract typography or not
-- how to react if tokens.json changed? running dev and storybook should react
-- sans fonts?
+- semantic colors should have better story
+- lang switcher design
+- theme switcher design
+- sexy home page
 - HTTP client
 - Open API < - > Tanstack Query < - > generated request types
+- 0.0.1 RELEASE
 - how to cook vignette?
-- semantic colors should have better story
+- should i extract typography or not?
+- sans fonts?

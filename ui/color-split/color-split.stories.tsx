@@ -40,6 +40,9 @@ function HoverSplit() {
 }
 
 export const Default: Story = {
+  args: {
+    children: "SIGNAL",
+  },
   render: () => <HoverSplit />,
 };
 

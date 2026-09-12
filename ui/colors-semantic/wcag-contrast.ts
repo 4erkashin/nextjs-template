@@ -1,3 +1,5 @@
+import { parseOklch } from "../parse-oklch";
+
 /**
  * WCAG 2 contrast for OKLCH paints (SC 1.4.3, normal text).
  * Convert to linear sRGB the CSS Color 4 way, then the 2.x ratio.
@@ -5,9 +7,6 @@
 
 const AA_NORMAL = 4.5;
 const AAA_NORMAL = 7;
-
-const oklchPattern =
-  /^oklch\(\s*([0-9.]+)%\s+([0-9.]+)\s+([0-9.]+|none)\s*\)$/i;
 
 export function wcag2ContrastRatio(first: string, second: string): number {
   const firstLum = relativeLuminance(first);
@@ -39,15 +38,7 @@ function relativeLuminance(oklch: string): number {
 }
 
 function oklchToLinearSrgb(value: string): [number, number, number] {
-  const match = oklchPattern.exec(value);
-  if (!match) {
-    throw new Error(`expected oklch(...), got ${value}`);
-  }
-
-  const lightness = Number(match[1]) / 100;
-  const chroma = Number(match[2]);
-  const hueToken = match[3];
-  const hue = hueToken.toLowerCase() === "none" ? null : Number(hueToken);
+  const { chroma, hue, lightness } = parseOklch(value);
   const hueRadians = hue === null ? 0 : (hue * Math.PI) / 180;
   const a = chroma === 0 || hue === null ? 0 : chroma * Math.cos(hueRadians);
   const b = chroma === 0 || hue === null ? 0 : chroma * Math.sin(hueRadians);

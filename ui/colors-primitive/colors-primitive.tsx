@@ -68,7 +68,7 @@ const styles = stylex.create({
     flexShrink: 0,
   },
   swatch: {
-    borderColor: colors.foreground,
+    borderColor: colors.border,
     borderStyle: "solid",
     borderWidth: spacing.px,
     backgroundColor: "var(--primitive-paint)",

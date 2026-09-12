@@ -24,6 +24,25 @@ npx create-next-app@latest my-app --example https://github.com/4erkashin/nextjs-
 
 Use `--use-pnpm` so the installer matches this lockfile. Or use **Use this template** on GitHub.
 
+## Run locally
+
+Node **24** (`engines.node` in `package.json`). [fnm](https://github.com/Schniz/fnm) is one way to get it:
+
+```bash
+fnm install 24
+fnm use 24
+```
+
+Install [pnpm](https://pnpm.io/installation) with the standalone script or `npm install -g pnpm`. The lockfile pin is `packageManager` in `package.json`.
+
+```bash
+pnpm install
+pnpm dev        # http://localhost:3000
+pnpm storybook  # http://localhost:6006
+```
+
+`dev`, `storybook`, `typecheck`, and `build` run `tokens:build` first. While `dev` or Storybook is running, edits to `tokens/tokens.json` rebuild generated files. Do not edit `tokens/generated/`.
+
 ## Internationalization (next-intl)
 
 Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `/ru`, `/uk`, `/pt-BR`. Messages are `messages/*.json`; TypeScript keys and ICU args are typed from `messages/en.json`.
@@ -34,7 +53,7 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 
 ## StyleX and tokens
 
-`tokens/tokens.json` → gitignored `tokens/generated/`. Do not edit generated files. `dev`, `typecheck`, `storybook`, and `build` generate first.
+`tokens/tokens.json` → gitignored `tokens/generated/`. Do not edit generated files. `dev`, `typecheck`, `storybook`, and `build` generate first. `dev` and `storybook` then watch the token sources and rebuild.
 
 - Themes: `light` / `dark` / `system` from `@/tokens/generated/themes`.
 - Motion tweens: `tokens/generated/motion.ts`. Reduced motion is `MotionConfig`.

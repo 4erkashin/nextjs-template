@@ -21,5 +21,9 @@ function Play() {
 }
 
 export const Default: Story = {
+  args: {
+    children: "Retry",
+    onClick: fn(),
+  },
   render: () => <Play />,
 };

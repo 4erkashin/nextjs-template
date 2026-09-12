@@ -40,6 +40,9 @@ function HoverGlitch() {
 }
 
 export const Default: Story = {
+  args: {
+    children: "SIGNAL",
+  },
   render: () => <HoverGlitch />,
 };
 
@@ -66,6 +69,9 @@ function GlitchOnButton() {
 }
 
 export const WithButton: Story = {
+  args: {
+    children: "SIGNAL",
+  },
   render: () => <GlitchOnButton />,
 };
 
