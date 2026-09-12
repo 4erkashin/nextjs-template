@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "tokens:build": "node tokens/build.js",
-    "tokens:watch": "node --watch-path=tokens/tokens.json --watch-path=tokens/build.js --watch-path=tokens/font-mono-var.ts tokens/build.js",
+    "tokens:watch": "node tokens/watch.js",
     "typecheck": "pnpm tokens:build && tsc --noEmit",
     "test:unit": "vitest run --config vitest.unit.config.ts",
     "storybook": "pnpm tokens:build && concurrently --kill-others --names tokens,storybook \"pnpm tokens:watch\" \"storybook dev -p 6006\"",

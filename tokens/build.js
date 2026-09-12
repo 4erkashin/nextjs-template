@@ -406,17 +406,38 @@ if (!fontMono?.includes(`var(${FONT_MONO_VAR}`)) {
   );
 }
 
+/**
+ * Skip the write when the bytes are already on disk. A no-op still updates
+ * mtime, and Storybook watches these files, so a same-content write looks
+ * like a token change and rebuilds the preview.
+ *
+ * @param {string} file
+ * @param {string} contents
+ */
+async function writeIfChanged(file, contents) {
+  try {
+    const current = await readFile(file, "utf8");
+    if (current === contents) return;
+  } catch {
+    // First run, or the file was deleted: write it.
+  }
+  await writeFile(file, contents);
+}
+
 await mkdir(generatedDir, { recursive: true });
-await writeFile(
+await writeIfChanged(
   path.join(generatedDir, "tokens.stylex.ts"),
   varsFile(light, colorKeys),
 );
-await writeFile(
+await writeIfChanged(
   path.join(generatedDir, "queries.stylex.ts"),
   queriesFile(light),
 );
-await writeFile(
+await writeIfChanged(
   path.join(generatedDir, "themes.ts"),
   themesFile(light, dark, colorKeys),
 );
-await writeFile(path.join(generatedDir, "motion.ts"), motionTimeFile(light));
+await writeIfChanged(
+  path.join(generatedDir, "motion.ts"),
+  motionTimeFile(light),
+);
