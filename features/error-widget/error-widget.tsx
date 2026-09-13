@@ -28,7 +28,7 @@ const scroll = stylex.keyframes({
   },
 });
 
-const chromeStyles = stylex.create({
+const stripStyles = stylex.create({
   foot: {
     borderTopWidth: spacing.px,
   },
@@ -79,7 +79,7 @@ const chromeStyles = stylex.create({
   },
 });
 
-function Chrome({
+function Strip({
   digest,
   slot,
 }: {
@@ -88,17 +88,17 @@ function Chrome({
 }) {
   if (slot === "status") {
     return (
-      <header {...stylex.props(chromeStyles.strip, chromeStyles.status)}>
-        <span {...stylex.props(chromeStyles.live)}>link up</span>
-        <span {...stylex.props(chromeStyles.trace)}>trace 14%</span>
+      <header {...stylex.props(stripStyles.strip, stripStyles.status)}>
+        <span {...stylex.props(stripStyles.live)}>link up</span>
+        <span {...stylex.props(stripStyles.trace)}>trace 14%</span>
         <span>ice active</span>
       </header>
     );
   }
 
   return (
-    <footer {...stylex.props(chromeStyles.strip, chromeStyles.foot)}>
-      <span {...stylex.props(chromeStyles.hash)}>
+    <footer {...stylex.props(stripStyles.strip, stripStyles.foot)}>
+      <span {...stylex.props(stripStyles.hash)}>
         {digest ? `hash ${digest}` : "hash —"}
       </span>
       <span>net::session</span>
@@ -227,7 +227,7 @@ export function ErrorWidget({
   return (
     <section {...stylex.props(styles.root)}>
       <Scanlines>
-        <Chrome slot="status" />
+        <Strip slot="status" />
 
         <div {...stylex.props(styles.deck)}>
           <HexRail />
@@ -240,7 +240,7 @@ export function ErrorWidget({
           </div>
         </div>
 
-        <Chrome digest={digest} slot="foot" />
+        <Strip digest={digest} slot="foot" />
       </Scanlines>
     </section>
   );

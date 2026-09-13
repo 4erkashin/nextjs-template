@@ -23,8 +23,8 @@ const config: StorybookConfig = {
   framework: "@storybook/nextjs-vite",
   /**
    * Paints manager <html> from the OS palette before manager.ts runs,
-   * so the chrome is not white while JS loads. manager.ts then applies
-   * the same OS theme to the chrome and the desk around the iframe.
+   * so the shell is not white while JS loads. manager.ts then applies
+   * the same OS theme to the shell and the desk around the iframe.
    */
   managerHead: appendShellFirstPaint,
   staticDirs: ["../public"],

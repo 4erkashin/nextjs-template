@@ -1,11 +1,11 @@
 import { themes, type ThemeVars } from "storybook/theming";
 
 /**
- * Background of Storybook's chrome (sidebar, toolbar) and of the area
+ * Background of Storybook's shell (sidebar, toolbar) and of the area
  * around the story iframe.
  *
  * Light is Storybook's default gray.
- * Dark is a different gray from the app's dark page, so the chrome and
+ * Dark is a different gray from the app's dark page, so the shell and
  * the story do not blend into one block of color.
  */
 export const desk = {
@@ -37,9 +37,9 @@ export function appendShellFirstPaint(head: undefined | string = ""): string {
 }
 
 /**
- * Storybook theme for the chrome. appBg is sidebar / toolbar.
+ * Storybook theme for the shell. appBg is sidebar / toolbar.
  * appPreviewBg is the area around the iframe, not the story itself.
- * Same color so that surround matches the rest of the chrome.
+ * Same color so that surround matches the rest of the shell.
  */
 export function shellTheme(mode: ShellMode): ThemeVars {
   const base = mode === "dark" ? themes.dark : themes.light;

@@ -1,6 +1,6 @@
 # Product design system
 
-The vocabulary for visual decisions: the token names product UI may request, and the HUD look those tokens paint.
+The vocabulary for visual decisions: the token names product UI may request, and the look those tokens paint.
 
 ## Language
 
@@ -30,11 +30,11 @@ _Avoid_: alias token, decision token (except in prose about Polar)
 A complete assignment of values to semantic colors (light, dark). System is the user's color-scheme preference, resolved in the app, not a third palette. A theme is not a token layer.
 _Avoid_: mode, color scheme (when you mean the named light/dark assignment), token set (when you mean the assignment)
 
-### HUD
+### Look
 
-**HUD**:
-The visual stance: a deck of hard cuts, hairlines, and protocol type. Invert is the hover. Press is the click.
-_Avoid_: neon city, glass, cyberpunk (as a vague adjective)
+**Look**:
+Hard cuts, hairlines, and protocol type. Invert is the hover. Press is the click.
+_Avoid_: HUD, neon city, glass, cyberpunk (as a vague adjective), chrome (as a bucket for extra marks around a control)
 
 **Cut**:
 A named silhouette made by clipping corners, not rounding them. The names in use are rect, slash, and tab.
@@ -53,8 +53,8 @@ Foreground and background swapped. The hover and focus of a control.
 _Avoid_: highlight, tint, hover color
 
 **Frame**:
-Nested hairline chrome around content (outer line, inner line, L-corners). A control sits in a frame; a control is not a frame.
-_Avoid_: card, panel (when you mean the chrome)
+Nested hairlines around content (outer line, inner line, L-corners). A control sits in a frame; a control is not a frame.
+_Avoid_: card, panel (when you mean the frame), chrome
 
 **Tick**:
 Short hash marks on an edge that read as a scale.
@@ -73,11 +73,11 @@ A fill or hairline that travels along an edge or a bar.
 _Avoid_: spinner, pulse (when you mean travel)
 
 **Scanlines**:
-A repeating hatch of hairlines over a surface. Rest chrome, not a traveling scan.
+A repeating hatch of hairlines over a surface. Idle hatch, not a traveling scan.
 _Avoid_: CRT, raster, scan (when you mean the hatch)
 
 **Glitch**:
-A short hard break in the image that then stops. An event, not rest chrome.
+A short hard break in the image that then stops. An event, not idle hatch.
 _Avoid_: noise, distortion (as the product name)
 
 **Color split**:

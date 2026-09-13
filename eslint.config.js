@@ -54,7 +54,7 @@ const adrRules = {
   ],
   /**
    * Stops anything under `ui/` importing from `features/` or `domain/`
-   * `ui/` is generic chrome; whatever knows about the product is a feature,
+   * `ui/` is generic look; whatever knows about the product is a feature,
    * and `app/` is where the two get composed
    * Every import is followed to the file it actually lands on,
    * so a relative `../features/...` cannot sneak past either
@@ -66,7 +66,7 @@ const adrRules = {
         {
           from: absoluteLayerPath("features"),
           message:
-            "ui/ must not import features. Compose feature chrome at the app/ call site instead.",
+            "ui/ must not import features. Compose the feature at the app/ call site instead.",
           target: absoluteLayerPath("ui"),
         },
         {
