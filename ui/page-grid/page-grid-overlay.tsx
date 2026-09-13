@@ -2,52 +2,42 @@ import * as stylex from "@stylexjs/stylex";
 
 import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
 
-import {
-  PAGE_GRID_CONTENT_COLUMNS,
-  pageGridStyles,
-} from "./page-grid-root";
+import { PAGE_GRID_COLUMNS, pageGridStyles } from "./page-grid-root";
 
-const lastTrack = PAGE_GRID_CONTENT_COLUMNS + 2;
+const lastLine = PAGE_GRID_COLUMNS + 1;
 
-const tracks = [
-  { index: 1, kind: "gutter" as const },
-  ...Array.from({ length: PAGE_GRID_CONTENT_COLUMNS }, (_, index) => ({
-    index: index + 2,
-    kind: "column" as const,
-  })),
-  { index: lastTrack, kind: "gutter" as const },
-];
+const tracks = Array.from({ length: PAGE_GRID_COLUMNS }, (_, index) => ({
+  index: index + 1,
+}));
 
 /**
  * Viewport ruler for the page grid. Same template as the page shell.
  * Does not receive clicks or take layout space.
- * Faint flare wash on content tracks; chips sit on CSS lines 1–15.
+ * Faint flare wash on every track; chips sit on CSS lines 1–13.
  */
 export function PageGridOverlay() {
   return (
     <div aria-hidden {...stylex.props(pageGridStyles.root, styles.layer)}>
       {tracks.map((track) => {
-        const isLast = track.index === lastTrack;
+        const isLast = track.index === PAGE_GRID_COLUMNS;
 
         return (
           <div
             key={track.index}
             {...stylex.props(styles.cell, isLast && styles.last)}
           >
-            {track.kind === "column" ? (
-              <span
-                {...stylex.props(
-                  styles.fill,
-                  track.index % 2 === 0 ? styles.fillEven : styles.fillOdd,
-                )}
-              />
-            ) : null}
+            <span
+              {...stylex.props(
+                styles.fill,
+                track.index % 2 === 0 ? styles.fillEven : styles.fillOdd,
+              )}
+            />
             <span {...stylex.props(styles.chip, styles.chipStart)}>
               {track.index}
             </span>
             {isLast ? (
               <span {...stylex.props(styles.chip, styles.chipEnd)}>
-                {lastTrack + 1}
+                {lastLine}
               </span>
             ) : null}
           </div>
@@ -88,19 +78,19 @@ const styles = stylex.create({
     backgroundColor: `color-mix(in oklch, ${colors.flare} 20%, transparent)`,
   },
   chip: {
-    backgroundColor: colors.white,
     borderColor: colors.ink,
     borderStyle: "solid",
     borderWidth: spacing.px,
+    paddingInline: spacing.xxs,
+    backgroundColor: colors.white,
     color: colors.ink,
     fontFamily: fonts.mono,
     fontSize: "0.625rem",
     fontVariantNumeric: "tabular-nums",
     fontWeight: 700,
-    lineHeight: 1.2,
-    paddingInline: spacing.xxs,
-    position: "absolute",
     insetBlockStart: spacing.xs,
+    lineHeight: 1.2,
+    position: "absolute",
     whiteSpace: "nowrap",
     zIndex: 1,
   },
