@@ -3,7 +3,8 @@ import { isThemeName, type ThemeName } from "./cookie";
 export const HTML_THEME_ATTR = "data-theme";
 
 export function readHtmlTheme(): ThemeName {
-  const value = document.documentElement.getAttribute(HTML_THEME_ATTR);
+  const value =
+    document.documentElement.getAttribute(HTML_THEME_ATTR) ?? undefined;
   return isThemeName(value) ? value : "system";
 }
 

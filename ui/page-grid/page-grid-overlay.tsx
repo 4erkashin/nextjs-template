@@ -10,43 +10,6 @@ const tracks = Array.from({ length: PAGE_GRID_COLUMNS }, (_, index) => ({
   index: index + 1,
 }));
 
-/**
- * Viewport ruler for the page grid. Same template as the page shell.
- * Does not receive clicks or take layout space.
- * Faint flare wash on every track; chips sit on CSS lines 1–13.
- */
-export function PageGridOverlay() {
-  return (
-    <div aria-hidden {...stylex.props(pageGridStyles.root, styles.layer)}>
-      {tracks.map((track) => {
-        const isLast = track.index === PAGE_GRID_COLUMNS;
-
-        return (
-          <div
-            key={track.index}
-            {...stylex.props(styles.cell, isLast && styles.last)}
-          >
-            <span
-              {...stylex.props(
-                styles.fill,
-                track.index % 2 === 0 ? styles.fillEven : styles.fillOdd,
-              )}
-            />
-            <span {...stylex.props(styles.chip, styles.chipStart)}>
-              {track.index}
-            </span>
-            {isLast ? (
-              <span {...stylex.props(styles.chip, styles.chipEnd)}>
-                {lastLine}
-              </span>
-            ) : null}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 const styles = stylex.create({
   layer: {
     inset: 0,
@@ -102,3 +65,40 @@ const styles = stylex.create({
     insetInlineEnd: 0,
   },
 });
+
+/**
+ * Viewport ruler for the page grid. Same template as the page shell.
+ * Does not receive clicks or take layout space.
+ * Faint flare wash on every track; chips sit on CSS lines 1–13.
+ */
+export function PageGridOverlay() {
+  return (
+    <div aria-hidden {...stylex.props(pageGridStyles.root, styles.layer)}>
+      {tracks.map((track) => {
+        const isLast = track.index === PAGE_GRID_COLUMNS;
+
+        return (
+          <div
+            key={track.index}
+            {...stylex.props(styles.cell, isLast && styles.last)}
+          >
+            <span
+              {...stylex.props(
+                styles.fill,
+                track.index % 2 === 0 ? styles.fillEven : styles.fillOdd,
+              )}
+            />
+            <span {...stylex.props(styles.chip, styles.chipStart)}>
+              {track.index}
+            </span>
+            {isLast ? (
+              <span {...stylex.props(styles.chip, styles.chipEnd)}>
+                {lastLine}
+              </span>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}

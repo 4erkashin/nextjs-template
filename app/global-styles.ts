@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 
 import { type ThemeName } from "@/theme/cookie";
 import { themes } from "@/tokens/generated/themes";
-import { fonts } from "@/tokens/generated/tokens.stylex";
+import { colors, fonts } from "@/tokens/generated/tokens.stylex";
 
 export const globalStyles = stylex.create({
   body: {
@@ -18,6 +18,8 @@ export const globalStyles = stylex.create({
     colorScheme: "light dark",
   },
   html: {
+    backgroundColor: colors.background,
+    color: colors.foreground,
     fontFamily: fonts.sans,
     fontSize: "1rem",
   },
@@ -25,9 +27,9 @@ export const globalStyles = stylex.create({
 
 /**
  * Class names to spread on `<html>` for one theme.
- * Sets the color tokens, the document font, and `color-scheme`
- * so the browser's own widgets (scrollbars, inputs) match light, dark,
- * or the OS setting.
+ * Sets the color tokens, page canvas (background and foreground),
+ * the document font, and `color-scheme` so the browser's own widgets
+ * (scrollbars, inputs) match light, dark, or the OS setting.
  */
 export function htmlPropsForTheme(theme: ThemeName) {
   return stylex.props(

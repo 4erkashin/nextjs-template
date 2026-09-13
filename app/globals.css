@@ -1,17 +1,11 @@
 /**
- * Cross-browser reset from modern-normalize,
- * imported into a low-priority `resets` cascade layer
- * so app styles always win over it without needing `!important` or specificity hacks.
+ * First mention locks cascade-layer order: `resets` (modern-normalize)
+ * under StyleX's `priority*` buckets. Name them here so Storybook's
+ * `/virtual:stylex.css` cannot create `priority*` first and put
+ * normalize on top of StyleX.
  *
- * Name the layers here, before any stylesheet that fills them.
- * Storybook injects `/virtual:stylex.css` as its own file; if those
- * `priority*` layers are created first, a later `resets` layer would
- * sit on top and modern-normalize's `button { font: inherit }` would
- * beat StyleX `font-family`.
- *
- * The bare specifier `modern-normalize/...` (no leading `./` or `/`) isn't a file path;
- * the bundler resolves it to the `modern-normalize` package in `node_modules`
- * and pulls in that package's `modern-normalize.css`.
+ * StyleX numbers those buckets in order of the rules it emits;
+ * this list is a pre-order, not a cap at 9.
  */
 @layer resets, priority1, priority2, priority3, priority4, priority5, priority6,
   priority7, priority8, priority9;

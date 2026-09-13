@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import * as stylex from "@stylexjs/stylex";
 import { clsx } from "clsx";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { locale } from "next/root-params";
 import { type ReactNode, Suspense } from "react";
@@ -91,9 +91,8 @@ export default async function RootLayout({
             <PageGridOverlay />
           </PageGridOverlayGate>
         </Suspense>
-        <NextIntlClientProvider>
-          <Providers>{children}</Providers>
-        </NextIntlClientProvider>
+
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
