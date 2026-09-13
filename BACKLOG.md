@@ -1,4 +1,7 @@
-- Home: layout + copy only. Hero, frame, where switchers sit. No new primitives. Outcome: `page.tsx` looks like a starter, not a blank.
+- Home page looks like a starter, not a sketch. reference: `.references/light-2.png`, story: `App/Home` Default.
+  - structure and contrast follows the reference
+  - vertical top to bottom smth on the left edge (honestly dunno what we can type there lol)
+
 - Locale switcher look. Same behavior, cut / invert / current state. Outcome: `ui/switcher-locale` matches the home frame.
 - Theme switcher look. Sibling of locale. Outcome: `ui/switcher-theme` matches.
 - HTTP client, thin. Base URL, JSON, error shape. Outcome: `lib/http` (or similar) + a short README note.
@@ -14,4 +17,6 @@
 ---
 
 DONE:
--
+
+- [ ] Home page:
+  - [x] giant number corresponds to the version in package.json and sits with the same vibe as the reference do

@@ -9,8 +9,8 @@
     "tryAgain": "Try again"
   },
   "HomePage": {
-    "description": "StyleX and token bootstrap. Replace the tokens and this page.",
-    "title": "Empty bootstrap. Replace this page."
+    "description": "Storybook has examples.",
+    "title": "Replace this when you're ready"
   },
   "NotFound": {
     "description": "Not found",

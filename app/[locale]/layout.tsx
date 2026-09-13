@@ -10,9 +10,6 @@ import { locale } from "next/root-params";
 import { globalStyles, htmlPropsForTheme } from "@/app/global-styles";
 import { routing } from "@/i18n/routing";
 import { getTheme, jetbrainsMono } from "@/theme";
-import { queries } from "@/tokens/generated/queries.stylex";
-import { spacing } from "@/tokens/generated/tokens.stylex";
-import { SwitcherLocale, SwitcherTheme } from "@/ui";
 
 import { Providers } from "../providers";
 
@@ -48,18 +45,6 @@ export const metadata: Metadata = {
 export function generateStaticParams() {
   return routing.locales.map((item) => ({ locale: item }));
 }
-
-const styles = stylex.create({
-  header: {
-    padding: spacing.md,
-    gap: spacing.md,
-    display: "flex",
-    flexDirection: {
-      default: "column",
-      [queries.sm]: "row",
-    },
-  },
-});
 
 export default async function RootLayout({
   children,
@@ -99,15 +84,7 @@ export default async function RootLayout({
     >
       <body {...stylex.props(globalStyles.body)}>
         <NextIntlClientProvider>
-          <Providers>
-            <header {...stylex.props(styles.header)}>
-              <SwitcherLocale />
-
-              <SwitcherTheme theme={theme} />
-            </header>
-
-            {children}
-          </Providers>
+          <Providers>{children}</Providers>
         </NextIntlClientProvider>
       </body>
     </html>

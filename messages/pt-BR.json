@@ -9,8 +9,8 @@
     "tryAgain": "Tentar novamente"
   },
   "HomePage": {
-    "description": "Bootstrap StyleX e tokens. Substitua os tokens e esta página.",
-    "title": "Bootstrap vazio. Substitua esta página."
+    "description": "Os exemplos estão no Storybook.",
+    "title": "Substitua isto quando estiver pronto"
   },
   "NotFound": {
     "description": "Não encontrado",
