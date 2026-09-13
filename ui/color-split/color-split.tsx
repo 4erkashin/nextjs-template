@@ -37,14 +37,14 @@ export function ColorSplit({
 
 const styles = stylex.create({
   glitch: {
-    color: colors.glitch,
+    color: colors.cyan,
     transform: {
       default: `translate(${spacing.px}, calc(-1 * ${spacing.px}))`,
       [stylex.when.ancestor(":is(*)", glitchPlay)]: `translate(${spacing.xs}, calc(-1 * ${spacing.xs}))`,
     },
   },
   glitchPair: {
-    color: colors.glitchPair,
+    color: colors.flare,
     transform: {
       default: `translate(calc(-1 * ${spacing.px}), ${spacing.px})`,
       [stylex.when.ancestor(":is(*)", glitchPlay)]: `translate(calc(-1 * ${spacing.xs}), ${spacing.xs})`,

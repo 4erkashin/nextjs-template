@@ -70,7 +70,7 @@ const styles = stylex.create({
   box: {
     margin: 0,
     padding: spacing.md,
-    borderColor: colors.border,
+    borderColor: colors.foreground,
     borderStyle: "solid",
     borderWidth: spacing.px,
     gap: spacing.md,

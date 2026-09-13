@@ -51,20 +51,20 @@ const styles = stylex.create({
     },
   },
   /**
-   * A filled button stays secondary. Hover and focus snap in a signal rule
-   * instead of flooding the whole control with primary.
+   * A filled button stays inverted from the page. Hover and focus snap
+   * in a signal rule instead of flooding the whole control with primary.
    */
   fill: {
-    backgroundColor: colors.secondary,
-    color: {
-      default: colors.secondaryForeground,
-      ":focus-visible": colors.primary,
-      ":hover": colors.primary,
-    },
+    backgroundColor: colors.foreground,
     boxShadow: {
       default: "none",
-      ":focus-visible": `inset 0 0 0 ${spacing.px} ${colors.ring}`,
+      ":focus-visible": `inset 0 0 0 ${spacing.px} ${colors.flare}`,
       ":hover": `inset 0 0 0 ${spacing.px} ${colors.primary}`,
+    },
+    color: {
+      default: colors.background,
+      ":focus-visible": colors.primary,
+      ":hover": colors.primary,
     },
   },
   outline: {
@@ -74,17 +74,13 @@ const styles = stylex.create({
   /**
    * Smaller fill inside the clipped button. Border plus clip-path cannot
    * stroke the cut: the border is a rectangle, the clip just slices it.
-   * The gap between this shape and the host is the outline. Hover and
-   * Hover and focus move the hole to muted rather than painting it primary,
-   * so an outline remains an outline.
+   * The gap between this shape and the host is the outline. The hole
+   * stays background so hover does not fill the cut and the outline
+   * stays an outline.
    */
   hole: {
     inset: spacing.px,
-    backgroundColor: {
-      default: colors.background,
-      [stylex.when.ancestor(":focus-visible")]: colors.muted,
-      [stylex.when.ancestor(":hover")]: colors.muted,
-    },
+    backgroundColor: colors.background,
     clipPath: "inherit",
     pointerEvents: "none",
     position: "absolute",

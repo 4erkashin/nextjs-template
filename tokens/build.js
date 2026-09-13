@@ -391,13 +391,20 @@ export const motionTime = {
 `;
 }
 
-const colorKeys = semanticColorKeys("light");
-if (JSON.stringify(colorKeys) !== JSON.stringify(semanticColorKeys("dark"))) {
+const themedColorKeys = semanticColorKeys("light");
+if (
+  JSON.stringify(themedColorKeys) !== JSON.stringify(semanticColorKeys("dark"))
+) {
   throw new Error("light and dark must declare the same semantic color paths");
 }
 
 const light = await resolveSets(["primitive", "light"]);
 const dark = await resolveSets(["primitive", "dark"]);
+/**
+ * defineVars gets every color.* path (primitives plus semantics).
+ * Themes remap only the light/dark semantic paths.
+ */
+const colorKeys = keysWithPrefix(light, "color");
 
 const fontMono = light.get("font.mono");
 if (!fontMono?.includes(`var(${FONT_MONO_VAR}`)) {
@@ -435,7 +442,7 @@ await writeIfChanged(
 );
 await writeIfChanged(
   path.join(generatedDir, "themes.ts"),
-  themesFile(light, dark, colorKeys),
+  themesFile(light, dark, themedColorKeys),
 );
 await writeIfChanged(
   path.join(generatedDir, "motion.ts"),

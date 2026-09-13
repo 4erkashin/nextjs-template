@@ -7,7 +7,7 @@ The vocabulary for visual decisions: the token names product UI may request, and
 ### Tokens
 
 **Primitive token**:
-A named raw material: a paint, a spacing step, a duration, a curve. Primitive colors exist so semantic tokens can reference them, not so product UI can paint with them. Other primitive scales are still the names product code uses until a purpose name exists.
+A named raw material: a paint, a spacing step, a duration, a curve. Product UI may use these names, including primitive colors.
 _Avoid_: foundation token, core token, palette (as a layer name)
 
 **Module**:
@@ -23,16 +23,12 @@ A named min-width where layout may change (`sm`, `md`, `lg`, `xl`). Below `sm` i
 _Avoid_: wide, viewport, media query (as the token name)
 
 **Semantic token**:
-A purpose name product UI uses: background, text, accent, and the like. Every semantic color has a value in every theme.
+A purpose name with a value in every theme. Today that is background, foreground, and primary. More names appear when the UI repeats a purpose.
 _Avoid_: alias token, decision token (except in prose about Polar)
 
 **Theme**:
 A complete assignment of values to semantic colors (light, dark). System is the user's color-scheme preference, resolved in the app, not a third palette. A theme is not a token layer.
 _Avoid_: mode, color scheme (when you mean the named light/dark assignment), token set (when you mean the assignment)
-
-**Exception**:
-A file-scoped lint override that names why no token fits. Product files do not `eslint-disable` token rules.
-_Avoid_: escape hatch, ignore, disable
 
 ### HUD
 
@@ -85,16 +81,16 @@ A short hard break in the image that then stops. An event, not rest chrome.
 _Avoid_: noise, distortion (as the product name)
 
 **Color split**:
-Two accent colors offset by a few pixels, then locked. Same family as glitch. The paints are glitch and glitch-pair.
+Two accent colors offset by a few pixels, then locked. Same family as glitch.
 _Avoid_: chromatic aberration, RGB split, fringing
 
 **Glitch color**:
 The first channel of a color split.
-_Avoid_: coral (as the product token), red channel
+_Avoid_: red channel
 
 **Glitch pair**:
 The second channel of a color split, thrown the other way.
-_Avoid_: cyan (as the product token), blue channel
+_Avoid_: blue channel
 
 **Glow**:
 Light that leaks past an edge. A signal on scan or alert, not the idle or hover fill of a control.

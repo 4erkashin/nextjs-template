@@ -16,10 +16,9 @@ export function ColorsPrimitive() {
           {group.map((paint) => (
             <li key={paint.name} {...stylex.props(styles.chip)}>
               {/**
-               * Primitive paints are not StyleX vars. The host only
-               * passes the OKLCH string and the chip size (280px matches
-               * the caption line). stylex.props cannot share an element
-               * with `style`.
+               * Chip size is 280px to match the caption line. stylex.props
+               * cannot share an element with `style`, so the paint and
+               * size stay on the host.
                */}
               <div
                 style={
@@ -68,7 +67,7 @@ const styles = stylex.create({
     flexShrink: 0,
   },
   swatch: {
-    borderColor: colors.border,
+    borderColor: colors.foreground,
     borderStyle: "solid",
     borderWidth: spacing.px,
     backgroundColor: "var(--primitive-paint)",

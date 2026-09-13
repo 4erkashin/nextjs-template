@@ -17,64 +17,6 @@ import path from "node:path";
  */
 const absoluteLayerPath = (dir) => path.join(import.meta.dirname, dir);
 
-const stylexColorLiteralSyntax = [
-  {
-    message: "Use generated StyleX color tokens instead of raw color literals.",
-    selector:
-      "Literal[value=/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/]",
-  },
-  {
-    message: "Use generated StyleX color tokens instead of raw color literals.",
-    selector: "Literal[value=/^hsla?\\(/i]",
-  },
-  {
-    message: "Use generated StyleX color tokens instead of raw color literals.",
-    selector: "Literal[value=/^rgba?\\(/i]",
-  },
-];
-
-const stylexLengthAndMotionLiteralSyntax = [
-  {
-    message: "Use generated StyleX tokens instead of raw px literals.",
-    selector: "Literal[value=/^\\d+(\\.\\d+)?px$/]",
-  },
-  {
-    message: "Use generated StyleX motion tokens instead of raw time literals.",
-    selector: "Literal[value=/^\\d+(\\.\\d+)?(ms|s)$/]",
-  },
-  {
-    message:
-      "Use generated StyleX motion tokens instead of raw easing keywords.",
-    selector: "Literal[value=/^(ease|ease-in|ease-out|ease-in-out|linear)$/i]",
-  },
-  {
-    message:
-      "Use generated StyleX motion tokens instead of raw cubic-bezier() literals.",
-    selector: "Literal[value=/^cubic-bezier\\(/i]",
-  },
-];
-
-const stylexTokenLiteralSyntax = [
-  ...stylexColorLiteralSyntax,
-  ...stylexLengthAndMotionLiteralSyntax,
-];
-
-const motionTweenLiteralSyntax = [
-  {
-    message:
-      "Use generated motionTime.fade / motionTime.move for tween duration.",
-    selector: "Property[key.name='duration'] > Literal",
-  },
-  {
-    message: "Use generated motionTime.easingStandard for tween ease.",
-    selector: "Property[key.name='ease'] > Literal",
-  },
-  {
-    message: "Use generated motionTime.easingStandard for tween ease.",
-    selector: "Property[key.name='ease'] > ArrayExpression",
-  },
-];
-
 /** Destination ownership stays out of `ui/` (callers pass typed href). */
 const uiDestinationOwnershipSyntax = [
   {
@@ -236,43 +178,14 @@ const eslintConfig = defineConfig([
       "@stylexjs/sort-keys": "warn",
       "@stylexjs/valid-shorthands": ["error", { preferInline: true }],
       "@stylexjs/valid-styles": "error",
-      "no-restricted-syntax": [
-        "error",
-        ...stylexTokenLiteralSyntax,
-        ...motionTweenLiteralSyntax,
-      ],
       "perfectionist/sort-objects": "off",
-    },
-  },
-  /**
-   * Leftover rem/em/s stay StyleX literals until the parked tokens.json
-   * pass. Color literals still go through tokens. The button and caret
-   * copied the error-widget look, so they share this exemption.
-   */
-  {
-    files: [
-      "features/error-widget/error-widget.tsx",
-      "ui/button/button.tsx",
-      "ui/caret/caret.tsx",
-    ],
-    rules: {
-      "no-restricted-syntax": [
-        "error",
-        ...stylexColorLiteralSyntax,
-        ...motionTweenLiteralSyntax,
-      ],
     },
   },
   {
     files: ["ui/**/*.{ts,tsx}"],
-    ignores: ["ui/**/__tests__/**", "ui/button/button.tsx", "ui/caret/caret.tsx"],
+    ignores: ["ui/**/__tests__/**"],
     rules: {
-      "no-restricted-syntax": [
-        "error",
-        ...stylexTokenLiteralSyntax,
-        ...motionTweenLiteralSyntax,
-        ...uiDestinationOwnershipSyntax,
-      ],
+      "no-restricted-syntax": ["error", ...uiDestinationOwnershipSyntax],
     },
   },
   {

@@ -1,4 +1,3 @@
-- semantic colors should have better story
 - lang switcher design
 - theme switcher design
 - sexy home page

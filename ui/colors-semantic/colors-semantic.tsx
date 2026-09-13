@@ -8,19 +8,17 @@ import { wcag2ContrastRatio } from "./wcag-contrast";
 
 const lightForeground = semanticPaint("light", "foreground");
 const lightBackground = semanticPaint("light", "background");
+const lightPrimary = semanticPaint("light", "primary");
 const darkForeground = semanticPaint("dark", "foreground");
 const darkBackground = semanticPaint("dark", "background");
-const lightMuted = semanticPaint("light", "muted");
-const lightMutedForeground = semanticPaint("light", "mutedForeground");
-const darkMuted = semanticPaint("dark", "muted");
-const darkMutedForeground = semanticPaint("dark", "mutedForeground");
+const darkPrimary = semanticPaint("dark", "primary");
 const foregroundContrast = {
   dark: contrastInfo(darkForeground, darkBackground, "frost", "night"),
   light: contrastInfo(lightForeground, lightBackground, "ink", "frost"),
 };
-const mutedContrast = {
-  dark: contrastInfo(darkMutedForeground, darkMuted, "mist", "fog"),
-  light: contrastInfo(lightMutedForeground, lightMuted, "graphite", "line"),
+const primaryContrast = {
+  dark: contrastInfo(darkPrimary, darkBackground, "coral", "night"),
+  light: contrastInfo(lightPrimary, lightBackground, "ink", "frost"),
 };
 
 type ContrastInfo = { apca: string; pair: string; wcag: string };
@@ -32,6 +30,7 @@ export function ColorsSemantic() {
         <header {...stylex.props(styles.header)}>
           <p {...stylex.props(styles.kicker)}>Semantic color / 01</p>
           <h1 {...stylex.props(styles.title)}>What is background?</h1>
+          <p {...stylex.props(styles.purpose)}>Use this color for the page.</p>
         </header>
         <div
           aria-label="Background colors by theme"
@@ -45,6 +44,9 @@ export function ColorsSemantic() {
         <header {...stylex.props(styles.header)}>
           <p {...stylex.props(styles.kicker)}>Semantic color / 02</p>
           <h2 {...stylex.props(styles.title)}>What is foreground?</h2>
+          <p {...stylex.props(styles.purpose)}>
+            Use this color for text and lines on the page.
+          </p>
         </header>
         <div
           aria-label="Foreground colors and contrast by theme"
@@ -67,21 +69,24 @@ export function ColorsSemantic() {
       <section {...stylex.props(styles.section)}>
         <header {...stylex.props(styles.header)}>
           <p {...stylex.props(styles.kicker)}>Semantic color / 03</p>
-          <h2 {...stylex.props(styles.title)}>What is muted?</h2>
+          <h2 {...stylex.props(styles.title)}>What is primary?</h2>
+          <p {...stylex.props(styles.purpose)}>
+            Use this color to attract the attention, to fill a button and etc.
+          </p>
         </header>
         <div
-          aria-label="Muted colors and contrast by theme"
+          aria-label="Primary colors and contrast by theme"
           {...stylex.props(styles.swatches)}
         >
-          <MutedColumn
-            contrast={mutedContrast.light}
-            primitive="line / graphite"
+          <PrimaryColumn
+            contrast={primaryContrast.light}
+            primitive="ink"
             theme={light}
             themeName="light"
           />
-          <MutedColumn
-            contrast={mutedContrast.dark}
-            primitive="fog / mist"
+          <PrimaryColumn
+            contrast={primaryContrast.dark}
+            primitive="coral"
             theme={dark}
             themeName="dark"
           />
@@ -147,7 +152,7 @@ function ForegroundColumn({
   );
 }
 
-function MutedColumn({
+function PrimaryColumn({
   contrast,
   primitive,
   theme,
@@ -160,21 +165,16 @@ function MutedColumn({
 }) {
   return (
     <figure {...stylex.props(styles.swatch)}>
-      <div {...stylex.props(theme, styles.paint, styles.mutedPaint)} />
+      <div {...stylex.props(theme, styles.paint, styles.primaryPaint)} />
       <figcaption {...stylex.props(styles.label)}>
         <span>Theme / {themeName}</span>
         <span>Primitive / {primitive}</span>
       </figcaption>
       <div {...stylex.props(styles.contrastSpecimen)}>
-        <div
-          {...stylex.props(
-            theme,
-            styles.paint,
-            styles.mutedPaint,
-            styles.contrastPaint,
-          )}
-        >
-          <span {...stylex.props(styles.mutedSampleText)}>Aa</span>
+        <div {...stylex.props(theme, styles.paint, styles.surfaceContrast)}>
+          <div
+            {...stylex.props(styles.primaryPaint, styles.surfaceOnSurface)}
+          />
         </div>
         <div {...stylex.props(styles.contrastReadout)}>
           <span>{contrast.pair}</span>
@@ -203,7 +203,7 @@ function contrastInfo(
 
 function semanticPaint(
   theme: "dark" | "light",
-  name: "background" | "foreground" | "muted" | "mutedForeground",
+  name: "background" | "foreground" | "primary",
 ): string {
   const value = tokens[theme].color[name].$value;
   const matched = /^\{color\.([^}]+)\}$/.exec(value);
@@ -217,94 +217,107 @@ function semanticPaint(
 
 const styles = stylex.create({
   specimen: {
-    gap: "clamp(3rem, 9vw, 8rem)",
+    gap: spacing.lg,
     marginInline: "auto",
-    paddingBlock: "clamp(1.5rem,5vw,4rem)",
+    paddingBlock: "clamp(1.5rem,5vh,3rem)",
     paddingInline: "clamp(1.5rem,5vw,4rem)",
     color: colors.foreground,
     display: "flex",
     flexDirection: "column",
     fontFamily: fonts.sans,
-    maxInlineSize: "52rem",
+    maxInlineSize: "64rem",
   },
   section: {
-    gap: "clamp(2rem, 7vw, 6rem)",
+    gap: spacing.lg,
     display: "flex",
     flexDirection: "column",
   },
   header: {
-    borderBlockEndColor: colors.border,
+    borderBlockEndColor: colors.foreground,
     borderBlockEndStyle: "solid",
     borderBlockEndWidth: spacing.px,
-    paddingBlockEnd: spacing.sm,
+    paddingBlockEnd: spacing.md,
   },
   kicker: {
     margin: 0,
-    color: colors.mutedForeground,
+    color: colors.foreground,
     fontFamily: fonts.mono,
     fontSize: "0.75rem",
     letterSpacing: "0.08em",
     textTransform: "uppercase",
   },
   title: {
-    marginBlock: spacing.md,
     marginInline: 0,
-    fontSize: "clamp(2.5rem, 9vw, 6.5rem)",
+    fontSize: "clamp(2rem, 5vw, 3.25rem)",
     letterSpacing: "-0.075em",
     lineHeight: 0.86,
+    marginBlockEnd: 0,
+    marginBlockStart: spacing.md,
+  },
+  purpose: {
+    margin: 0,
+    color: colors.foreground,
+    fontFamily: fonts.sans,
+    fontSize: "1rem",
+    lineHeight: 1.4,
+    marginBlockStart: spacing.md,
+    maxInlineSize: "36rem",
   },
   swatches: {
-    gap: "clamp(0.75rem, 3vw, 2rem)",
+    gap: spacing.lg,
     display: "flex",
   },
   swatch: {
     margin: 0,
-    gap: "clamp(1.5rem, 4vw, 3rem)",
+    gap: spacing.sm,
     display: "flex",
-    flexBasis: 0,
     flexDirection: "column",
-    flexGrow: 1,
-    flexShrink: 1,
+    flexGrow: 0,
+    flexShrink: 0,
+    inlineSize: "max-content",
   },
   paint: {
     aspectRatio: "1 / 1",
     backgroundColor: colors.background,
+    blockSize: "32vh",
     boxShadow: "0 0 0 1px oklch(0.12 0 0), 0 0 0 2px oklch(0.92 0 0)",
-    inlineSize: "100%",
+    inlineSize: "32vh",
   },
   foregroundPaint: {
     backgroundColor: colors.foreground,
   },
-  mutedPaint: {
-    backgroundColor: colors.muted,
+  primaryPaint: {
+    backgroundColor: colors.primary,
+  },
+  surfaceContrast: {
+    padding: spacing.lg,
+    boxSizing: "border-box",
+    display: "flex",
+  },
+  surfaceOnSurface: {
+    flexGrow: 1,
   },
   contrastSpecimen: {
     gap: spacing.sm,
     display: "flex",
     flexDirection: "column",
+    marginBlockStart: spacing.lg,
   },
   contrastPaint: {
+    padding: spacing.md,
     alignItems: "flex-start",
     display: "flex",
     justifyContent: "flex-end",
-    padding: spacing.md,
   },
   sampleText: {
     color: colors.foreground,
-    fontSize: "clamp(4rem, 14vw, 9rem)",
-    fontWeight: 700,
-    letterSpacing: "-0.1em",
-    lineHeight: 1,
-  },
-  mutedSampleText: {
-    color: colors.mutedForeground,
-    fontSize: "clamp(4rem, 14vw, 9rem)",
+    fontSize: "clamp(4rem, 20vh, 12rem)",
     fontWeight: 700,
     letterSpacing: "-0.1em",
     lineHeight: 1,
   },
   contrastReadout: {
-    color: colors.mutedForeground,
+    color: colors.foreground,
     display: "flex",
     flexDirection: "column",
     fontFamily: fonts.mono,
@@ -314,7 +327,7 @@ const styles = stylex.create({
     textTransform: "uppercase",
   },
   label: {
-    color: colors.mutedForeground,
+    color: colors.foreground,
     display: "flex",
     flexDirection: "column",
     fontFamily: fonts.mono,
