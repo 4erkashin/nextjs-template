@@ -10,6 +10,7 @@
   },
   "HomePage": {
     "description": "Приклади в Storybook.",
+    "release": "Реліз",
     "title": "Замініть це, коли будете готові"
   },
   "NotFound": {

@@ -10,6 +10,7 @@
   },
   "HomePage": {
     "description": "Os exemplos estão no Storybook.",
+    "release": "Release",
     "title": "Substitua isto quando estiver pronto"
   },
   "NotFound": {

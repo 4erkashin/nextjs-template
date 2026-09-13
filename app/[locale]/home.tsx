@@ -16,22 +16,34 @@ export function Home({ theme }: Readonly<{ theme: ThemeName }>) {
   const t = useTranslations("HomePage");
   const numeral = version.replaceAll(".", "");
   const numeralProps = stylex.props(styles.numeral);
+  const spineProps = stylex.props(styles.spine);
 
   return (
     <main {...stylex.props(styles.main)}>
       <div {...stylex.props(styles.column, styles.catalog)}>
         <h1 {...stylex.props(styles.title)}>{t("title")}</h1>
         <p {...stylex.props(styles.line)}>{t("description")}</p>
-        <p
-          {...numeralProps}
-          aria-label={version}
-          className={clsx(
-            numeralProps.className,
-            jetbrainsMonoNumeral.className,
-          )}
-        >
-          {numeral}
-        </p>
+        <div {...stylex.props(styles.mast)}>
+          <p
+            {...spineProps}
+            className={clsx(
+              spineProps.className,
+              jetbrainsMonoNumeral.className,
+            )}
+          >
+            {t("release")}
+          </p>
+          <p
+            {...numeralProps}
+            aria-label={version}
+            className={clsx(
+              numeralProps.className,
+              jetbrainsMonoNumeral.className,
+            )}
+          >
+            {numeral}
+          </p>
+        </div>
       </div>
       <div {...stylex.props(styles.column)}>
         <div {...stylex.props(styles.codes)}>
@@ -55,7 +67,7 @@ const styles = stylex.create({
     fontFamily: fonts.mono,
     gridTemplateColumns: "1fr 1fr",
     position: "relative",
-    minHeight: "100dvh",
+    minHeight: "max(100dvh, 45rem)",
   },
   column: {
     gap: spacing.md,
@@ -82,24 +94,37 @@ const styles = stylex.create({
     flexShrink: "1",
     minHeight: "8rem",
   },
-  /**
-   * Catalog number on the reference: heavy type bled off the left
-   * and bottom edges. Dots drop out so 0.0.1 reads as 001.
-   * `zero` is JetBrains Mono's slashed 0 (the default 0 is dotted).
-   */
+  mast: {
+    gap: "0.04em",
+    alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "column",
+    fontSize: "min(25vw, 20rem)",
+    pointerEvents: "none",
+    position: "absolute",
+    bottom: "-0.16em",
+    left: "-0.04em",
+  },
+  spine: {
+    margin: 0,
+    fontSize: "0.24em",
+    fontWeight: 800,
+    letterSpacing: "-0.04em",
+    lineHeight: 0.8,
+    textTransform: "uppercase",
+    whiteSpace: "nowrap",
+    writingMode: "vertical-rl",
+  },
   numeral: {
     margin: 0,
     fontFeatureSettings: '"zero" 1',
-    fontSize: "min(44vh, 36vw)",
+    fontSize: "1em",
     fontVariantNumeric: "tabular-nums slashed-zero",
     fontWeight: 800,
     letterSpacing: "-0.08em",
-    lineHeight: 0.62,
-    pointerEvents: "none",
-    position: "absolute",
+    lineHeight: 0.8,
+    marginInlineStart: "-0.08em",
     whiteSpace: "nowrap",
-    bottom: "-0.1em",
-    left: "-0.15em",
   },
   title: {
     margin: 0,
