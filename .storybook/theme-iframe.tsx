@@ -3,6 +3,7 @@ import { type ReactNode, useLayoutEffect } from "react";
 import { htmlPropsForTheme } from "@/app/global-styles";
 import { type ThemeName } from "@/theme/cookie";
 import { jetbrainsMono } from "@/theme/fonts";
+import { writeHtmlTheme } from "@/theme/html-theme";
 
 /**
  * Last theme we put on the iframe <html>.
@@ -60,6 +61,7 @@ function applyThemeToHtml(theme: ThemeName) {
   }
 
   Object.assign(html.style, nextStyle);
+  writeHtmlTheme(theme);
   lastHtmlTheme = { classes, style: nextStyle };
 }
 

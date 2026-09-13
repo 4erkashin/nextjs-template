@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 
 import * as stylex from "@stylexjs/stylex";
 import { clsx } from "clsx";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { locale } from "next/root-params";
+import { type ReactNode, Suspense } from "react";
 
 import { globalStyles, htmlPropsForTheme } from "@/app/global-styles";
 import { routing } from "@/i18n/routing";
 import { getTheme, jetbrainsMono } from "@/theme";
+import { PageGridOverlay } from "@/ui/page-grid";
+import { PageGridOverlayGate } from "@/ui/page-grid/page-grid-overlay-gate";
 
 import { Providers } from "../providers";
 
@@ -80,9 +82,15 @@ export default async function RootLayout({
     <html
       {...htmlProps}
       className={clsx(jetbrainsMono.variable, htmlProps.className)}
+      data-theme={theme}
       lang={currentLocale}
     >
       <body {...stylex.props(globalStyles.body)}>
+        <Suspense fallback={null}>
+          <PageGridOverlayGate>
+            <PageGridOverlay />
+          </PageGridOverlayGate>
+        </Suspense>
         <NextIntlClientProvider>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>

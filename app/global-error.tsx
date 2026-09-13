@@ -151,6 +151,7 @@ export default function GlobalError({
     <html
       {...htmlProps}
       className={clsx(jetbrainsMono.variable, htmlProps.className)}
+      data-theme={theme}
       lang={locale}
     >
       <body {...stylex.props(globalStyles.body)}>

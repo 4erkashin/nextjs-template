@@ -8,6 +8,7 @@ import { type ReactNode, useState } from "react";
 import { MotionProvider } from "@/lib/motion/provider";
 import { makeQueryClient } from "@/lib/query/query-client";
 import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
+import { PageGridOverlay } from "@/ui/page-grid";
 
 import { mswHandlers } from "./msw-handlers";
 import nextIntl from "./next-intl";
@@ -67,11 +68,13 @@ const preview: Preview = {
       const theme = (context.parameters.themes?.themeOverride ||
         pluckThemeFromContext(context) ||
         "system") as ThemeName;
+      const pageGridOn = context.globals.pageGrid === "on";
 
       return (
         <ThemeHtml theme={theme}>
           <StoryQueryRoot key={context.id}>
             <MotionProvider>
+              {pageGridOn ? <PageGridOverlay /> : null}
               <Story />
             </MotionProvider>
           </StoryQueryRoot>
@@ -79,9 +82,23 @@ const preview: Preview = {
       );
     },
   ],
+  globalTypes: {
+    pageGrid: {
+      description: "Page grid overlay",
+      toolbar: {
+        dynamicTitle: true,
+        items: [
+          { title: "Grid off", value: "off" },
+          { title: "Grid on", value: "on" },
+        ],
+        title: "Grid",
+      },
+    },
+  },
   initialGlobals: {
     locale: nextIntl.defaultLocale,
     locales: localeCaptions,
+    pageGrid: "off",
   },
   loaders: [mswLoader()],
   parameters: {

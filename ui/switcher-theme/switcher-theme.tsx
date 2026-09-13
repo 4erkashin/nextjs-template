@@ -1,14 +1,20 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useTransition } from "react";
+import { useSyncExternalStore, useTransition } from "react";
 
 import { setTheme } from "@/theme/actions";
-import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
+import { THEME_NAMES } from "@/theme/cookie";
+import { readHtmlTheme, subscribeHtmlTheme } from "@/theme/html-theme";
 
-export function SwitcherTheme({ theme }: Readonly<{ theme: ThemeName }>) {
+export function SwitcherTheme() {
   const t = useTranslations("Theme");
   const [, startTransition] = useTransition();
+  const theme = useSyncExternalStore(
+    subscribeHtmlTheme,
+    readHtmlTheme,
+    () => "system",
+  );
 
   return (
     <nav aria-label={t("label")}>

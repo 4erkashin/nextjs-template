@@ -1,6 +1,6 @@
 - Home page looks like a starter, not a sketch. reference: `.references/light-2.png`, story: `App/Home` Default.
   - structure and contrast follows the reference
-  - any reason we have separate home.tsx?
+  - we should somehow place our two lines to feel like a reference
 
 - Locale switcher look. Same behavior, cut / invert / current state. Outcome: `ui/switcher-locale` matches the home frame.
 - Theme switcher look. Sibling of locale. Outcome: `ui/switcher-theme` matches.
