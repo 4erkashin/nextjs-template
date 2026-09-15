@@ -48,12 +48,12 @@ export const Default: Story = {
 
 const styles = stylex.create({
   solo: {
-    color: colors.foreground,
-    cursor: "pointer",
     fontFamily: fonts.mono,
     fontSize: "2rem",
     fontWeight: 800,
-    letterSpacing: "0.2em",
+    color: colors.foreground,
     textTransform: "uppercase",
+    letterSpacing: "0.2em",
+    cursor: "pointer",
   },
 });

@@ -1,7 +1,6 @@
-- Home page looks like a starter, not a sketch. reference: `.references/light-2.png`, story: `App/Home` Default.
-  - structure and contrast follows the reference
-  - we should somehow place our two lines to feel like a reference
-
+- sans fonts?
+- home page: title and description composed
+- home page: switchers composed
 - Locale switcher look. Same behavior, cut / invert / current state. Outcome: `ui/switcher-locale` matches the home frame.
 - Theme switcher look. Sibling of locale. Outcome: `ui/switcher-theme` matches.
 - HTTP client, thin. Base URL, JSON, error shape. Outcome: `lib/http` (or similar) + a short README note.
@@ -13,11 +12,10 @@
 - how to cook vignette?
 - should i extract typography or not?
 - sans fonts?
+- track unused locale keys (eslint?)
 
 ---
 
 DONE:
 
-- [ ] Home page:
-  - [x] giant number corresponds to the version in package.json and sits with the same vibe as the reference do
-  - [x] vertical top to bottom word RELEASE (i18n supplied) along the left edge, around one quarter cut off by the screen edge from the left, small gap with the horisontal giant number
+- home page: decoarative version composed

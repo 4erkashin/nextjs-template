@@ -9,8 +9,7 @@
     "tryAgain": "Tentar novamente"
   },
   "HomePage": {
-    "description": "Os exemplos estão no Storybook.",
-    "release": "Release",
+    "description": "— o Storybook tem exemplos, aliás ;)",
     "title": "Substitua isto quando estiver pronto"
   },
   "NotFound": {

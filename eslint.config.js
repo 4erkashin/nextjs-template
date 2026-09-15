@@ -175,7 +175,7 @@ const eslintConfig = defineConfig([
       "@stylexjs/no-conflicting-props": "error",
       "@stylexjs/no-legacy-contextual-styles": "error",
       "@stylexjs/no-unused": "error",
-      "@stylexjs/sort-keys": "warn",
+      "@stylexjs/sort-keys": ["error", { order: "recess" }],
       "@stylexjs/valid-shorthands": ["error", { preferInline: true }],
       "@stylexjs/valid-styles": "error",
       "perfectionist/sort-objects": "off",

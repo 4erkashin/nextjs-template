@@ -24,11 +24,11 @@ export function Scanlines({ children }: ScanlinesProps) {
 
 const styles = stylex.create({
   hatch: {
+    position: "absolute",
     inset: 0,
+    zIndex: 2,
+    pointerEvents: "none",
     backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent ${gap}, ${colors.foreground} ${gap}, ${colors.foreground} ${pitch})`,
     opacity: 0.1,
-    pointerEvents: "none",
-    position: "absolute",
-    zIndex: 2,
   },
 });

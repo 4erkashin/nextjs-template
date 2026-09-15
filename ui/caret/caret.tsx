@@ -10,18 +10,18 @@ const blink = stylex.keyframes({
 
 const styles = stylex.create({
   root: {
-    animationDuration: "0.9s",
-    animationIterationCount: "infinite",
+    display: "inline-block",
+    flexShrink: 0,
+    width: "0.55rem",
+    height: "1em",
+    backgroundColor: "currentColor",
     animationName: {
       default: blink,
       [queries.reducedMotion]: "none",
     },
+    animationDuration: "0.9s",
     animationTimingFunction: "step-end",
-    backgroundColor: "currentColor",
-    display: "inline-block",
-    flexShrink: 0,
-    height: "1em",
-    width: "0.55rem",
+    animationIterationCount: "infinite",
   },
 });
 

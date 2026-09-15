@@ -22,30 +22,30 @@ export type ButtonWidth = NonNullable<ButtonProps["width"]>;
 
 const styles = stylex.create({
   root: {
-    borderStyle: "none",
+    position: "relative",
+    boxSizing: "border-box",
+    display: "inline-flex",
     gap: spacing.sm,
+    alignItems: "center",
+    paddingBlock: spacing.md,
+    paddingInline: spacing.lg,
+    fontFamily: fonts.mono,
+    fontWeight: 800,
+    textTransform: "uppercase",
+    // extract after some system will emerge
+    letterSpacing: "0.2em",
+    cursor: "pointer",
     outline: {
       ":focus-visible": "none",
       ":hover": "none",
     },
-    paddingBlock: spacing.md,
-    paddingInline: spacing.lg,
-    alignItems: "center",
-    boxSizing: "border-box",
-    cursor: "pointer",
-    display: "inline-flex",
-    fontFamily: fonts.mono,
-    fontWeight: 800,
+    borderStyle: "none",
     /**
      * Own stacking context so the outline hole can sit at z-index -1
      * (behind the label, in front of the ring) without falling through
      * behind the parent page.
      */
     isolation: "isolate",
-    // extract after some system will emerge
-    letterSpacing: "0.2em",
-    position: "relative",
-    textTransform: "uppercase",
     transform: {
       ":active": `translateY(${spacing.px})`,
     },
@@ -55,21 +55,21 @@ const styles = stylex.create({
    * in a signal rule instead of flooding the whole control with primary.
    */
   fill: {
+    color: {
+      default: colors.background,
+      ":focus-visible": colors.primary,
+      ":hover": colors.primary,
+    },
     backgroundColor: colors.foreground,
     boxShadow: {
       default: "none",
       ":focus-visible": `inset 0 0 0 ${spacing.px} ${colors.flare}`,
       ":hover": `inset 0 0 0 ${spacing.px} ${colors.primary}`,
     },
-    color: {
-      default: colors.background,
-      ":focus-visible": colors.primary,
-      ":hover": colors.primary,
-    },
   },
   outline: {
-    backgroundColor: colors.primary,
     color: colors.primary,
+    backgroundColor: colors.primary,
   },
   /**
    * Smaller fill inside the clipped button. Border plus clip-path cannot
@@ -79,13 +79,13 @@ const styles = stylex.create({
    * stays an outline.
    */
   hole: {
-    inset: spacing.px,
-    backgroundColor: colors.background,
-    clipPath: "inherit",
-    pointerEvents: "none",
     position: "absolute",
+    inset: spacing.px,
     // extract after some system will emerge
     zIndex: -1,
+    pointerEvents: "none",
+    backgroundColor: colors.background,
+    clipPath: "inherit",
   },
   hug: {
     width: "fit-content",

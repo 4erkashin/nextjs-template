@@ -16,24 +16,24 @@ const pulse = stylex.keyframes({
 
 const styles = stylex.create({
   box: {
-    margin: 0,
     padding: spacing.md,
+    margin: 0,
+    fontFamily: fonts.sans,
+    fontSize: "1rem",
+    color: colors.foreground,
+    backgroundColor: colors.background,
     borderColor: colors.foreground,
     borderStyle: "solid",
     borderWidth: spacing.px,
-    backgroundColor: colors.background,
-    color: colors.foreground,
-    fontFamily: fonts.sans,
-    fontSize: "1rem",
   },
   hover: {
-    backgroundColor: {
-      default: colors.background,
-      ":hover": colors.foreground,
-    },
     color: {
       default: colors.foreground,
       ":hover": colors.background,
+    },
+    backgroundColor: {
+      default: colors.background,
+      ":hover": colors.foreground,
     },
   },
   before: {
@@ -43,14 +43,14 @@ const styles = stylex.create({
     },
   },
   pulseOnHover: {
-    animationDuration: motion.duration_move,
-    animationIterationCount: "infinite",
     animationName: {
       default: "none",
       ":hover": pulse,
       [queries.reducedMotion]: "none",
     },
+    animationDuration: motion.duration_move,
     animationTimingFunction: motion.easing_standard,
+    animationIterationCount: "infinite",
   },
   wide: {
     padding: {
@@ -59,12 +59,12 @@ const styles = stylex.create({
     },
   },
   supportsGrid: {
-    gap: spacing.sm,
     display: {
       default: "block",
       "@supports (display: grid)": "grid",
     },
     gridTemplateColumns: "1fr 1fr",
+    gap: spacing.sm,
   },
   container: {
     containerType: "inline-size",

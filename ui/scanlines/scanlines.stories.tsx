@@ -17,17 +17,17 @@ type Story = StoryObj<typeof meta>;
 
 const styles = stylex.create({
   stage: {
+    position: "relative",
+    minHeight: "12rem",
     padding: spacing.lg,
     overflow: "hidden",
-    backgroundColor: colors.background,
-    color: colors.foreground,
     fontFamily: fonts.mono,
     fontSize: "2rem",
     fontWeight: 800,
-    letterSpacing: "0.2em",
-    position: "relative",
+    color: colors.foreground,
     textTransform: "uppercase",
-    minHeight: "12rem",
+    letterSpacing: "0.2em",
+    backgroundColor: colors.background,
   },
 });
 
