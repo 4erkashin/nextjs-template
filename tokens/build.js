@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import StyleDictionary from "style-dictionary";
 
 import { FONT_MONO_VAR } from "./font-mono-var.ts";
+import { FONT_SANS_VAR } from "./font-sans-var.ts";
 
 register(StyleDictionary, { excludeParentKeys: true });
 
@@ -410,6 +411,13 @@ const fontMono = light.get("font.mono");
 if (!fontMono?.includes(`var(${FONT_MONO_VAR}`)) {
   throw new Error(
     `tokens/tokens.json primitive font.mono must include var(${FONT_MONO_VAR})`,
+  );
+}
+
+const fontSans = light.get("font.sans");
+if (!fontSans?.includes(`var(${FONT_SANS_VAR}`)) {
+  throw new Error(
+    `tokens/tokens.json primitive font.sans must include var(${FONT_SANS_VAR})`,
   );
 }
 

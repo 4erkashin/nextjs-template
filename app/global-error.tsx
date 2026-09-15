@@ -25,7 +25,7 @@ import ptBR from "@/messages/pt-BR.json";
 import ru from "@/messages/ru.json";
 import uk from "@/messages/uk.json";
 import { themeFromCookie } from "@/theme/cookie";
-import { jetbrainsMono } from "@/theme/fonts";
+import { jetbrainsMono, onest } from "@/theme/fonts";
 
 import "./globals.css";
 
@@ -150,7 +150,11 @@ export default function GlobalError({
   return (
     <html
       {...htmlProps}
-      className={clsx(jetbrainsMono.variable, htmlProps.className)}
+      className={clsx(
+        jetbrainsMono.variable,
+        onest.variable,
+        htmlProps.className,
+      )}
       data-theme={theme}
       lang={locale}
     >

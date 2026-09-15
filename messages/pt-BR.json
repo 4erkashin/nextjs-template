@@ -9,8 +9,8 @@
     "tryAgain": "Tentar novamente"
   },
   "HomePage": {
-    "description": "— o Storybook tem exemplos, aliás ;)",
-    "title": "Substitua isto quando estiver pronto"
+    "description": "— o Storybook tem exemplos ;)",
+    "title": "Troca essa página pelo seu projeto"
   },
   "NotFound": {
     "description": "Não encontrado",

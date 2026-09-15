@@ -65,7 +65,7 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 
 ## Typography
 
-Mono is JetBrains Mono in `theme/fonts.ts`, a **variable face**: one file, CSS var `--font-mono`, token `fonts.mono`. `fontWeight` 100–800 are real cuts, not fakes between 400 and 800. Sans is still the system stack.
+Sans is Onest in `theme/fonts.ts`, a **variable face**: CSS var `--font-sans`, token `fonts.sans`. It is the document default (`<html>`). Mono is JetBrains Mono the same way (`--font-mono`, `fonts.mono`). Where the code already sets `fonts.mono`, it stays mono. `fontWeight` on those variable faces are real cuts, not fakes.
 
 ## Client data (Query + MSW)
 

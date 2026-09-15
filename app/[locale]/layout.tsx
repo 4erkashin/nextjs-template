@@ -9,7 +9,7 @@ import { type ReactNode, Suspense } from "react";
 
 import { globalStyles, htmlPropsForTheme } from "@/app/global-styles";
 import { routing } from "@/i18n/routing";
-import { getTheme, jetbrainsMono } from "@/theme";
+import { getTheme, jetbrainsMono, onest } from "@/theme";
 import { PageGridOverlay } from "@/ui/page-grid";
 import { PageGridOverlayGate } from "@/ui/page-grid/page-grid-overlay-gate";
 
@@ -81,7 +81,11 @@ export default async function RootLayout({
   return (
     <html
       {...htmlProps}
-      className={clsx(jetbrainsMono.variable, htmlProps.className)}
+      className={clsx(
+        jetbrainsMono.variable,
+        onest.variable,
+        htmlProps.className,
+      )}
       data-theme={theme}
       lang={currentLocale}
     >

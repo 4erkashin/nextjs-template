@@ -2,7 +2,7 @@ import { type ReactNode, useLayoutEffect } from "react";
 
 import { htmlPropsForTheme } from "@/app/global-styles";
 import { type ThemeName } from "@/theme/cookie";
-import { jetbrainsMono } from "@/theme/fonts";
+import { jetbrainsMono, onest } from "@/theme/fonts";
 import { writeHtmlTheme } from "@/theme/html-theme";
 
 /**
@@ -45,6 +45,7 @@ function applyThemeToHtml(theme: ThemeName) {
   const classes = [
     ...classesFrom(className),
     jetbrainsMono.variable,
+    onest.variable,
   ].filter(Boolean);
   const nextStyle = style ?? {};
 

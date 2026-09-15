@@ -11,14 +11,17 @@ import { fileURLToPath } from "node:url";
  * write, anything FSEvents batches in. Storybook then sees new mtimes
  * under `tokens/generated/` and rebuilds in a loop.
  *
- * Watch the three source files, and only rebuild when that file's mtime
+ * Watch the token source files, and only rebuild when that file's mtime
  * actually moved.
  */
 const root = path.dirname(fileURLToPath(import.meta.url));
 const buildScript = path.join(root, "build.js");
-const sources = ["tokens.json", "build.js", "font-mono-var.ts"].map((name) =>
-  path.join(root, name),
-);
+const sources = [
+  "tokens.json",
+  "build.js",
+  "font-mono-var.ts",
+  "font-sans-var.ts",
+].map((name) => path.join(root, name));
 
 let running = false;
 let queued = false;

@@ -13,7 +13,7 @@ const styles = stylex.create({
     gridTemplateRows: "minmax(0, 1fr)",
     minHeight: "100dvh",
     overflow: "hidden",
-    fontFamily: fonts.mono,
+    fontFamily: fonts.sans,
   },
   contentPane: {
     display: "grid",
@@ -21,7 +21,7 @@ const styles = stylex.create({
     gridTemplateColumns: "subgrid",
     gridColumnStart: "2",
     gridColumnEnd: "8",
-    rowGap: spacing.sm,
+    rowGap: `clamp(${spacing.xs}, 2dvh, ${spacing.lg})`,
     /**
      * By default a grid item will not get smaller than its content.
      * Zero here means: you may shrink. The stack can fit the columns
@@ -39,6 +39,7 @@ const styles = stylex.create({
     gridTemplateColumns: "subgrid",
     gridColumnStart: "1",
     gridColumnEnd: "-1",
+    rowGap: "0.1em",
     fontSize: "clamp(1.75rem, 6vw, 8rem)",
   },
   title: {
@@ -46,19 +47,18 @@ const styles = stylex.create({
     gridColumnEnd: "-2",
     margin: 0,
     fontSize: "1em",
-    fontWeight: 700,
-    lineHeight: 1.2,
+    fontWeight: 600,
     textTransform: "uppercase",
-    letterSpacing: "-0.04em",
+    letterSpacing: "-0.03em",
   },
   description: {
     gridColumnStart: "1",
     gridColumnEnd: "-1",
     margin: 0,
-    fontSize: "0.2em",
-    fontWeight: 400,
-    lineHeight: 1.4,
+    fontSize: "0.3em",
+    fontWeight: 300,
     textTransform: "lowercase",
+    letterSpacing: "0.03em",
   },
   switchers: {
     display: "flex",

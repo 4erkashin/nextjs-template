@@ -1,4 +1,3 @@
-- sans fonts?
 - home page: title and description composed
 - home page: switchers composed
 - Locale switcher look. Same behavior, cut / invert / current state. Outcome: `ui/switcher-locale` matches the home frame.
@@ -13,9 +12,11 @@
 - should i extract typography or not?
 - sans fonts?
 - track unused locale keys (eslint?)
+- stylex source maps for dev?
 
 ---
 
 DONE:
 
+- sans font: onest
 - home page: decoarative version composed

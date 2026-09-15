@@ -1,2 +1,2 @@
-export { jetbrainsMono } from "./fonts";
+export { jetbrainsMono, onest } from "./fonts";
 export { getTheme } from "./get-theme";

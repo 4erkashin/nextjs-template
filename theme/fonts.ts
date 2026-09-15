@@ -1,11 +1,18 @@
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Onest } from "next/font/google";
 import localFont from "next/font/local";
 
 import type { FontMonoVar } from "@/tokens/font-mono-var";
+import type { FontSansVar } from "@/tokens/font-sans-var";
 
 export const jetbrainsMono = JetBrains_Mono({
   subsets: ["cyrillic", "latin", "latin-ext"],
   variable: "--font-mono" satisfies FontMonoVar,
+  weight: "variable",
+});
+
+export const onest = Onest({
+  subsets: ["cyrillic", "latin", "latin-ext"],
+  variable: "--font-sans" satisfies FontSansVar,
   weight: "variable",
 });
 
