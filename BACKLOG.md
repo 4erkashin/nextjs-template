@@ -1,7 +1,6 @@
-- home page: title and description composed
+- Locale switcher look
+- Theme switcher look
 - home page: switchers composed
-- Locale switcher look. Same behavior, cut / invert / current state. Outcome: `ui/switcher-locale` matches the home frame.
-- Theme switcher look. Sibling of locale. Outcome: `ui/switcher-theme` matches.
 - HTTP client, thin. Base URL, JSON, error shape. Outcome: `lib/http` (or similar) + a short README note.
 - OpenAPI codegen in the repo. One tool, tiny spec, generate types + request fns. Outcome: `pnpm` script, dummy `GET /health`.
 - Glue: generated client → Query. One query hook, one MSW handler, one cookbook/story that loads. Outcome: the OpenAPI loop actually runs.
@@ -18,5 +17,6 @@
 
 DONE:
 
+- home page: title and description composed
 - sans font: onest
 - home page: decoarative version composed

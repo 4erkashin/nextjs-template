@@ -8,16 +8,39 @@ import { fonts, spacing } from "@/tokens/generated/tokens.stylex";
 import { SwitcherLocale, SwitcherTheme } from "@/ui";
 import { pageGridStyles } from "@/ui/page-grid";
 
+/**
+ * Version poster is a 2×2 of mono cells (`v0` / `01`).
+ * `fit` 1 = that axis of the 2×2 fits in the pane (calm).
+ * Lower = larger type, more clip (cut). Try 1, then 0.75, then 0.6.
+ */
+const versionLines = 2;
+const versionCells = 2;
+const versionLineHeight = 0.8;
+const versionCellEm = 0.55;
+const versionFitY = 0.9;
+const versionFitX = 0.9;
+const versionStackEm = versionLines * versionLineHeight * versionFitY;
+const versionRowEm = versionCells * versionCellEm * versionFitX;
+
+/**
+ * Shortest canvas we will paint. 64rem is layout.lg (1024px).
+ * height 100dvh still fills a taller window. When DevTools
+ * shrinks the viewport, min-height wins so the poster (and its
+ * empty margin) does not collapse. Scroll the page to see it.
+ */
+const homeFrameMinHeight = "58rem";
+
 const styles = stylex.create({
   main: {
     gridTemplateRows: "minmax(0, 1fr)",
-    minHeight: "100dvh",
+    height: "100dvh",
+    minHeight: homeFrameMinHeight,
     overflow: "hidden",
     fontFamily: fonts.sans,
   },
   contentPane: {
     display: "grid",
-    gridTemplateRows: "max-content max-content 1fr",
+    gridTemplateRows: "max-content 1fr",
     gridTemplateColumns: "subgrid",
     gridColumnStart: "2",
     gridColumnEnd: "8",
@@ -63,15 +86,17 @@ const styles = stylex.create({
   switchers: {
     display: "flex",
     flexDirection: "column",
-    gridRowStart: "3",
     gridColumnStart: "1",
     gridColumnEnd: "-1",
     gap: spacing.sm,
     alignSelf: "end",
   },
   versionPane: {
+    display: "grid",
     gridColumnStart: "8",
     gridColumnEnd: "13",
+    placeContent: "center",
+    placeItems: "center",
     /**
      * Same shrink rule as the stack. The giant version string does
      * not wrap, so it would otherwise lock these columns to its
@@ -79,17 +104,21 @@ const styles = stylex.create({
      */
     minWidth: 0,
     minHeight: 0,
+    containerType: "inline-size",
     overflow: "hidden",
-    // Two lines at 0.8 fill the viewport: 2 × 0.8 = 1.6.
-    fontSize: "calc(100dvh / 1.6)",
     pointerEvents: "none",
   },
   line: {
     margin: 0,
+    /**
+     * Cover: max() of height and width. cqi must live on a
+     * descendant; the pane is the container.
+     */
+    fontSize: `max(calc(100dvh / ${versionStackEm}), calc(100cqi / ${versionRowEm}))`,
     fontWeight: 800,
     fontFeatureSettings: '"zero" 1',
     fontVariantNumeric: "tabular-nums slashed-zero",
-    lineHeight: 0.8,
+    lineHeight: versionLineHeight,
     letterSpacing: "-0.14em",
     whiteSpace: "nowrap",
   },
