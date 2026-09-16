@@ -31,6 +31,12 @@ const versionRowEm = versionCells * versionCellEm * versionFitX;
  */
 const homeFrameMinHeight = "58rem";
 
+/**
+ * Homepage type for both switcher features. 1.32vw is about 0.22 of
+ * the title’s 6vw fluid slope. Floor matches the features’ own 0.875rem.
+ */
+const switcherFontSize = "clamp(0.875rem, 1.32vw, 1.75rem)";
+
 const styles = stylex.create({
   main: {
     gridTemplateRows: "minmax(0, 1fr)",
@@ -45,7 +51,12 @@ const styles = stylex.create({
     gridTemplateColumns: "subgrid",
     gridColumnStart: "2",
     gridColumnEnd: "8",
-    rowGap: `clamp(${spacing.xs}, 2dvh, ${spacing.lg})`,
+    /**
+     * Interval between the title stack and the switcher mass.
+     * Larger than the title’s 0.1em internal gap so the mass is
+     * a separate group; still small beside the 1fr empty field.
+     */
+    rowGap: `clamp(${spacing.lg}, 5dvh, 3rem)`,
     /**
      * By default a grid item will not get smaller than its content.
      * Zero here means: you may shrink. The stack can fit the columns
@@ -84,13 +95,31 @@ const styles = stylex.create({
     textTransform: "lowercase",
     letterSpacing: "0.03em",
   },
+  /**
+   * Shared type for the switcher mass. Passed into both features so
+   * targets, cuts, and indexes grow together. Also applied on the
+   * group so the em gap uses this same size.
+   */
+  switcherType: {
+    fontSize: switcherFontSize,
+  },
   switchers: {
+    /**
+     * Same left line as the title. max-content shrink-wraps the
+     * two features so theme rows cannot stretch across the pane.
+     * Packed to the start of the remaining row so the mass sits
+     * with the title across the pane’s row gap; the 1fr below is
+     * the empty field.
+     */
     display: "flex",
     flexDirection: "column",
     gridColumnStart: "1",
     gridColumnEnd: "-1",
-    gap: spacing.sm,
-    alignSelf: "end",
+    gap: "0.5em",
+    alignSelf: "start",
+    justifySelf: "start",
+    width: "max-content",
+    maxWidth: "100%",
   },
   versionPane: {
     display: "grid",
@@ -139,10 +168,10 @@ export default function HomePage() {
           <p {...stylex.props(styles.description)}>{t("description")}</p>
         </div>
 
-        <div {...stylex.props(styles.switchers)}>
-          <LocaleSwitcher />
+        <div {...stylex.props(styles.switchers, styles.switcherType)}>
+          <LocaleSwitcher style={styles.switcherType} />
 
-          <ThemeSwitcher />
+          <ThemeSwitcher style={styles.switcherType} />
         </div>
       </div>
 

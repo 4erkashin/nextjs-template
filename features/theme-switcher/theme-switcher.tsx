@@ -15,21 +15,11 @@ const styles = stylex.create({
     backgroundColor: "currentColor",
   },
   cut: {
+    alignSelf: "stretch",
     inlineSize: "0.5em",
     backgroundColor: "transparent",
   },
-  index: {
-    display: "flex",
-    alignItems: "center",
-    fontFamily: fonts.mono,
-    fontSize: "2em",
-    fontWeight: 800,
-    lineHeight: 1,
-    letterSpacing: "-0.08em",
-  },
   name: {
-    display: "flex",
-    alignItems: "center",
     fontFamily: fonts.sans,
     fontSize: "1em",
     fontWeight: 600,
@@ -41,9 +31,9 @@ const styles = stylex.create({
   option: {
     boxSizing: "border-box",
     display: "grid",
-    gridTemplateColumns: "auto auto minmax(0, 1fr)",
+    gridTemplateColumns: "auto minmax(0, 1fr)",
     columnGap: "0.5em",
-    alignItems: "stretch",
+    alignItems: "center",
     inlineSize: "100%",
     /**
      * Floor 2.75rem; grow with this feature's type. The start
@@ -82,9 +72,6 @@ const styles = stylex.create({
   pending: {
     borderInlineStartColor: "currentColor",
   },
-  restIndex: {
-    opacity: 0.4,
-  },
   root: {
     display: "flex",
     flexDirection: "column",
@@ -112,7 +99,7 @@ export function ThemeSwitcher({ style }: ThemeSwitcherProps) {
 
   return (
     <nav aria-label={t("label")} {...stylex.props(styles.root, style)}>
-      {THEME_NAMES.map((item, index) => {
+      {THEME_NAMES.map((item) => {
         const current = item === theme;
         const pending = isPending && current;
 
@@ -136,9 +123,6 @@ export function ThemeSwitcher({ style }: ThemeSwitcherProps) {
                 current && !pending && styles.currentCut,
               )}
             />
-            <span {...stylex.props(styles.index, !current && styles.restIndex)}>
-              {String(index + 1).padStart(2, "0")}
-            </span>
             <span {...stylex.props(styles.name)}>{t(item)}</span>
           </BaseButton>
         );
