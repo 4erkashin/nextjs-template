@@ -24,14 +24,21 @@ const styles = stylex.create({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "2.75rem",
-    paddingInline: spacing.sm,
+    /**
+     * Floor 2.75rem; grow with this feature's type. Short codes
+     * land square-like. PT-BR is longer and widens on its own.
+     */
+    minInlineSize: "max(2.75rem, 2.75em)",
+    minBlockSize: "max(2.75rem, 2.75em)",
+    paddingInline: "0.35em",
     fontFamily: fonts.sans,
-    fontSize: "0.875rem",
+    fontSize: "1em",
     fontWeight: 600,
+    lineHeight: 1,
     color: colors.foreground,
     textTransform: "uppercase",
     letterSpacing: "0.08em",
+    whiteSpace: "nowrap",
     textDecorationLine: "none",
     outlineWidth: spacing.px,
     outlineStyle: "solid",

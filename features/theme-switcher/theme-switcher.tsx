@@ -15,34 +15,41 @@ const styles = stylex.create({
     backgroundColor: "currentColor",
   },
   cut: {
-    width: spacing.sm,
+    inlineSize: "0.5em",
     backgroundColor: "transparent",
   },
   index: {
     display: "flex",
     alignItems: "center",
     fontFamily: fonts.mono,
-    fontSize: "1.5rem",
+    fontSize: "2em",
     fontWeight: 800,
+    lineHeight: 1,
     letterSpacing: "-0.08em",
   },
   name: {
     display: "flex",
     alignItems: "center",
     fontFamily: fonts.sans,
-    fontSize: "0.75rem",
+    fontSize: "1em",
     fontWeight: 600,
+    lineHeight: 1,
     textTransform: "uppercase",
-    letterSpacing: "0.12em",
+    letterSpacing: "0.08em",
+    whiteSpace: "nowrap",
   },
   option: {
     boxSizing: "border-box",
     display: "grid",
     gridTemplateColumns: "auto auto minmax(0, 1fr)",
-    columnGap: spacing.sm,
+    columnGap: "0.5em",
     alignItems: "stretch",
-    width: "100%",
-    minHeight: "2.75rem",
+    inlineSize: "100%",
+    /**
+     * Floor 2.75rem; grow with this feature's type. The start
+     * hairline is always reserved so pending does not jump layout.
+     */
+    minBlockSize: "max(2.75rem, 2.75em)",
     paddingBlock: 0,
     paddingInline: 0,
     font: "inherit",
@@ -63,7 +70,10 @@ const styles = stylex.create({
       default: "transparent",
       ":hover": colors.foreground,
     },
-    borderStyle: "none",
+    borderColor: "transparent",
+    borderStyle: "solid",
+    borderWidth: 0,
+    borderInlineStartWidth: spacing.px,
     transform: {
       default: "none",
       ":active": `translateX(${spacing.px})`,
@@ -71,8 +81,6 @@ const styles = stylex.create({
   },
   pending: {
     borderInlineStartColor: "currentColor",
-    borderInlineStartStyle: "solid",
-    borderInlineStartWidth: spacing.px,
   },
   restIndex: {
     opacity: 0.4,
