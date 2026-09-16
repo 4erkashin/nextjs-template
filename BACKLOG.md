@@ -1,4 +1,3 @@
-- Locale switcher look
 - Theme switcher look
 - home page: switchers composed
 - home page: composition adapted for the mobile screens
@@ -19,6 +18,7 @@
 
 DONE:
 
+- locale switcher look
 - home page: title and description composed
 - sans font: onest
 - home page: decoarative version composed

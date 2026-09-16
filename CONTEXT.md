@@ -55,7 +55,7 @@ A simple hard-edged silhouette such as rect, slash, or tab. A cut is a deliberat
 _Avoid_: radius, rounded, chamfer (as the product name), polygon (as the product name)
 
 **Invert**:
-A foreground and background swap used for strong interaction feedback.
+A foreground and background swap for the current option and for strong interaction feedback.
 _Avoid_: highlight, tint, hover color
 
 **Signal**:
