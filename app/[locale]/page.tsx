@@ -2,10 +2,11 @@ import * as stylex from "@stylexjs/stylex";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
 
+import { LocaleSwitcher } from "@/features/locale-switcher";
+import { ThemeSwitcher } from "@/features/theme-switcher";
 import { version } from "@/package.json";
 import { jetbrainsMonoNumeral } from "@/theme/fonts";
 import { fonts, spacing } from "@/tokens/generated/tokens.stylex";
-import { SwitcherLocale, SwitcherTheme } from "@/ui";
 import { pageGridStyles } from "@/ui/page-grid";
 
 /**
@@ -139,9 +140,9 @@ export default function HomePage() {
         </div>
 
         <div {...stylex.props(styles.switchers)}>
-          <SwitcherLocale />
+          <LocaleSwitcher />
 
-          <SwitcherTheme />
+          <ThemeSwitcher />
         </div>
       </div>
 

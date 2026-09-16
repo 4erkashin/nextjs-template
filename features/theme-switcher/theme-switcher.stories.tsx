@@ -6,7 +6,7 @@ import { htmlPropsForTheme } from "@/app/global-styles";
 import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
 import { writeHtmlTheme } from "@/theme/html-theme";
 
-import { SwitcherTheme } from "./switcher-theme";
+import { ThemeSwitcher } from "./theme-switcher";
 
 function classesFrom(className: undefined | string): string[] {
   return className?.split(/\s+/).filter(Boolean) ?? [];
@@ -72,7 +72,7 @@ function SyncHtmlTheme({
 }
 
 const meta = {
-  component: SwitcherTheme,
+  component: ThemeSwitcher,
   decorators: [
     (Story) => (
       <SyncHtmlTheme>
@@ -80,8 +80,8 @@ const meta = {
       </SyncHtmlTheme>
     ),
   ],
-  title: "UI/Theme switcher",
-} satisfies Meta<typeof SwitcherTheme>;
+  title: "Features/Theme switcher",
+} satisfies Meta<typeof ThemeSwitcher>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

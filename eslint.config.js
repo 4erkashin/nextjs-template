@@ -242,6 +242,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Storybook static build — generated assets, not app code
+    "storybook-static/**",
     // Skill / agent tooling — not app code
     ".agents/**",
     // Git hook — Node script, not Next/React

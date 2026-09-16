@@ -81,10 +81,19 @@ const styles = stylex.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
+    fontSize: "0.875rem",
   },
 });
 
-export function SwitcherTheme() {
+export type ThemeSwitcherProps = Readonly<{
+  style?: SwitcherRootStyle;
+}>;
+
+type SwitcherRootStyle = stylex.StyleXStyles<
+  Pick<stylex.CSSProperties, "fontSize">
+>;
+
+export function ThemeSwitcher({ style }: ThemeSwitcherProps) {
   const t = useTranslations("Theme");
   const [isPending, startTransition] = useTransition();
   const theme = useSyncExternalStore(
@@ -94,7 +103,7 @@ export function SwitcherTheme() {
   );
 
   return (
-    <nav aria-label={t("label")} {...stylex.props(styles.root)}>
+    <nav aria-label={t("label")} {...stylex.props(styles.root, style)}>
       {THEME_NAMES.map((item, index) => {
         const current = item === theme;
         const pending = isPending && current;

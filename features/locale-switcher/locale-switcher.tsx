@@ -56,15 +56,24 @@ const styles = stylex.create({
     display: "flex",
     flexWrap: "wrap",
     alignItems: "center",
+    fontSize: "0.875rem",
   },
 });
 
-export function SwitcherLocale() {
+export type LocaleSwitcherProps = Readonly<{
+  style?: SwitcherRootStyle;
+}>;
+
+type SwitcherRootStyle = stylex.StyleXStyles<
+  Pick<stylex.CSSProperties, "fontSize">
+>;
+
+export function LocaleSwitcher({ style }: LocaleSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
 
   return (
-    <nav {...stylex.props(styles.root)}>
+    <nav {...stylex.props(styles.root, style)}>
       {routing.locales.map((item) => {
         const current = item === locale;
 
