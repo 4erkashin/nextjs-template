@@ -13,6 +13,8 @@
 - sans fonts?
 - track unused locale keys (eslint?)
 - stylex source maps for dev?
+- locale switcher story — update locale in storybook app, how feasible?
+- storybook addons buttons active state a bit weird, especially for grid button, investigate
 
 ---
 
