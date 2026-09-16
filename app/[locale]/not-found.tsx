@@ -1,9 +1,6 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 
 import { ErrorWidget } from "@/features/error-widget";
-import { useRouter } from "@/i18n/navigation";
 
 /**
  * UI for a missing page. Next.js renders this when no route matches, or when
@@ -14,16 +11,16 @@ import { useRouter } from "@/i18n/navigation";
 
 export default function NotFound() {
   const t = useTranslations("NotFound");
-  const router = useRouter();
 
   return (
     <ErrorWidget
-      description={t("description")}
-      onRetry={() => {
-        router.push("/");
+      action={{
+        href: "/",
+        kind: "link",
+        label: t("home"),
       }}
+      description={t("description")}
       title={t("title")}
-      tryAgain={t("home")}
     />
   );
 }

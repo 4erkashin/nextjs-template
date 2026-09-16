@@ -162,11 +162,14 @@ export default function GlobalError({
         <title>{strings.title}</title>
 
         <ErrorWidget
+          action={{
+            kind: "button",
+            label: strings.tryAgain,
+            onPress: retry,
+          }}
           description={strings.description}
           digest={error.digest}
-          onRetry={retry}
           title={strings.title}
-          tryAgain={strings.tryAgain}
         />
       </body>
     </html>

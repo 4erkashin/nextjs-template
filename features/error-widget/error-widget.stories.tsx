@@ -8,11 +8,14 @@ import { ErrorWidget } from "./error-widget";
 
 const meta = {
   args: {
+    action: {
+      kind: "button",
+      label: "Try again",
+      onPress: fn(),
+    },
     description: "The page failed before it could render.",
     digest: EXAMPLE_ERROR_DIGEST,
-    onRetry: fn(),
     title: "Could not be loaded",
-    tryAgain: "Try again",
   },
   component: ErrorWidget,
   parameters: {

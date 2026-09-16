@@ -3,13 +3,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import * as stylex from "@stylexjs/stylex";
-import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { colors, fonts } from "@/tokens/generated/tokens.stylex";
 
-import { Button } from "../button";
-import { Caret } from "../caret";
 import { Glitch } from "./glitch";
 
 const meta = {
@@ -44,35 +41,6 @@ export const Default: Story = {
     children: "SIGNAL",
   },
   render: () => <HoverGlitch />,
-};
-
-function GlitchOnButton() {
-  const t = useTranslations("Error");
-  const [active, setActive] = useState(false);
-
-  return (
-    <Button
-      onMouseEnter={() => {
-        setActive(true);
-      }}
-      onMouseLeave={() => {
-        setActive(false);
-      }}
-    >
-      <Glitch active={active}>
-        {">"}
-        {t("tryAgain")}
-        <Caret />
-      </Glitch>
-    </Button>
-  );
-}
-
-export const WithButton: Story = {
-  args: {
-    children: "SIGNAL",
-  },
-  render: () => <GlitchOnButton />,
 };
 
 const styles = stylex.create({

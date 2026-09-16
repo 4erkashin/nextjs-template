@@ -1,97 +1,79 @@
 # Product design system
 
-The vocabulary for visual decisions: the token names product UI may request, and the look those tokens paint.
+The vocabulary for the product's visual decisions. The look is editorial: typography and composition lead, while controls stay quiet until interaction.
 
-## Language
-
-### Tokens
+## Tokens
 
 **Primitive token**:
-A named raw material: a paint, a spacing step, a duration, a curve. Product UI may use these names, including primitive colors.
+A named raw material such as a paint, spacing step, duration, or curve.
 _Avoid_: foundation token, core token, palette (as a layer name)
 
 **Module**:
-The repeating rem step that space and layout counts are made of. Product UI never asks for the module by name.
+The repeating rem step from which space and layout dimensions are counted. Product UI does not request the module directly.
 _Avoid_: unit, grid unit (as a product token), xs (for the step itself)
 
 **Space**:
-A named padding, gap, or inset step (xxs through lg), plus the 1px hairline.
+A named gap, padding, margin, or inset step from xxs through lg, plus the hairline step.
 _Avoid_: module (as a space step)
 
 **Layout breakpoint**:
-A named min-width where layout may change (`sm`, `md`, `lg`, `xl`). Below `sm` is the default (phones). The same T-shirt names as space, on a different object.
+A named minimum width (`sm`, `md`, `lg`, or `xl`) at which layout may change. Below `sm` is the default layout.
 _Avoid_: wide, viewport, media query (as the token name)
 
 **Semantic token**:
-A purpose name with a value in every theme. Today that is background, foreground, and primary. More names appear when the UI repeats a purpose.
-_Avoid_: alias token, decision token (except in prose about Polar)
+A purpose name with a value in every theme. Today these are background, foreground, and primary.
+_Avoid_: alias token, decision token (except in prose about token systems)
 
 **Theme**:
-A complete assignment of values to semantic colors (light, dark). System is the user's color-scheme preference, resolved in the app, not a third palette. A theme is not a token layer.
-_Avoid_: mode, color scheme (when you mean the named light/dark assignment), token set (when you mean the assignment)
+A complete assignment of semantic colors: light or dark. System selects a theme from the user's preference; it is not a third theme.
+_Avoid_: mode, color scheme (when referring to a named theme), token set (when referring to the assignment)
 
-### Look
+## Visual language
 
-**Look**:
-Hard cuts, hairlines, and protocol type. Invert is the hover. Press is the click.
-_Avoid_: HUD, neon city, glass, cyberpunk (as a vague adjective), chrome (as a bucket for extra marks around a control)
+**Editorial look**:
+A Swiss-influenced poster composition with brutalist restraint. Typography, grid, whitespace, scale contrast, and hard geometry carry the visual identity.
+_Avoid_: dashboard, interface chrome, fake HUD, cyberpunk
+
+**Typography**:
+The primary source of hierarchy and visual character. Type may act as content, structure, or a large compositional form.
+_Avoid_: treating every text element as ordinary UI copy
+
+**Composition**:
+The relationships created by alignment, scale, whitespace, cropping, and the page grid.
+_Avoid_: component stack, filling space because it exists
+
+**Quiet control**:
+A control with low visual weight at rest and clear semantics, hit area, focus, and interaction feedback.
+_Avoid_: invisible control, rounded SaaS control, generic segmented control
+
+**Hairline**:
+A one-pixel structural line used for separation, alignment, or a compact state cue.
+_Avoid_: border as default decoration
 
 **Cut**:
-A named silhouette made by clipping corners, not rounding them. The names in use are rect, slash, and tab.
+A simple hard-edged silhouette such as rect, slash, or tab. A cut is a deliberate compositional shape, not default control decoration.
 _Avoid_: radius, rounded, chamfer (as the product name), polygon (as the product name)
 
-**Surface**:
-How a cut is painted: fill (solid mass) or outline (the same cut with a hole).
-_Avoid_: variant, style, bordered, stroke (as the prop name)
-
-**Hole**:
-An inset of the same cut that leaves a hairline gap. That gap is the outline.
-_Avoid_: inner border, stroke
-
 **Invert**:
-Foreground and background swapped. The hover and focus of a control.
+A foreground and background swap used for strong interaction feedback.
 _Avoid_: highlight, tint, hover color
 
-**Frame**:
-Nested hairlines around content (outer line, inner line, L-corners). A control sits in a frame; a control is not a frame.
-_Avoid_: card, panel (when you mean the frame), chrome
-
-**Tick**:
-Short hash marks on an edge that read as a scale.
-_Avoid_: decoration, noise, ruler
-
-**Press**:
-A 1px downward shift. The activation of a control.
-_Avoid_: bounce, scale, elastic
-
-**Snap**:
-An instant change of cut or state. The silhouette does not morph.
-_Avoid_: morph
-
-**Scan**:
-A fill or hairline that travels along an edge or a bar.
-_Avoid_: spinner, pulse (when you mean travel)
-
-**Scanlines**:
-A repeating hatch of hairlines over a surface. Idle hatch, not a traveling scan.
-_Avoid_: CRT, raster, scan (when you mean the hatch)
+**Signal**:
+A brief visual event that calls attention to a meaningful change. A signal is not ambient decoration.
+_Avoid_: idle effect, visual noise
 
 **Glitch**:
-A short hard break in the image that then stops. An event, not idle hatch.
+A short hard break in the image that then stops. It is a signal, not a resting state.
 _Avoid_: noise, distortion (as the product name)
 
 **Color split**:
-Two accent colors offset by a few pixels, then locked. Same family as glitch.
+Two accent colors offset from the source for a short signal, often paired with a glitch.
 _Avoid_: chromatic aberration, RGB split, fringing
 
 **Glitch color**:
-The first channel of a color split.
+The first accent channel of a color split.
 _Avoid_: red channel
 
 **Glitch pair**:
-The second channel of a color split, thrown the other way.
+The second accent channel of a color split, offset in the opposite direction.
 _Avoid_: blue channel
-
-**Glow**:
-Light that leaks past an edge. A signal on scan or alert, not the idle or hover fill of a control.
-_Avoid_: bloom, neon, shadow (when you mean the leak)

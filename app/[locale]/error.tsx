@@ -21,11 +21,14 @@ export default function Error({
 
   return (
     <ErrorWidget
+      action={{
+        kind: "button",
+        label: t("tryAgain"),
+        onPress: retry,
+      }}
       description={t("description")}
       digest={error.digest}
-      onRetry={retry}
       title={t("title")}
-      tryAgain={t("tryAgain")}
     />
   );
 }
