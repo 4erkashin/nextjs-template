@@ -1,6 +1,4 @@
-- Theme switcher look
-- home page: switchers composed
-- home page: composition adapted for the mobile screens
+- composition tweaked to be good through all the screens
 - HTTP client, thin. Base URL, JSON, error shape. Outcome: `lib/http` (or similar) + a short README note.
 - OpenAPI codegen in the repo. One tool, tiny spec, generate types + request fns. Outcome: `pnpm` script, dummy `GET /health`.
 - Glue: generated client → Query. One query hook, one MSW handler, one cookbook/story that loads. Outcome: the OpenAPI loop actually runs.
@@ -15,11 +13,15 @@
 - stylex source maps for dev?
 - locale switcher story — update locale in storybook app, how feasible?
 - storybook addons buttons active state a bit weird, especially for grid button, investigate
+- agent browser by vercel?
 
 ---
 
 DONE:
 
+- home page: composition adapted for the mobile screens
+- home page: switchers composed
+- theme switcher look
 - locale switcher look
 - home page: title and description composed
 - sans font: onest

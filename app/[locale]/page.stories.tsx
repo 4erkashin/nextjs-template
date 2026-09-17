@@ -71,6 +71,17 @@ function SyncHtmlTheme({
   );
 }
 
+/**
+ * Lock this story to an exact canvas. Storybook 10.5 accepts
+ * `{width}-{height}` so the rung does not inherit the toolbar.
+ */
+function lockedViewport(width: number, height: number) {
+  return {
+    isRotated: false,
+    value: `${width}-${height}`,
+  };
+}
+
 const meta = {
   component: HomePage,
   decorators: [
@@ -84,10 +95,13 @@ const meta = {
     docs: {
       description: {
         component: `
-Home page as a column-and-foot poster. Title and language share one
-editorial column; theme is a low anchor on that same axis. Version takes
-the tracks the column gives up. The 1fr between language and theme is a
-held gap, not leftover margin.
+Home page as a single 100dvh poster. Portrait uses Monumental Cut:
+locale at the top, a right-shifted cropped version, a held interval,
+compact copy, one foot hairline, and theme at the foot. Landscape
+keeps the wide column-and-version composition.
+
+These stories are fixed-size review rungs of that production page,
+not design alternatives.
         `,
       },
     },
@@ -99,4 +113,51 @@ held gap, not leftover margin.
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const PhoneSmall: Story = {
+  globals: {
+    viewport: lockedViewport(320, 568),
+  },
+  name: "01 — Phone Small · 320 × 568",
+};
+
+export const Phone: Story = {
+  globals: {
+    viewport: lockedViewport(390, 844),
+  },
+  name: "02 — Phone · 390 × 844",
+};
+
+export const TabletPortrait: Story = {
+  globals: {
+    viewport: lockedViewport(768, 1024),
+  },
+  name: "03 — Tablet Portrait · 768 × 1024",
+};
+
+export const Laptop: Story = {
+  globals: {
+    viewport: lockedViewport(1280, 800),
+  },
+  name: "04 — Laptop · 1280 × 800",
+};
+
+export const Desktop: Story = {
+  globals: {
+    viewport: lockedViewport(1920, 1080),
+  },
+  name: "05 — Desktop · 1920 × 1080",
+};
+
+export const Qhd: Story = {
+  globals: {
+    viewport: lockedViewport(2560, 1440),
+  },
+  name: "06 — QHD · 2560 × 1440",
+};
+
+export const FourK: Story = {
+  globals: {
+    viewport: lockedViewport(3840, 2160),
+  },
+  name: "07 — 4K · 3840 × 2160",
+};
