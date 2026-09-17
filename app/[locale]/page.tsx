@@ -24,50 +24,53 @@ const versionStackEm = versionLines * versionLineHeight * versionFitY;
 const versionRowEm = versionCells * versionCellEm * versionFitX;
 
 /**
- * Shortest canvas we will paint. 64rem is layout.lg (1024px).
- * height 100dvh still fills a taller window. When DevTools
- * shrinks the viewport, min-height wins so the poster (and its
- * empty margin) does not collapse. Scroll the page to see it.
- */
-const homeFrameMinHeight = "58rem";
-
-/**
  * Homepage type for both switcher features. 1.32vw is about 0.22 of
  * the title’s 6vw fluid slope. Floor matches the features’ own 0.875rem.
  */
 const switcherFontSize = "clamp(0.875rem, 1.32vw, 1.75rem)";
 
+/**
+ * Outer keep-out so interactive controls stay inside the painted
+ * canvas. Compresses on a short Storybook iframe.
+ */
+const canvasInset = "clamp(0.5rem, 2.5dvh, 1.25rem)";
+
 const styles = stylex.create({
   main: {
+    position: "relative",
     gridTemplateRows: "minmax(0, 1fr)",
+    /**
+     * Fill the visible block (window or Storybook iframe). Do not
+     * set a min-height in rem — that paints a second, taller frame
+     * and hides the foot of the poster.
+     */
     height: "100dvh",
-    minHeight: homeFrameMinHeight,
+    minHeight: 0,
+    maxHeight: "100dvh",
     overflow: "hidden",
     fontFamily: fonts.sans,
   },
+  /**
+   * Every poster layer shares the one canvas row. Without this,
+   * auto-placement opens extra rows and the 1fr track collapses.
+   */
+  canvasLayer: {
+    gridRowStart: "1",
+  },
+  /**
+   * Editorial column: stop one track early so version can own the
+   * rest of the sheet.
+   */
   contentPane: {
     display: "grid",
     gridTemplateRows: "max-content 1fr",
     gridTemplateColumns: "subgrid",
     gridColumnStart: "2",
-    gridColumnEnd: "8",
-    /**
-     * Interval between the title stack and the switcher mass.
-     * Larger than the title’s 0.1em internal gap so the mass is
-     * a separate group; still small beside the 1fr empty field.
-     */
-    rowGap: `clamp(${spacing.lg}, 5dvh, 3rem)`,
-    /**
-     * By default a grid item will not get smaller than its content.
-     * Zero here means: you may shrink. The stack can fit the columns
-     * it occupies, and the viewport height.
-     * If we omit this, a long word in the title or a tall block of
-     * copy can push the stack out of its tracks.
-     */
+    gridColumnEnd: "7",
+    rowGap: `clamp(${spacing.sm}, 3dvh, 1.5rem)`,
     minWidth: 0,
     minHeight: 0,
-    // Head and foot margin. The version pane stays flush to the viewport.
-    paddingBlock: "8dvh",
+    paddingBlock: `clamp(${spacing.md}, 6dvh, 8dvh)`,
   },
   textContent: {
     display: "grid",
@@ -77,9 +80,12 @@ const styles = stylex.create({
     rowGap: "0.1em",
     fontSize: "clamp(1.75rem, 6vw, 8rem)",
   },
+  /**
+   * The column *is* the measure. Use every track.
+   */
   title: {
     gridColumnStart: "1",
-    gridColumnEnd: "-2",
+    gridColumnEnd: "-1",
     margin: 0,
     fontSize: "1em",
     fontWeight: 600,
@@ -95,43 +101,45 @@ const styles = stylex.create({
     textTransform: "lowercase",
     letterSpacing: "0.03em",
   },
-  /**
-   * Shared type for the switcher mass. Passed into both features so
-   * targets, cuts, and indexes grow together. Also applied on the
-   * group so the em gap uses this same size.
-   */
   switcherType: {
     fontSize: switcherFontSize,
   },
-  switchers: {
-    /**
-     * Same left line as the title. max-content shrink-wraps the
-     * two features so theme rows cannot stretch across the pane.
-     * Packed to the start of the remaining row so the mass sits
-     * with the title across the pane’s row gap; the 1fr below is
-     * the empty field.
-     */
-    display: "flex",
-    flexDirection: "column",
+  canvasControl: {
+    zIndex: 2,
+    width: "max-content",
+    maxWidth: "100%",
+  },
+  /**
+   * Language stays in the column, packed under the copy.
+   * The 1fr row below it is the empty interval down to the foot.
+   */
+  language: {
     gridColumnStart: "1",
     gridColumnEnd: "-1",
-    gap: "0.5em",
     alignSelf: "start",
     justifySelf: "start",
     width: "max-content",
     maxWidth: "100%",
   },
+  /**
+   * Low anchor of the same column. Separate object, same axis.
+   */
+  theme: {
+    gridColumnStart: "2",
+    gridColumnEnd: "7",
+    alignSelf: "end",
+    justifySelf: "start",
+    marginBlockEnd: canvasInset,
+  },
+  /**
+   * Version takes the tracks the column gave up.
+   */
   versionPane: {
     display: "grid",
-    gridColumnStart: "8",
+    gridColumnStart: "7",
     gridColumnEnd: "13",
     placeContent: "center",
     placeItems: "center",
-    /**
-     * Same shrink rule as the stack. The giant version string does
-     * not wrap, so it would otherwise lock these columns to its
-     * full character width.
-     */
     minWidth: 0,
     minHeight: 0,
     containerType: "inline-size",
@@ -140,10 +148,6 @@ const styles = stylex.create({
   },
   line: {
     margin: 0,
-    /**
-     * Cover: max() of height and width. cqi must live on a
-     * descendant; the pane is the container.
-     */
     fontSize: `max(calc(100dvh / ${versionStackEm}), calc(100cqi / ${versionRowEm}))`,
     fontWeight: 800,
     fontFeatureSettings: '"zero" 1',
@@ -157,22 +161,37 @@ const styles = stylex.create({
 export default function HomePage() {
   const t = useTranslations("HomePage");
   const [major = "0", minor = "0", patch = "0"] = version.split(".");
-  const paneProps = stylex.props(styles.versionPane);
+  const paneProps = stylex.props(styles.canvasLayer, styles.versionPane);
 
   return (
     <main {...stylex.props(pageGridStyles.root, styles.main)}>
-      <div {...stylex.props(styles.contentPane)}>
+      <div {...stylex.props(styles.canvasLayer, styles.contentPane)}>
         <div {...stylex.props(styles.textContent)}>
           <h1 {...stylex.props(styles.title)}>{t("title")}</h1>
 
           <p {...stylex.props(styles.description)}>{t("description")}</p>
         </div>
 
-        <div {...stylex.props(styles.switchers, styles.switcherType)}>
+        <div
+          {...stylex.props(
+            styles.switcherType,
+            styles.language,
+            styles.canvasControl,
+          )}
+        >
           <LocaleSwitcher style={styles.switcherType} />
-
-          <ThemeSwitcher style={styles.switcherType} />
         </div>
+      </div>
+
+      <div
+        {...stylex.props(
+          styles.switcherType,
+          styles.canvasLayer,
+          styles.canvasControl,
+          styles.theme,
+        )}
+      >
+        <ThemeSwitcher style={styles.switcherType} />
       </div>
 
       <div
