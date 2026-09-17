@@ -12,7 +12,7 @@ import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
 
 const styles = stylex.create({
   currentCut: {
-    backgroundColor: "currentColor",
+    backgroundColor: colors.foreground,
   },
   cut: {
     alignSelf: "stretch",
@@ -36,12 +36,13 @@ const styles = stylex.create({
     alignItems: "center",
     inlineSize: "100%",
     /**
-     * Floor 2.75rem; grow with this feature's type. The start
-     * hairline is always reserved so pending does not jump layout.
+     * Floor 2.75rem; grow with this feature's type. Pending is an
+     * inset hairline so the cut can sit on the box's start edge.
      */
     minBlockSize: "max(2.75rem, 2.75em)",
     paddingBlock: 0,
-    paddingInline: 0,
+    paddingInlineStart: 0,
+    paddingInlineEnd: "0.5em",
     font: "inherit",
     color: {
       default: colors.foreground,
@@ -55,7 +56,11 @@ const styles = stylex.create({
       default: "transparent",
       ":focus-visible": "currentColor",
     },
-    outlineOffset: spacing.xxs,
+    /**
+     * Inside the option so a flush start edge does not clip the
+     * ring on the viewport-facing side.
+     */
+    outlineOffset: `calc(-1 * ${spacing.px} - ${spacing.xxs})`,
     backgroundColor: {
       default: "transparent",
       ":hover": colors.foreground,
@@ -63,14 +68,13 @@ const styles = stylex.create({
     borderColor: "transparent",
     borderStyle: "solid",
     borderWidth: 0,
-    borderInlineStartWidth: spacing.px,
     transform: {
       default: "none",
       ":active": `translateX(${spacing.px})`,
     },
   },
   pending: {
-    borderInlineStartColor: "currentColor",
+    boxShadow: `inset ${spacing.px} 0 0 currentColor`,
   },
   root: {
     display: "flex",

@@ -30,12 +30,6 @@ const versionRowEm = versionCells * versionCellEm * versionFitX;
 const switcherFontSize = "clamp(0.875rem, 1.32vw, 1.75rem)";
 
 /**
- * Outer keep-out so interactive controls stay inside the painted
- * canvas. Compresses on a short Storybook iframe.
- */
-const canvasInset = "clamp(0.5rem, 2.5dvh, 1.25rem)";
-
-/**
  * Portrait uses Monumental Cut. Square counts as portrait in CSS,
  * so the cut is written to hold there too.
  */
@@ -47,9 +41,9 @@ const styles = stylex.create({
     gridTemplateRows: {
       default: "minmax(0, 1fr)",
       /**
-       * Locale, version with held interval, copy, foot hairline.
+       * Locale and version share the field, then copy, then foot.
        */
-      [portrait]: "max-content minmax(0, 1fr) max-content max-content",
+      [portrait]: "minmax(0, 1fr) max-content max-content",
     },
     /**
      * Fill the visible block (window or Storybook iframe). Do not
@@ -67,7 +61,7 @@ const styles = stylex.create({
         [portrait]: "block",
       },
       gridRowStart: {
-        [portrait]: "4",
+        [portrait]: "3",
       },
       gridColumnStart: {
         [portrait]: "2",
@@ -109,7 +103,7 @@ const styles = stylex.create({
   /**
    * Editorial column: stop one track early so version can own the
    * rest of the sheet. Portrait unwraps this wrapper so locale,
-   * copy, and version sit on the four-row canvas.
+   * copy, and version sit on the three-row canvas.
    */
   contentPane: {
     display: {
@@ -129,7 +123,7 @@ const styles = stylex.create({
     display: "grid",
     gridTemplateColumns: "subgrid",
     gridRowStart: {
-      [portrait]: "3",
+      [portrait]: "2",
     },
     gridColumnStart: {
       default: "1",
@@ -137,7 +131,7 @@ const styles = stylex.create({
     },
     gridColumnEnd: {
       default: "-1",
-      [portrait]: "9",
+      [portrait]: "11",
     },
     rowGap: "0.1em",
     minWidth: {
@@ -180,6 +174,34 @@ const styles = stylex.create({
   switcherType: {
     fontSize: switcherFontSize,
   },
+  /**
+   * Portrait stacks the codes on the left rail. Landscape stays
+   * a row under the copy.
+   */
+  localeOnPoster: {
+    flexDirection: {
+      default: "row",
+      [portrait]: "column",
+    },
+    alignItems: {
+      default: "center",
+      [portrait]: "stretch",
+    },
+    fontSize: switcherFontSize,
+  },
+  /**
+   * Portrait turns each code 90° clockwise so it reads down.
+   */
+  localeCodes: {
+    writingMode: {
+      default: "horizontal-tb",
+      [portrait]: "vertical-rl",
+    },
+    textOrientation: {
+      default: "mixed",
+      [portrait]: "sideways",
+    },
+  },
   canvasControl: {
     zIndex: 2,
     width: "max-content",
@@ -188,37 +210,32 @@ const styles = stylex.create({
   /**
    * Language stays in the column, packed under the copy.
    * The 1fr row below it is the empty interval down to the foot.
-   * Portrait moves it to the top of the sheet.
+   * Portrait pins a vertical stack to the top-left of the field.
    */
   language: {
     gridRowStart: {
       [portrait]: "1",
     },
-    gridColumnStart: {
-      default: "1",
-      [portrait]: "2",
-    },
+    gridColumnStart: "1",
     gridColumnEnd: {
       default: "-1",
-      [portrait]: "13",
+      [portrait]: "8",
     },
     alignSelf: "start",
     justifySelf: "start",
     width: "max-content",
     maxWidth: "100%",
-    marginBlockStart: {
-      [portrait]: canvasInset,
-    },
   },
   /**
-   * Low anchor of the same column. Separate object, same axis.
-   * Portrait sits it on the foot hairline, tracks 2–8.
+   * First column, flush to the bottom edge. The active cut meets
+   * the left viewport edge. Portrait sits it on the foot hairline,
+   * tracks 1–8.
    */
   theme: {
     gridRowStart: {
-      [portrait]: "4",
+      [portrait]: "3",
     },
-    gridColumnStart: "2",
+    gridColumnStart: "1",
     gridColumnEnd: {
       default: "7",
       [portrait]: "8",
@@ -228,17 +245,13 @@ const styles = stylex.create({
     paddingBlockStart: {
       [portrait]: spacing.xs,
     },
-    marginBlockEnd: canvasInset,
   },
   /**
-   * Version takes the tracks the column gave up. Portrait shifts
-   * it right (8–13) and crops it slightly as the upper form.
+   * Version takes the tracks the column gave up. Portrait sits it
+   * in the shared field, right tracks 8–13, and crops the form.
    */
   versionPane: {
     display: "grid",
-    gridRowStart: {
-      [portrait]: "2",
-    },
     gridColumnStart: {
       default: "7",
       [portrait]: "8",
@@ -250,9 +263,6 @@ const styles = stylex.create({
     },
     placeItems: {
       default: "center",
-      [portrait]: "start",
-    },
-    alignSelf: {
       [portrait]: "start",
     },
     width: {
@@ -300,7 +310,10 @@ export function HomePoster() {
             styles.canvasControl,
           )}
         >
-          <LocaleSwitcher style={styles.switcherType} />
+          <LocaleSwitcher
+            codeStyle={styles.localeCodes}
+            style={styles.localeOnPoster}
+          />
         </div>
       </div>
 

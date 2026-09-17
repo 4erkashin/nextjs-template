@@ -14,6 +14,7 @@
 - locale switcher story — update locale in storybook app, how feasible?
 - storybook addons buttons active state a bit weird, especially for grid button, investigate
 - agent browser by vercel?
+- can storybook story define the scale along with the viewport size?
 
 ---
 
@@ -25,4 +26,4 @@ DONE:
 - locale switcher look
 - home page: title and description composed
 - sans font: onest
-- home page: decoarative version composed
+- home page: decorative mass composed

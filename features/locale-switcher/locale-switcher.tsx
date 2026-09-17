@@ -68,14 +68,19 @@ const styles = stylex.create({
 });
 
 export type LocaleSwitcherProps = Readonly<{
+  codeStyle?: LocaleCodeStyle;
   style?: SwitcherRootStyle;
 }>;
 
-type SwitcherRootStyle = stylex.StyleXStyles<
-  Pick<stylex.CSSProperties, "fontSize">
+type LocaleCodeStyle = stylex.StyleXStyles<
+  Pick<stylex.CSSProperties, "textOrientation" | "writingMode">
 >;
 
-export function LocaleSwitcher({ style }: LocaleSwitcherProps) {
+type SwitcherRootStyle = stylex.StyleXStyles<
+  Pick<stylex.CSSProperties, "alignItems" | "flexDirection" | "fontSize">
+>;
+
+export function LocaleSwitcher({ codeStyle, style }: LocaleSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
 
@@ -94,6 +99,7 @@ export function LocaleSwitcher({ style }: LocaleSwitcherProps) {
             {...stylex.props(
               styles.link,
               current ? styles.current : styles.rest,
+              codeStyle,
             )}
           >
             {labels[item]}

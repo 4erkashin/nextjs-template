@@ -96,9 +96,9 @@ const meta = {
       description: {
         component: `
 Home page as a single 100dvh poster. Portrait uses Monumental Cut:
-locale at the top, a right-shifted cropped version, a held interval,
-compact copy, one foot hairline, and theme at the foot. Landscape
-keeps the wide column-and-version composition.
+locale stacked on the left rail, version occupying the rest of that
+field on the right, copy in the middle, one foot hairline, and theme
+at the foot. Landscape keeps the wide column-and-version composition.
 
 These stories are fixed-size review rungs of that production page,
 not design alternatives.
