@@ -6,78 +6,117 @@ import { jetbrainsMono, onest } from "@/theme/fonts";
 import { writeHtmlTheme } from "@/theme/html-theme";
 
 /**
- * Last theme we put on the iframe <html>.
- * Kept outside React so a new story's ThemeHtml can take over
- * without the old one wiping <html> first.
+ * Problem: the app paints theme on document `<html>` in layout.tsx
+ * (`htmlPropsForTheme`: StyleX class + inline tokens / color-scheme,
+ * font CSS variables, `data-theme`). Stories do not use that layout.
+ * They run in Storybook's preview iframe — a blank page. A decorator
+ * `<div>` only colors its own box; the rest of the iframe stays the
+ * browser default (light). Storybook's theme addon can set a class or
+ * `data-theme` on `<html>`, not StyleX's class-plus-inline-style map,
+ * and not the font variables.
+ *
+ * Solution: copy the same writes the layout does onto this iframe's
+ * `<html>`. Toolbar name comes from preview.tsx; this file only
+ * applies it.
+ *
+ * First paint (OS `color-scheme`, loading sheet) is preview-head.html.
+ * The gray desk around the iframe is manager.ts — a different document.
+ *
+ * Switching stories unmounts this component and mounts a new one.
+ * A layout-effect cleanup would strip `<html>` first; until the new
+ * effect runs, the page has no color-scheme, and at night the canvas
+ * is white. So we never undo on unmount. We keep the last write in
+ * `lastHtmlTheme` (module scope, not React state) and the next mount
+ * replaces it in one shot.
+ *
+ * `useLayoutEffect` runs before the browser paints, so the first
+ * themed frame is not a flash of the OS first-paint layer.
+ */
+
+/**
+ * Last classes and inline styles we put on the iframe `<html>`.
+ * Next `ThemeHtml` reads this and replaces them; nothing clears
+ * `<html>` in between.
  */
 let lastHtmlTheme: null | {
   classes: string[];
   style: object;
 } = null;
 
-function classesFrom(className: undefined | string): string[] {
-  return className?.split(/\s+/).filter(Boolean) ?? [];
+/**
+ * StyleX returns every class in one string (`"a b c"`).
+ * `classList.add` / `remove` need each name as its own argument.
+ */
+function splitClassNames(className: undefined | string): string[] {
+  const trimmed = className?.trim();
+  if (!trimmed) {
+    return [];
+  }
+
+  return trimmed.split(/\s+/);
 }
 
 /**
- * Object.assign wrote these as JS names (colorScheme, not color-scheme).
- * Assign an empty string the same way to clear them.
- * Custom properties (--…) need removeProperty.
+ * StyleX put these on `<html>` with Object.assign, using JS names
+ * (`colorScheme`, not `color-scheme`). Clear them the same way, with
+ * an empty string. Names that start with `--` only come off with
+ * `removeProperty`.
  */
-function undoHtmlInlineStyle(html: HTMLElement, style: object) {
-  for (const key of Object.keys(style)) {
-    if (key.startsWith("--")) {
-      html.style.removeProperty(key);
-      continue;
+function clearHtmlInlineStyles(html: HTMLElement, written: object) {
+  for (const name of Object.keys(written)) {
+    if (name.startsWith("--")) {
+      html.style.removeProperty(name);
+    } else {
+      Object.assign(html.style, { [name]: "" });
     }
+  }
+}
 
-    Object.assign(html.style, { [key]: "" });
+function replaceHtmlClasses(
+  html: HTMLElement,
+  previous: string[],
+  next: string[],
+) {
+  if (previous.length > 0) {
+    html.classList.remove(...previous);
+  }
+
+  if (next.length > 0) {
+    html.classList.add(...next);
   }
 }
 
 /**
- * Put this theme on <html>, replacing whatever we put there last.
- * One shot, so the page is never unthemed between stories.
+ * Take the last theme off `<html>`, put this one on, remember it.
+ * `data-theme` is writeHtmlTheme — same attribute the app uses.
  */
 function applyThemeToHtml(theme: ThemeName) {
   const html = document.documentElement;
   const { className, style } = htmlPropsForTheme(theme);
+
+  /**
+   * StyleX theme classes, plus Next font variable classes so
+   * `font-family: var(--font-…)` on `<html>` has something to read.
+   */
   const classes = [
-    ...classesFrom(className),
+    ...splitClassNames(className),
     jetbrainsMono.variable,
     onest.variable,
-  ].filter(Boolean);
-  const nextStyle = style ?? {};
+  ].filter((name) => name !== "");
 
-  if (lastHtmlTheme) {
-    if (lastHtmlTheme.classes.length > 0) {
-      html.classList.remove(...lastHtmlTheme.classes);
-    }
+  const inlineStyle = style ?? {};
+  const previous = lastHtmlTheme;
 
-    undoHtmlInlineStyle(html, lastHtmlTheme.style);
+  replaceHtmlClasses(html, previous?.classes ?? [], classes);
+  if (previous) {
+    clearHtmlInlineStyles(html, previous.style);
   }
 
-  if (classes.length > 0) {
-    html.classList.add(...classes);
-  }
-
-  Object.assign(html.style, nextStyle);
+  Object.assign(html.style, inlineStyle);
   writeHtmlTheme(theme);
-  lastHtmlTheme = { classes, style: nextStyle };
+  lastHtmlTheme = { classes, style: inlineStyle };
 }
 
-/**
- * The real app sets the theme on <html> in layout.tsx.
- * A wrapper div only colors its own box, so the rest of the iframe
- * stays the browser default — white.
- *
- * Copy the same theme onto this iframe's <html>.
- *
- * When you click another story, React throws this component away and
- * mounts a new one. If we undid the theme in a cleanup, <html> would
- * sit with no color-scheme for a moment, and at night that canvas is
- * white. applyThemeToHtml replaces the last theme in place instead.
- */
 export function ThemeHtml({
   children,
   theme,
