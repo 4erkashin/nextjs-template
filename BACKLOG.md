@@ -13,7 +13,7 @@
 - locale switcher story — update locale in storybook app, how feasible?
 - storybook addons buttons active state a bit weird, especially for grid button, investigate
 - agent browser by vercel?
-- can storybook story define the scale along with the viewport size?
+- fit to pane addon, cuz storybook can't do it automatically and my stories for desktop+ sizes needs manual adjustment of the zoom level
 
 ---
 

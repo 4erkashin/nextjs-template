@@ -8,6 +8,7 @@ import { type ReactNode, useState } from "react";
 import { MotionProvider } from "@/lib/motion/provider";
 import { makeQueryClient } from "@/lib/query/query-client";
 import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
+import { viewports } from "@/tokens/generated/viewports";
 import { PageGridOverlay } from "@/ui/page-grid";
 
 import { mswHandlers } from "./msw-handlers";
@@ -154,6 +155,24 @@ const preview: Preview = {
           ["StyleX", "Motion", "Intl"],
         ],
       },
+    },
+
+    /**
+     * Product viewports from tokens. Replaces Storybook's device list.
+     */
+    viewport: {
+      options: Object.fromEntries(
+        viewports.map((viewport) => [
+          viewport.id,
+          {
+            name: `${viewport.name} · ${viewport.width} × ${viewport.height}`,
+            styles: {
+              height: `${viewport.height}px`,
+              width: `${viewport.width}px`,
+            },
+          },
+        ]),
+      ),
     },
   },
 };

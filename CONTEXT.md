@@ -18,7 +18,11 @@ _Avoid_: module (as a space step)
 
 **Layout breakpoint**:
 A named minimum width (`sm`, `md`, `lg`, or `xl`) at which layout may change. Below `sm` is the default layout.
-_Avoid_: wide, viewport, media query (as the token name)
+_Avoid_: wide, viewport (as this term), media query (as the token name)
+
+**Viewport**:
+A named exact width and height used to inspect composition. Phone-small and iPhone 14 are both viewports.
+_Avoid_: rung, review size, layout breakpoint, device (as the object), story (as the object)
 
 **Semantic token**:
 A purpose name with a value in every theme. Today these are background, foreground, and primary.
