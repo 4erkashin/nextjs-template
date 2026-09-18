@@ -2,11 +2,36 @@ import type { StorybookConfig } from "@storybook/nextjs-vite";
 
 import stylex from "@stylexjs/unplugin";
 import autoprefixer from "autoprefixer";
+import { themes } from "storybook/theming";
 
 // Relative path: Node loads this file, so @/ aliases do not work.
 import { stylexOptions } from "../babel.config.js";
 import { stylexConstsPreloadPlugin } from "./stylex-consts-preload.ts";
-import { appendShellFirstPaint } from "./theme-shell.ts";
+
+/**
+ * Paint manager <html> from Storybook's light/dark appBg before
+ * manager.ts runs, so the shell is not white while JS loads.
+ * Follows the OS only. manager.ts then applies the same OS theme
+ * to the shell and the desk around the iframe.
+ *
+ * Dark is Storybook's gray, not the app's dark page, so the shell
+ * and the story do not blend into one block of color.
+ */
+function appendShellFirstPaint(head: undefined | string = ""): string {
+  const css = `html {
+  background-color: ${themes.light.appBg};
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: ${themes.dark.appBg};
+    color-scheme: dark;
+  }
+}`;
+
+  return `${head}<style>${css}</style>`;
+}
 
 const config: StorybookConfig = {
   // Package names, not file paths. Storybook loads them from node_modules.
@@ -21,11 +46,6 @@ const config: StorybookConfig = {
     "storybook-next-intl",
   ],
   framework: "@storybook/nextjs-vite",
-  /**
-   * Paints manager <html> from the OS palette before manager.ts runs,
-   * so the shell is not white while JS loads. manager.ts then applies
-   * the same OS theme to the shell and the desk around the iframe.
-   */
   managerHead: appendShellFirstPaint,
   staticDirs: ["../public"],
   stories: [

@@ -25,6 +25,7 @@
 - rotated phones and tablet viewports?
 - sophisticated visual testing viewports x locales matrix. Chromatic or smth else?
 - a11y whole app regressions pass
+- stylex-consts-preload probably should be opensourced
 
 ---
 

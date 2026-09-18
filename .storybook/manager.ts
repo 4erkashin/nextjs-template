@@ -1,7 +1,5 @@
 import { addons } from "storybook/manager-api";
-import { getPreferredColorScheme } from "storybook/theming";
-
-import { shellTheme } from "./theme-shell.ts";
+import { getPreferredColorScheme, themes } from "storybook/theming";
 
 /**
  * Paint the sidebar, toolbar, panels, and the area around the story
@@ -11,10 +9,18 @@ import { shellTheme } from "./theme-shell.ts";
  * Storybook does not always update when the operating system switches
  * light/dark, and the area around the story stays white by default.
  * This file sets those colors and listens for the switch.
+ *
+ * Dark is Storybook's gray, not the app's dark page, so the shell
+ * and the story do not blend into one block of color.
  */
 function applyShell() {
   const mode = getPreferredColorScheme();
-  const theme = shellTheme(mode);
+  const base = mode === "dark" ? themes.dark : themes.light;
+  /**
+   * appPreviewBg is the area around the iframe, not the story.
+   * Match appBg so that surround matches the rest of the shell.
+   */
+  const theme = { ...base, appPreviewBg: base.appBg };
   const html = document.documentElement;
 
   /**
