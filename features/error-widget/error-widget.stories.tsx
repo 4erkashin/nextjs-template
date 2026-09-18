@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { fn } from "storybook/test";
 
-import { EXAMPLE_ERROR_DIGEST } from "@/.storybook/error-digest";
+import { EXAMPLE_ERROR_DIGEST } from "./consts";
 
 import { ErrorWidget } from "./error-widget";
 
