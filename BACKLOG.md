@@ -7,11 +7,9 @@
 - i want i18n to be colocated with the components, not a separate big jsons, so the core solution should be reconsidered i reckon
 - how to cook vignette?
 - should i extract typography or not?
-- sans fonts?
 - track unused locale keys (eslint?)
 - stylex source maps for dev?
 - locale switcher story — update locale in storybook app, how feasible?
-- storybook addons buttons active state a bit weird, especially for grid button, investigate
 - agent browser by vercel?
 - fit to pane addon, cuz storybook can't do it automatically and my stories for desktop+ sizes needs manual adjustment of the zoom level
 
@@ -19,6 +17,7 @@
 
 DONE:
 
+- viewport: defined named entries of exact W×H to inspect composition
 - composition tweaked to be good through all the screens
 - home page: composition adapted for the mobile screens
 - home page: switchers composed
