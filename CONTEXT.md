@@ -17,8 +17,8 @@ A named gap, padding, margin, or inset step from xxs through lg, plus the hairli
 _Avoid_: module (as a space step)
 
 **Layout breakpoint**:
-A named minimum width (`sm`, `md`, `lg`, or `xl`) at which layout may change. Below `sm` is the default layout.
-_Avoid_: wide, viewport (as this term), media query (as the token name)
+A named geometry (`mobile`, `tablet`, or `desktop`) at which composition may change. The names are sheet shapes, not devices: tall and narrow, tall with room, and wider than tall.
+_Avoid_: sm / md / lg / xl (as these names), portrait / landscape (as product names), layout state, layout mode, wide, viewport (as this term), media query (as the token name)
 
 **Viewport**:
 A named exact width and height used to inspect composition. Phone-small and iPhone 14 are both viewports.

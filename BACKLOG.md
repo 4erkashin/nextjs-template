@@ -12,11 +12,17 @@
 - locale switcher story — update locale in storybook app, how feasible?
 - agent browser by vercel?
 - fit to pane addon, cuz storybook can't do it automatically and my stories for desktop+ sizes needs manual adjustment of the zoom level
+- queries.hover? queries.pointer?
+- layout breakpoint names as orientation words, density compounds, or two-axis names
+- extra viewports beyond the current list
+- JS hook for layout (matchMedia / layout-state)
+- `@container` queries for layout breakpoints — later discovery; do not auto-mint with this kit
 
 ---
 
 DONE:
 
+- layout breakpoints: `queries.mobile` / `tablet` / `desktop` from DTCG recipes
 - viewport: defined named entries of exact W×H to inspect composition
 - composition tweaked to be good through all the screens
 - home page: composition adapted for the mobile screens

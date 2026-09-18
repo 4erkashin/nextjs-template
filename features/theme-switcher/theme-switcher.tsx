@@ -8,37 +8,38 @@ import { useSyncExternalStore, useTransition } from "react";
 import { setTheme } from "@/theme/actions";
 import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
 import { readHtmlTheme, subscribeHtmlTheme } from "@/theme/html-theme";
+import { queries } from "@/tokens/generated/queries.stylex";
 import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
-
-/**
- * Square counts as portrait, same as the homepage poster.
- */
-const portrait = "@media (orientation: portrait)";
 
 const styles = stylex.create({
   currentCut: {
     backgroundColor: colors.foreground,
   },
   cut: {
-    alignSelf: "stretch",
     gridRowStart: {
-      [portrait]: "2",
+      [queries.mobile]: "2",
+      [queries.tablet]: "2",
     },
+    alignSelf: "stretch",
     inlineSize: {
-      default: "0.5em",
-      [portrait]: "100%",
+      [queries.desktop]: "0.5em",
+      [queries.mobile]: "100%",
+      [queries.tablet]: "100%",
     },
     blockSize: {
-      [portrait]: "0.5em",
+      [queries.mobile]: "0.5em",
+      [queries.tablet]: "0.5em",
     },
     backgroundColor: "transparent",
   },
   name: {
     gridRowStart: {
-      [portrait]: "1",
+      [queries.mobile]: "1",
+      [queries.tablet]: "1",
     },
     justifySelf: {
-      [portrait]: "center",
+      [queries.mobile]: "center",
+      [queries.tablet]: "center",
     },
     fontFamily: fonts.sans,
     fontSize: "1em",
@@ -51,35 +52,41 @@ const styles = stylex.create({
   option: {
     boxSizing: "border-box",
     display: "grid",
-    gridTemplateColumns: {
-      default: "auto minmax(0, 1fr)",
-      [portrait]: "minmax(0, 1fr)",
-    },
     gridTemplateRows: {
-      [portrait]: "1fr auto",
+      [queries.mobile]: "1fr auto",
+      [queries.tablet]: "1fr auto",
+    },
+    gridTemplateColumns: {
+      [queries.desktop]: "auto minmax(0, 1fr)",
+      [queries.mobile]: "minmax(0, 1fr)",
+      [queries.tablet]: "minmax(0, 1fr)",
     },
     columnGap: {
-      default: "0.5em",
-      [portrait]: 0,
+      [queries.desktop]: "0.5em",
+      [queries.mobile]: 0,
+      [queries.tablet]: 0,
     },
     alignItems: "center",
     inlineSize: {
-      default: "100%",
-      [portrait]: "auto",
+      [queries.desktop]: "100%",
+      [queries.mobile]: "auto",
+      [queries.tablet]: "auto",
     },
     minInlineSize: {
-      [portrait]: "max(2.75rem, 2.75em)",
+      [queries.mobile]: "max(2.75rem, 2.75em)",
+      [queries.tablet]: "max(2.75rem, 2.75em)",
     },
     /**
      * Floor 2.75rem; grow with this feature's type. Pending is an
      * inset hairline so the cut can sit on the box's start edge
-     * (landscape) or block-end (portrait).
+     * (`desktop`) or block-end (tall sheets).
      */
     minBlockSize: "max(2.75rem, 2.75em)",
     paddingBlock: 0,
     paddingInlineStart: {
-      default: 0,
-      [portrait]: "0.5em",
+      [queries.desktop]: 0,
+      [queries.mobile]: "0.5em",
+      [queries.tablet]: "0.5em",
     },
     paddingInlineEnd: "0.5em",
     font: "inherit",
@@ -108,9 +115,15 @@ const styles = stylex.create({
     borderStyle: "solid",
     borderWidth: 0,
     transform: {
-      default: "none",
-      ":active": `translateX(${spacing.px})`,
-      [portrait]: {
+      [queries.desktop]: {
+        default: "none",
+        ":active": `translateX(${spacing.px})`,
+      },
+      [queries.mobile]: {
+        default: "none",
+        ":active": `translateY(${spacing.px})`,
+      },
+      [queries.tablet]: {
         default: "none",
         ":active": `translateY(${spacing.px})`,
       },
@@ -118,15 +131,17 @@ const styles = stylex.create({
   },
   pending: {
     boxShadow: {
-      default: `inset ${spacing.px} 0 0 currentColor`,
-      [portrait]: `inset 0 calc(-1 * ${spacing.px}) 0 0 currentColor`,
+      [queries.desktop]: `inset ${spacing.px} 0 0 currentColor`,
+      [queries.mobile]: `inset 0 calc(-1 * ${spacing.px}) 0 0 currentColor`,
+      [queries.tablet]: `inset 0 calc(-1 * ${spacing.px}) 0 0 currentColor`,
     },
   },
   root: {
     display: "flex",
     flexDirection: {
-      default: "column",
-      [portrait]: "row",
+      [queries.desktop]: "column",
+      [queries.mobile]: "row",
+      [queries.tablet]: "row",
     },
     flexWrap: "nowrap",
     alignItems: "stretch",

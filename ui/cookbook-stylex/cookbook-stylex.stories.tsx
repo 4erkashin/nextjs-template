@@ -2,12 +2,10 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import {
   Before as BeforeDemo,
-  Container as ContainerDemo,
   Hover as HoverDemo,
   Keyframes as KeyframesDemo,
   ReducedMotion as ReducedMotionDemo,
   Supports as SupportsDemo,
-  Wide as WideDemo,
 } from "./cookbook-stylex";
 
 function snippet(code: string) {
@@ -70,15 +68,6 @@ animationIterationCount: "infinite",`),
   render: () => <KeyframesDemo />,
 };
 
-// Viewport toolbar is free here. Do not set globals.viewport — that locks it.
-export const Media: Story = {
-  parameters: snippet(`padding: {
-  default: spacing.sm,
-  [queries.sm]: spacing.md,
-}`),
-  render: () => <WideDemo />,
-};
-
 export const Supports: Story = {
   parameters: snippet(`display: {
   default: "block",
@@ -86,15 +75,6 @@ export const Supports: Story = {
 },
 gridTemplateColumns: "1fr 1fr",`),
   render: () => <SupportsDemo />,
-};
-
-export const Container: Story = {
-  parameters: snippet(`containerType: "inline-size",
-fontSize: {
-  default: "1rem",
-  [queries.containerSm]: "1.25rem",
-}`),
-  render: () => <ContainerDemo />,
 };
 
 export const ReducedMotion: Story = {

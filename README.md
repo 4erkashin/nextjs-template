@@ -58,7 +58,7 @@ Locales live in `i18n/routing.ts`: English is unprefixed (`/`), the others are `
 - Themes: `light` / `dark` / `system` from `@/tokens/generated/themes`.
 - Motion tweens: `tokens/generated/motion.ts`. Reduced motion is `MotionConfig`.
 - `stylex.create`; nest conditions on the property.
-- CSS motion: generated `motion` vars + `queries.reducedMotion`. Cookbook: `ui/cookbook-stylex/`.
+- CSS motion: generated `motion` vars + `queries.reducedMotion`. Layout breakpoints: `queries.mobile` / `queries.tablet` / `queries.desktop`. Cookbook: `ui/cookbook-stylex/`.
 - `motion/react`: layout / drag / sequence, not hover color. Cookbook: `ui/cookbook-motion/`.
 - Next: Babel + PostCSS. Storybook: `@stylexjs/unplugin` + addon-themes (toolbar ≠ cookie).
 - Reset: `modern-normalize`.

@@ -52,12 +52,6 @@ const styles = stylex.create({
     animationTimingFunction: motion.easing_standard,
     animationIterationCount: "infinite",
   },
-  wide: {
-    padding: {
-      default: spacing.sm,
-      [queries.sm]: spacing.md,
-    },
-  },
   supportsGrid: {
     display: {
       default: "block",
@@ -65,13 +59,6 @@ const styles = stylex.create({
     },
     gridTemplateColumns: "1fr 1fr",
     gap: spacing.sm,
-  },
-  container: {
-    containerType: "inline-size",
-    fontSize: {
-      default: "1rem",
-      [queries.containerSm]: "1.25rem",
-    },
   },
 });
 
@@ -87,14 +74,6 @@ function Demo({
 
 export function Before() {
   return <Demo extra={styles.before}>Generated marker.</Demo>;
-}
-
-export function Container() {
-  return (
-    <Demo extra={styles.container}>
-      Type steps up when this box is at least 40rem wide.
-    </Demo>
-  );
 }
 
 export function Hover() {
@@ -120,8 +99,4 @@ export function Supports() {
       <span>B</span>
     </Demo>
   );
-}
-
-export function Wide() {
-  return <Demo extra={styles.wide}>Padding grows at a 40rem viewport.</Demo>;
 }
