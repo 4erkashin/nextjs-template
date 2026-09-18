@@ -10,16 +10,36 @@ import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
 import { readHtmlTheme, subscribeHtmlTheme } from "@/theme/html-theme";
 import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
 
+/**
+ * Square counts as portrait, same as the homepage poster.
+ */
+const portrait = "@media (orientation: portrait)";
+
 const styles = stylex.create({
   currentCut: {
     backgroundColor: colors.foreground,
   },
   cut: {
     alignSelf: "stretch",
-    inlineSize: "0.5em",
+    gridRowStart: {
+      [portrait]: "2",
+    },
+    inlineSize: {
+      default: "0.5em",
+      [portrait]: "100%",
+    },
+    blockSize: {
+      [portrait]: "0.5em",
+    },
     backgroundColor: "transparent",
   },
   name: {
+    gridRowStart: {
+      [portrait]: "1",
+    },
+    justifySelf: {
+      [portrait]: "center",
+    },
     fontFamily: fonts.sans,
     fontSize: "1em",
     fontWeight: 600,
@@ -31,17 +51,36 @@ const styles = stylex.create({
   option: {
     boxSizing: "border-box",
     display: "grid",
-    gridTemplateColumns: "auto minmax(0, 1fr)",
-    columnGap: "0.5em",
+    gridTemplateColumns: {
+      default: "auto minmax(0, 1fr)",
+      [portrait]: "minmax(0, 1fr)",
+    },
+    gridTemplateRows: {
+      [portrait]: "1fr auto",
+    },
+    columnGap: {
+      default: "0.5em",
+      [portrait]: 0,
+    },
     alignItems: "center",
-    inlineSize: "100%",
+    inlineSize: {
+      default: "100%",
+      [portrait]: "auto",
+    },
+    minInlineSize: {
+      [portrait]: "max(2.75rem, 2.75em)",
+    },
     /**
      * Floor 2.75rem; grow with this feature's type. Pending is an
-     * inset hairline so the cut can sit on the box's start edge.
+     * inset hairline so the cut can sit on the box's start edge
+     * (landscape) or block-end (portrait).
      */
     minBlockSize: "max(2.75rem, 2.75em)",
     paddingBlock: 0,
-    paddingInlineStart: 0,
+    paddingInlineStart: {
+      default: 0,
+      [portrait]: "0.5em",
+    },
     paddingInlineEnd: "0.5em",
     font: "inherit",
     color: {
@@ -57,8 +96,8 @@ const styles = stylex.create({
       ":focus-visible": "currentColor",
     },
     /**
-     * Inside the option so a flush start edge does not clip the
-     * ring on the viewport-facing side.
+     * Inside the option so a flush edge does not clip the ring
+     * on the viewport-facing side.
      */
     outlineOffset: `calc(-1 * ${spacing.px} - ${spacing.xxs})`,
     backgroundColor: {
@@ -71,14 +110,25 @@ const styles = stylex.create({
     transform: {
       default: "none",
       ":active": `translateX(${spacing.px})`,
+      [portrait]: {
+        default: "none",
+        ":active": `translateY(${spacing.px})`,
+      },
     },
   },
   pending: {
-    boxShadow: `inset ${spacing.px} 0 0 currentColor`,
+    boxShadow: {
+      default: `inset ${spacing.px} 0 0 currentColor`,
+      [portrait]: `inset 0 calc(-1 * ${spacing.px}) 0 0 currentColor`,
+    },
   },
   root: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: {
+      default: "column",
+      [portrait]: "row",
+    },
+    flexWrap: "nowrap",
     alignItems: "stretch",
     fontSize: "0.875rem",
   },

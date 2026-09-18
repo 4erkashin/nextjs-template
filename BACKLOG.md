@@ -1,4 +1,3 @@
-- composition tweaked to be good through all the screens
 - HTTP client, thin. Base URL, JSON, error shape. Outcome: `lib/http` (or similar) + a short README note.
 - OpenAPI codegen in the repo. One tool, tiny spec, generate types + request fns. Outcome: `pnpm` script, dummy `GET /health`.
 - Glue: generated client → Query. One query hook, one MSW handler, one cookbook/story that loads. Outcome: the OpenAPI loop actually runs.
@@ -20,6 +19,7 @@
 
 DONE:
 
+- composition tweaked to be good through all the screens
 - home page: composition adapted for the mobile screens
 - home page: switchers composed
 - theme switcher look

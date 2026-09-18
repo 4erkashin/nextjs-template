@@ -6,34 +6,47 @@ import { LocaleSwitcher } from "@/features/locale-switcher";
 import { ThemeSwitcher } from "@/features/theme-switcher";
 import { version } from "@/package.json";
 import { jetbrainsMonoNumeral } from "@/theme/fonts";
-import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
+import { fonts, spacing } from "@/tokens/generated/tokens.stylex";
 import { pageGridStyles } from "@/ui/page-grid";
 
 /**
- * Version poster is a 2×2 of mono cells (`v0` / `01`).
- * `fit` 1 = that axis of the 2×2 fits in the pane (calm).
- * Lower = larger type, more clip (cut). Try 1, then 0.75, then 0.6.
+ * Version is a 2-line stack (`v0` / `01`). Type is pane height ÷
+ * that stack (1.6em) so the mass meets top and bottom. Width is
+ * leftover air, not a second fit: taking the larger of height
+ * and width overflows the sheet on any pane shorter than about
+ * 1.62× its width.
+ *
+ * Portrait packs that stack start on phones (cut the right).
+ * From 48rem, still-portrait packs end (cut the left).
+ * Landscape keeps the stack centered in the right tracks.
  */
 const versionLines = 2;
-const versionCells = 2;
 const versionLineHeight = 0.8;
-const versionCellEm = 0.55;
-const versionFitY = 0.9;
-const versionFitX = 0.9;
-const versionStackEm = versionLines * versionLineHeight * versionFitY;
-const versionRowEm = versionCells * versionCellEm * versionFitX;
+const versionStackEm = versionLines * versionLineHeight;
 
 /**
- * Homepage type for both switcher features. 1.32vw is about 0.22 of
- * the title’s 6vw fluid slope. Floor matches the features’ own 0.875rem.
+ * Chrome is locale, caption, and theme. 1.32vw is about 0.22 of
+ * the landscape title’s 6vw slope. Floor matches 0.875rem.
+ * Portrait title is φ × chrome.
  */
+const phi = 1.618;
 const switcherFontSize = "clamp(0.875rem, 1.32vw, 1.75rem)";
+const titleFromChrome = `clamp(calc(0.875rem * ${phi}), calc(1.32vw * ${phi}), calc(1.75rem * ${phi}))`;
+/**
+ * Portrait copy: a short pause under the field (the mass fills
+ * that 1fr), pack the theme row.
+ */
+const copyAir = "clamp(0.75rem, 4dvh, 1.75rem)";
+const copyToTheme = "clamp(0.5rem, 2.5dvh, 1.25rem)";
 
 /**
  * Portrait uses Monumental Cut. Square counts as portrait in CSS,
- * so the cut is written to hold there too.
+ * so the cut is written to hold there too. `portraitWide` is
+ * tablet-and-up, still portrait (48rem = 768px at 16px root).
  */
 const portrait = "@media (orientation: portrait)";
+const portraitWide =
+  "@media (orientation: portrait) and (min-width: 48rem)";
 
 const styles = stylex.create({
   main: {
@@ -41,7 +54,9 @@ const styles = stylex.create({
     gridTemplateRows: {
       default: "minmax(0, 1fr)",
       /**
-       * Locale and version share the field, then copy, then foot.
+       * Field (locale + mass), then copy, then the theme row.
+       * Padding on the copy is the air: more under the field,
+       * less above the theme row.
        */
       [portrait]: "minmax(0, 1fr) max-content max-content",
     },
@@ -55,43 +70,6 @@ const styles = stylex.create({
     maxHeight: "100dvh",
     overflow: "hidden",
     fontFamily: fonts.sans,
-    "::before": {
-      display: {
-        default: "none",
-        [portrait]: "block",
-      },
-      gridRowStart: {
-        [portrait]: "3",
-      },
-      gridColumnStart: {
-        [portrait]: "2",
-      },
-      gridColumnEnd: {
-        [portrait]: "13",
-      },
-      alignSelf: {
-        [portrait]: "start",
-      },
-      height: {
-        [portrait]: 0,
-      },
-      pointerEvents: {
-        [portrait]: "none",
-      },
-      content: {
-        default: null,
-        [portrait]: '""',
-      },
-      borderBlockStartColor: {
-        [portrait]: colors.foreground,
-      },
-      borderBlockStartStyle: {
-        [portrait]: "solid",
-      },
-      borderBlockStartWidth: {
-        [portrait]: spacing.px,
-      },
-    },
   },
   /**
    * Every poster layer shares the one canvas row. Without this,
@@ -137,15 +115,15 @@ const styles = stylex.create({
     minWidth: {
       [portrait]: 0,
     },
+    paddingBlockStart: {
+      [portrait]: copyAir,
+    },
     paddingBlockEnd: {
-      [portrait]: spacing.sm,
+      [portrait]: copyToTheme,
     },
     fontSize: {
       default: "clamp(1.75rem, 6vw, 8rem)",
-      [portrait]: "clamp(1.1rem, 5.2vw, 2rem)",
-    },
-    textWrap: {
-      [portrait]: "balance",
+      [portrait]: titleFromChrome,
     },
   },
   /**
@@ -159,13 +137,22 @@ const styles = stylex.create({
     fontWeight: 600,
     textTransform: "uppercase",
     letterSpacing: "-0.03em",
+    lineHeight: {
+      [portrait]: 1.1,
+    },
     overflowWrap: "break-word",
+    textWrap: {
+      [portrait]: "balance",
+    },
   },
   description: {
     gridColumnStart: "1",
     gridColumnEnd: "-1",
     margin: 0,
-    fontSize: "0.3em",
+    fontSize: {
+      default: "0.3em",
+      [portrait]: switcherFontSize,
+    },
     fontWeight: 300,
     textTransform: "lowercase",
     letterSpacing: "0.03em",
@@ -227,59 +214,60 @@ const styles = stylex.create({
     maxWidth: "100%",
   },
   /**
-   * First column, flush to the bottom edge. The active cut meets
-   * the left viewport edge. Portrait sits it on the foot hairline,
-   * tracks 1–8.
+   * Landscape: first column, flush to the bottom. The active cut
+   * meets the left viewport edge. Portrait: a row in the
+   * bottom-right; the cut pinches the sheet’s block-end.
    */
   theme: {
     gridRowStart: {
+      default: "1",
       [portrait]: "3",
     },
     gridColumnStart: "1",
     gridColumnEnd: {
       default: "7",
-      [portrait]: "8",
+      [portrait]: "13",
     },
     alignSelf: "end",
-    justifySelf: "start",
-    paddingBlockStart: {
-      [portrait]: spacing.xs,
+    justifySelf: {
+      default: "start",
+      [portrait]: "end",
     },
   },
   /**
-   * Version takes the tracks the column gave up. Portrait sits it
-   * in the shared field, right tracks 8–13, and crops the form.
+   * Version takes the tracks the column gave up. Portrait starts
+   * at track 3 so the locale rail keeps track 2. Type follows
+   * pane height so the stack meets the pane. Phones pack start
+   * (cut the right); wider portraits pack end (cut the left).
    */
   versionPane: {
     display: "grid",
     gridColumnStart: {
       default: "7",
-      [portrait]: "8",
+      [portrait]: "3",
     },
     gridColumnEnd: "13",
     placeContent: {
       default: "center",
-      [portrait]: "start",
+      [portrait]: "center start",
+      [portraitWide]: "center end",
     },
     placeItems: {
       default: "center",
-      [portrait]: "start",
+      [portrait]: "center start",
+      [portraitWide]: "center end",
     },
-    width: {
-      [portrait]: "100%",
-    },
+    width: "100%",
+    height: "100%",
     minWidth: 0,
     minHeight: 0,
-    containerType: "inline-size",
+    containerType: "size",
     overflow: "hidden",
     pointerEvents: "none",
   },
   line: {
     margin: 0,
-    fontSize: {
-      default: `max(calc(100dvh / ${versionStackEm}), calc(100cqi / ${versionRowEm}))`,
-      [portrait]: `max(calc(32dvh / ${versionStackEm}), min(calc(120cqi / ${versionRowEm}), calc(44dvh / ${versionStackEm})))`,
-    },
+    fontSize: `calc(100cqh / ${versionStackEm})`,
     fontWeight: 800,
     fontFeatureSettings: '"zero" 1',
     fontVariantNumeric: "tabular-nums slashed-zero",
