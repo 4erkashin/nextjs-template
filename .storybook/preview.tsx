@@ -146,7 +146,7 @@ const preview: Preview = {
       storySort: {
         order: [
           "App",
-          ["Home", "Not found", "Error", "Global error"],
+          ["Home", "Global error"],
           "Features",
           "UI",
           "Tokens",
