@@ -1,4 +1,5 @@
 import { JetBrains_Mono, Onest } from "next/font/google";
+import localFont from "next/font/local";
 
 import type { FontMonoVar } from "@/tokens/font-mono-var";
 import type { FontSansVar } from "@/tokens/font-sans-var";
@@ -31,4 +32,17 @@ export const onest = Onest({
   subsets: ["latin"],
   variable: "--font-sans" satisfies FontSansVar,
   weight: "variable",
+});
+
+/**
+ * Full ExtraBold face, not the Google subset. The subset drops
+ * GSUB, so the `zero` (slashed 0) feature never paints.
+ * Type size is `100cqh`; that is 0 until the pane is a container,
+ * so a preload fires before any glyph uses this file.
+ */
+export const jetbrainsMonoNumeral = localFont({
+  display: "swap",
+  preload: false,
+  src: "./fonts/JetBrainsMono-ExtraBold.woff2",
+  weight: "800",
 });

@@ -9,7 +9,7 @@ A named raw material such as a paint, spacing step, duration, or curve.
 _Avoid_: foundation token, core token, palette (as a layer name)
 
 **Module**:
-The repeating rem step from which space and layout dimensions are counted. Product UI does not request the module directly.
+The repeating rem step from which space, layout, and type dimensions are counted. Product UI may count with the module.
 _Avoid_: unit, grid unit (as a product token), xs (for the step itself)
 
 **Space**:

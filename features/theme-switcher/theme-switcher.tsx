@@ -9,7 +9,16 @@ import { setTheme } from "@/theme/actions";
 import { THEME_NAMES, type ThemeName } from "@/theme/cookie";
 import { readHtmlTheme, subscribeHtmlTheme } from "@/theme/html-theme";
 import { queries } from "@/tokens/generated/queries.stylex";
-import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
+import { colors, fonts, grid, spacing } from "@/tokens/generated/tokens.stylex";
+
+/**
+ * Type size in modules. Floor is 3.5 so the names stay readable.
+ * Cap is 7, the same rem as the home title's floor. The vw term
+ * is a leftover until fluid type has a rule.
+ */
+const switcherMinModules = 3.5;
+const switcherMaxModules = 7;
+const switcherFontSize = `clamp(calc(${grid.module} * ${switcherMinModules}), 1.3125vw, calc(${grid.module} * ${switcherMaxModules}))`;
 
 const styles = stylex.create({
   currentCut: {
@@ -145,7 +154,7 @@ const styles = stylex.create({
     },
     flexWrap: "nowrap",
     alignItems: "stretch",
-    fontSize: "0.875rem",
+    fontSize: switcherFontSize,
   },
 });
 

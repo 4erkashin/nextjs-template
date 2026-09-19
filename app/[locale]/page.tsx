@@ -4,18 +4,26 @@ import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "@/features/locale-switcher";
 import { ThemeSwitcher } from "@/features/theme-switcher";
 import { VersionPane } from "@/features/version-pane";
+import { PHI } from "@/lib/phi.stylex";
 import { queries } from "@/tokens/generated/queries.stylex";
-import { fonts, spacing } from "@/tokens/generated/tokens.stylex";
+import { fonts, grid, spacing } from "@/tokens/generated/tokens.stylex";
 import { pageGridStyles } from "@/ui/page-grid";
 
 /**
- * Chrome is locale, caption, and theme. 1.32vw is about 0.22 of
- * the landscape title’s 6vw slope. Floor matches 0.875rem.
- * Portrait title is φ × chrome.
+ * Switcher floor 3.5 modules, cap 7. Title floor is that cap.
+ * Title cap is 32 modules. vw terms are leftovers until fluid
+ * type has a rule.
  */
-const phi = 1.618;
-const switcherFontSize = "clamp(0.875rem, 1.32vw, 1.75rem)";
-const titleFromChrome = `clamp(calc(0.875rem * ${phi}), calc(1.32vw * ${phi}), calc(1.75rem * ${phi}))`;
+const switcherMinModules = 3.5;
+const switcherMaxModules = 7;
+const titleMaxModules = 32;
+const titleSlopeVw = 6;
+const switcherMin = `calc(${grid.module} * ${switcherMinModules})`;
+const switcherFluid = "1.3125vw";
+const switcherMax = `calc(${grid.module} * ${switcherMaxModules})`;
+const switcherFontSize = `clamp(${switcherMin}, ${switcherFluid}, ${switcherMax})`;
+const titleFromSwitcher = `clamp(calc(${switcherMin} * ${PHI.ratio}), calc(${switcherFluid} * ${PHI.ratio}), calc(${switcherMax} * ${PHI.ratio}))`;
+const titleWide = `clamp(calc(${grid.module} * ${switcherMaxModules}), ${titleSlopeVw}vw, calc(${grid.module} * ${titleMaxModules}))`;
 /**
  * Tall-sheet copy: a short pause under the field (the mass fills
  * that 1fr), pack the theme row.
@@ -105,9 +113,9 @@ const styles = stylex.create({
       [queries.tablet]: copyToTheme,
     },
     fontSize: {
-      [queries.desktop]: "clamp(1.75rem, 6vw, 8rem)",
-      [queries.mobile]: titleFromChrome,
-      [queries.tablet]: titleFromChrome,
+      [queries.desktop]: titleWide,
+      [queries.mobile]: titleFromSwitcher,
+      [queries.tablet]: titleFromSwitcher,
     },
   },
   /**
@@ -145,9 +153,6 @@ const styles = stylex.create({
     letterSpacing: "0.03em",
     overflowWrap: "break-word",
   },
-  switcherType: {
-    fontSize: switcherFontSize,
-  },
   /**
    * Tall sheets stack the codes on the left rail. Desktop stays
    * a row under the copy. `default` matches `desktop` so this
@@ -166,7 +171,6 @@ const styles = stylex.create({
       [queries.mobile]: "stretch",
       [queries.tablet]: "stretch",
     },
-    fontSize: switcherFontSize,
   },
   /**
    * Tall sheets turn each code 90° clockwise so it reads down.
@@ -266,13 +270,7 @@ export default function HomePage() {
           <p {...stylex.props(styles.description)}>{t("description")}</p>
         </div>
 
-        <div
-          {...stylex.props(
-            styles.switcherType,
-            styles.language,
-            styles.canvasControl,
-          )}
-        >
+        <div {...stylex.props(styles.language, styles.canvasControl)}>
           <LocaleSwitcher
             codeStyle={styles.localeCodes}
             style={styles.localeOnPoster}
@@ -282,13 +280,12 @@ export default function HomePage() {
 
       <div
         {...stylex.props(
-          styles.switcherType,
           styles.canvasLayer,
           styles.canvasControl,
           styles.theme,
         )}
       >
-        <ThemeSwitcher style={styles.switcherType} />
+        <ThemeSwitcher />
       </div>
 
       <VersionPane style={[styles.canvasLayer, styles.versionOnPoster]} />

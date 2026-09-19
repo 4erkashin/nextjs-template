@@ -5,7 +5,7 @@ import { useLocale } from "next-intl";
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { colors, fonts, spacing } from "@/tokens/generated/tokens.stylex";
+import { colors, fonts, grid, spacing } from "@/tokens/generated/tokens.stylex";
 
 const labels = {
   en: "EN",
@@ -13,6 +13,15 @@ const labels = {
   ru: "RU",
   uk: "UA",
 } as const;
+
+/**
+ * Type size in modules. Floor is 3.5 so the codes stay readable.
+ * Cap is 7, the same rem as the home title's floor. The vw term
+ * is a leftover until fluid type has a rule.
+ */
+const switcherMinModules = 3.5;
+const switcherMaxModules = 7;
+const switcherFontSize = `clamp(calc(${grid.module} * ${switcherMinModules}), 1.3125vw, calc(${grid.module} * ${switcherMaxModules}))`;
 
 const styles = stylex.create({
   current: {
@@ -63,7 +72,7 @@ const styles = stylex.create({
     display: "flex",
     flexWrap: "wrap",
     alignItems: "center",
-    fontSize: "0.875rem",
+    fontSize: switcherFontSize,
   },
 });
 

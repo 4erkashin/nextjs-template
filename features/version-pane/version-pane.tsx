@@ -1,22 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
 import { clsx } from "clsx";
-import localFont from "next/font/local";
 
 import { version } from "@/package.json";
+import { jetbrainsMonoNumeral } from "@/theme/fonts";
 import { queries } from "@/tokens/generated/queries.stylex";
-
-/**
- * Full ExtraBold face, not the Google subset. The subset drops
- * GSUB, so the `zero` (slashed 0) feature never paints.
- * Type size is `100cqh`; that is 0 until the pane is a container,
- * so a preload fires before any glyph uses this file.
- */
-const jetbrainsMonoNumeral = localFont({
-  display: "swap",
-  preload: false,
-  src: "./JetBrainsMono-ExtraBold.woff2",
-  weight: "800",
-});
 
 /**
  * Version is a 2-line stack (`v0` / `01`). Type is pane height ÷
