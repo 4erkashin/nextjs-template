@@ -1,29 +1,12 @@
 import * as stylex from "@stylexjs/stylex";
-import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
 
 import { LocaleSwitcher } from "@/features/locale-switcher";
 import { ThemeSwitcher } from "@/features/theme-switcher";
-import { version } from "@/package.json";
-import { jetbrainsMonoNumeral } from "@/theme/fonts";
+import { VersionPane } from "@/features/version-pane";
 import { queries } from "@/tokens/generated/queries.stylex";
 import { fonts, spacing } from "@/tokens/generated/tokens.stylex";
 import { pageGridStyles } from "@/ui/page-grid";
-
-/**
- * Version is a 2-line stack (`v0` / `01`). Type is pane height ÷
- * that stack (1.6em) so the mass meets top and bottom. Width is
- * leftover air, not a second fit: taking the larger of height
- * and width overflows the sheet on any pane shorter than about
- * 1.62× its width.
- *
- * `mobile` packs that stack start (cut the right).
- * `tablet` packs end (cut the left).
- * `desktop` keeps the stack centered in the right tracks.
- */
-const versionLines = 2;
-const versionLineHeight = 0.8;
-const versionStackEm = versionLines * versionLineHeight;
 
 /**
  * Chrome is locale, caption, and theme. 1.32vw is about 0.22 of
@@ -256,52 +239,23 @@ const styles = stylex.create({
   },
   /**
    * Version takes the tracks the column gave up. Tall sheets start
-   * at track 3 so the locale rail keeps track 2. Type follows
-   * pane height so the stack meets the pane. `mobile` packs start
-   * (cut the right); `tablet` packs end (cut the left).
+   * at track 3 so the locale rail keeps track 2. Pair with
+   * `canvasLayer`. `default` matches `desktop` so this object
+   * can pass a StyleXStyles prop (query-only maps cannot).
    */
-  versionPane: {
-    display: "grid",
+  versionOnPoster: {
     gridColumnStart: {
+      default: "7",
       [queries.desktop]: "7",
       [queries.mobile]: "3",
       [queries.tablet]: "3",
     },
     gridColumnEnd: "13",
-    placeContent: {
-      [queries.desktop]: "center",
-      [queries.mobile]: "center start",
-      [queries.tablet]: "center end",
-    },
-    placeItems: {
-      [queries.desktop]: "center",
-      [queries.mobile]: "center start",
-      [queries.tablet]: "center end",
-    },
-    width: "100%",
-    minWidth: 0,
-    height: "100%",
-    minHeight: 0,
-    containerType: "size",
-    overflow: "hidden",
-    pointerEvents: "none",
-  },
-  line: {
-    margin: 0,
-    fontSize: `calc(100cqh / ${versionStackEm})`,
-    fontWeight: 800,
-    fontFeatureSettings: '"zero" 1',
-    fontVariantNumeric: "tabular-nums slashed-zero",
-    lineHeight: versionLineHeight,
-    letterSpacing: "-0.14em",
-    whiteSpace: "nowrap",
   },
 });
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
-  const [major = "0", minor = "0", patch = "0"] = version.split(".");
-  const paneProps = stylex.props(styles.canvasLayer, styles.versionPane);
 
   return (
     <main {...stylex.props(pageGridStyles.root, styles.main)}>
@@ -337,19 +291,7 @@ export default function HomePage() {
         <ThemeSwitcher style={styles.switcherType} />
       </div>
 
-      <div
-        {...paneProps}
-        aria-label={version}
-        className={clsx(paneProps.className, jetbrainsMonoNumeral.className)}
-        role="img"
-      >
-        <p aria-hidden {...stylex.props(styles.line)}>
-          {`v${major}`}
-        </p>
-        <p aria-hidden {...stylex.props(styles.line)}>
-          {`${minor}${patch}`}
-        </p>
-      </div>
+      <VersionPane style={[styles.canvasLayer, styles.versionOnPoster]} />
     </main>
   );
 }
