@@ -1,0 +1,20 @@
+{
+  "Error": {
+    "description": "A página falhou antes de poder ser exibida.",
+    "title": "Não pôde ser carregada",
+    "tryAgain": "Tentar novamente"
+  },
+  "HomePage": {
+    "description": "— o <storybook>Storybook</storybook> tem exemplos ;)",
+    "title": "Troque quando quiser"
+  },
+  "Metadata": {
+    "description": "Inicializador Next.js com StyleX, tokens e idiomas.",
+    "title": "modelo Next.js versão {version}"
+  },
+  "NotFound": {
+    "description": "Não encontrado",
+    "home": "Início",
+    "title": "Não encontrado"
+  }
+}

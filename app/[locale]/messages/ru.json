@@ -1,0 +1,20 @@
+{
+  "Error": {
+    "description": "Страница оборвалась до отрисовки.",
+    "title": "Не удалось загрузить",
+    "tryAgain": "Попробовать снова"
+  },
+  "HomePage": {
+    "description": "— в <storybook>Storybook</storybook> есть примеры ;)",
+    "title": "Замените как будете готовы"
+  },
+  "Metadata": {
+    "description": "Стартовый шаблон Next.js со StyleX, токенами и локалями.",
+    "title": "шаблон Next.js, версия {version}"
+  },
+  "NotFound": {
+    "description": "Не найдено",
+    "home": "На главную",
+    "title": "Не найдено"
+  }
+}

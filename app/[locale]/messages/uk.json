@@ -1,0 +1,20 @@
+{
+  "Error": {
+    "description": "Сторінка обірвалася до відтворення.",
+    "title": "Не вдалося відкрити",
+    "tryAgain": "Ще раз"
+  },
+  "HomePage": {
+    "description": "— у <storybook>Storybook</storybook> є приклади ;)",
+    "title": "Замініть як будете готові"
+  },
+  "Metadata": {
+    "description": "Стартовий шаблон Next.js зі StyleX, токенами та локалями.",
+    "title": "шаблон Next.js, версія {version}"
+  },
+  "NotFound": {
+    "description": "Не знайдено",
+    "home": "На головну",
+    "title": "Не знайдено"
+  }
+}

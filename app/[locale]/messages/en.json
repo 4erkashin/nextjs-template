@@ -1,0 +1,20 @@
+{
+  "Error": {
+    "description": "The page failed before it could render.",
+    "title": "Could not be loaded",
+    "tryAgain": "Try again"
+  },
+  "HomePage": {
+    "description": "— <storybook>Storybook</storybook> has examples btw ;)",
+    "title": "Replace it when you are ready"
+  },
+  "Metadata": {
+    "description": "Next.js starter with StyleX, tokens, and locales.",
+    "title": "Next.js template version {version}"
+  },
+  "NotFound": {
+    "description": "Not found",
+    "home": "Home",
+    "title": "Not found"
+  }
+}
