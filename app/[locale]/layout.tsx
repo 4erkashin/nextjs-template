@@ -42,7 +42,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     description: t("description"),
-    metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),
+    metadataBase: new URL(
+      process.env.SITE_URL ||
+        (process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : "http://localhost:3000"),
+    ),
     title: {
       default: siteName,
       template: `%s · ${siteName}`,
