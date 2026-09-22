@@ -47,7 +47,7 @@ The Next.js app and Storybook are separate Vercel projects. In the app project, 
 
 ## Releases
 
-PRs do not trigger CI or Vercel deployments. CI can still be run manually. Git pushes do not deploy either project. To release several merged PRs together, tag the chosen `main` commit with a `v.*` tag (for example, `v.0.0.1`) and push the tag. The release workflow checks that commit, deploys Storybook, waits for it to succeed, then deploys the app. Both deployments appear in GitHub's `production` environment with their Vercel URLs. A failed check or Storybook deployment leaves the app's current production deployment in place.
+PRs run CI but do not create Vercel deployments. Git pushes do not deploy either project. To release several merged PRs together, tag the chosen `main` commit with a `v.*` tag (for example, `v.0.0.1`) and push the tag. The release workflow checks that commit, deploys Storybook, waits for it to succeed, then deploys the app. Both deployments appear in GitHub's `production` environment with their Vercel URLs. A failed check or Storybook deployment leaves the app's current production deployment in place.
 
 The workflow uses the GitHub Actions secret `VERCEL_TOKEN`, with access to both Vercel projects. Rotate it before it expires.
 
