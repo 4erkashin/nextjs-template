@@ -11,6 +11,7 @@ concurrency:
 
 permissions:
   contents: read
+  deployments: write
 
 jobs:
   check:
@@ -35,6 +36,9 @@ jobs:
   storybook:
     needs: check
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
     env:
       VERCEL_ORG_ID: team_YrVcbYkLqoCTzSAZ7j4pJHNC
       VERCEL_PROJECT_ID: prj_FH1ivQlxf7TAW2eVBlstRO5UiXgj
@@ -44,11 +48,17 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@59.23.2
       - name: Deploy Storybook
-        run: vercel deploy --prod --yes --token="$VERCEL_TOKEN"
+        id: deploy
+        run: |
+          url=$(vercel deploy --prod --yes --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
 
   app:
     needs: storybook
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
     env:
       VERCEL_ORG_ID: team_YrVcbYkLqoCTzSAZ7j4pJHNC
       VERCEL_PROJECT_ID: prj_AOUtpu53eTTvAKgfxm2QafOpyJQ9
@@ -58,4 +68,7 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@59.23.2
       - name: Deploy app
-        run: vercel deploy --prod --yes --token="$VERCEL_TOKEN"
+        id: deploy
+        run: |
+          url=$(vercel deploy --prod --yes --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
