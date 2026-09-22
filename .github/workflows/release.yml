@@ -38,7 +38,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_YrVcbYkLqoCTzSAZ7j4pJHNC
       VERCEL_PROJECT_ID: prj_FH1ivQlxf7TAW2eVBlstRO5UiXgj
-      VERCEL_TOKEN: ${{ secrets.VERCEL_STORYBOOK_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - uses: actions/checkout@v5
       - name: Install Vercel CLI
@@ -52,7 +52,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_YrVcbYkLqoCTzSAZ7j4pJHNC
       VERCEL_PROJECT_ID: prj_AOUtpu53eTTvAKgfxm2QafOpyJQ9
-      VERCEL_TOKEN: ${{ secrets.VERCEL_APP_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - uses: actions/checkout@v5
       - name: Install Vercel CLI
