@@ -43,7 +43,13 @@ pnpm storybook  # http://localhost:6006
 
 No `.env*` file is required. `STORYBOOK_URL` is optional (see `.env.example`). When it is set, the home page links that address. When it is unset, the same sentence is plain text.
 
-Before deploying, set `SITE_URL` to the site's public origin (for example, `https://example.com`) in the build environment. Next.js uses it as `metadataBase` so social preview image URLs point to the deployed site. Local builds default to `http://localhost:3000`; do not rely on that default for a public deployment.
+The Next.js app and Storybook are separate Vercel projects. In the app project, set `STORYBOOK_URL` to the Storybook production origin and `SITE_URL` to the app's production origin. `SITE_URL` feeds Next.js `metadataBase`; preview deployments use their Vercel deployment URL, and local builds default to `http://localhost:3000`.
+
+## Releases
+
+PRs run CI and receive Vercel previews. Merges to `main` do not deploy either production project. To release several merged PRs together, tag the chosen `main` commit with a `v.*` tag (for example, `v.0.0.1`) and push the tag. The release workflow checks that commit, deploys Storybook, waits for it to succeed, then deploys the app. A failed check or Storybook deployment leaves the app's current production deployment in place.
+
+The workflow uses the GitHub Actions secret `VERCEL_TOKEN`, with access to both Vercel projects. Rotate it before it expires.
 
 `dev`, `storybook`, `typecheck`, and `build` run `tokens:build` first. While `dev` or Storybook is running, edits to `tokens/tokens.json` rebuild generated files. Do not edit `tokens/generated/`.
 
