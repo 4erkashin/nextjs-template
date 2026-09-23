@@ -15,6 +15,17 @@ const night = "#07161d";
 const frost = "#e9f0f3";
 const coral = "#f36358";
 
+/** Word counts for the deliberate three-line title breaks in each locale. */
+const titleLineWordCounts = {
+  en: [2, 2, 2],
+  "pt-BR": [1, 1, 1],
+  ru: [1, 2, 1],
+  uk: [1, 2, 1],
+} satisfies Record<
+  (typeof routing.locales)[number],
+  readonly [number, number, number]
+>;
+
 export const size = {
   width: 1200,
   height: 630,
@@ -60,7 +71,16 @@ export default async function OpenGraphImage({
    * The home copy block uppercases both lines. Uppercase here
    * with the locale so Ukrainian `і` becomes `І`.
    */
-  const title = t("title").toLocaleUpperCase(locale);
+  const titleWords = t("title").toLocaleUpperCase(locale).split(/\s+/);
+  let titleWordIndex = 0;
+  const titleLines = titleLineWordCounts[locale].map((wordCount) => {
+    const line = titleWords
+      .slice(titleWordIndex, titleWordIndex + wordCount)
+      .join(" ");
+    titleWordIndex += wordCount;
+
+    return line;
+  });
 
   /**
    * `<storybook>` is a link on the page. `markup` keeps the
@@ -103,13 +123,23 @@ export default async function OpenGraphImage({
         <div
           style={{
             display: "flex",
-            fontSize: 64,
-            fontWeight: 800,
-            letterSpacing: 2,
-            lineHeight: 1.1,
+            flexDirection: "column",
           }}
         >
-          {title}
+          {titleLines.map((line) => (
+            <div
+              key={line}
+              style={{
+                display: "flex",
+                fontSize: 64,
+                fontWeight: 800,
+                letterSpacing: 2,
+                lineHeight: 1.1,
+              }}
+            >
+              {line}
+            </div>
+          ))}
         </div>
         <div
           style={{

@@ -24,8 +24,9 @@ pre-commit:
             glob: "*.{js,jsx,ts,tsx,mts,mjs,cjs}"
             exclude:
               - scripts/**
-            run: pnpm exec eslint {staged_files}
-            fail_text: ESLint failed. Run pnpm exec eslint on the staged files.
+            run: pnpm exec eslint --fix {staged_files}
+            stage_fixed: true
+            fail_text: ESLint failed. Fixable issues are in the working tree. Fix the rest and retry the commit.
     - name: tokens
       glob:
         - "tokens/**/*.json"

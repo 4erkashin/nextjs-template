@@ -77,12 +77,18 @@ const config: StorybookConfig = {
     const { loadEnv, mergeConfig } = await import("vite");
     const repoRoot = path.join(import.meta.dirname, "..");
     /**
-     * Same file `next dev` loads. The home page reads STORYBOOK_URL
-     * while this preview bundles that page for the browser.
+     * Storybook's Vite bundle needs the same public URLs during local
+     * development and static production builds.
      */
-    const fileEnv = loadEnv("development", repoRoot, "");
+    const mode =
+      process.env.NODE_ENV === "production" ? "production" : "development";
+    const fileEnv = loadEnv(mode, repoRoot, "");
     const storybookUrl =
       process.env.STORYBOOK_URL || fileEnv.STORYBOOK_URL || "";
+    const storybookOgBaseUrl =
+      process.env.STORYBOOK_OG_BASE_URL ||
+      fileEnv.STORYBOOK_OG_BASE_URL ||
+      "http://localhost:3000";
 
     return mergeConfig(viteConfig, {
       css: {
@@ -91,6 +97,7 @@ const config: StorybookConfig = {
         },
       },
       define: {
+        "process.env.STORYBOOK_OG_BASE_URL": JSON.stringify(storybookOgBaseUrl),
         "process.env.STORYBOOK_URL": JSON.stringify(storybookUrl),
       },
       plugins: [
