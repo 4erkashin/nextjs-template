@@ -97,8 +97,8 @@ const config: StorybookConfig = {
         },
       },
       define: {
-        "process.env.STORYBOOK_URL": JSON.stringify(storybookUrl),
         "process.env.STORYBOOK_OG_BASE_URL": JSON.stringify(storybookOgBaseUrl),
+        "process.env.STORYBOOK_URL": JSON.stringify(storybookUrl),
       },
       plugins: [
         stylexConstsPreloadPlugin(),

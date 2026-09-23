@@ -126,7 +126,7 @@ Prefixes listed as `exceptions` in that file skip the type check.
 
 ### pre-commit
 
-Prettier formats staged files and may restage them. ESLint then checks staged JS/TS (no auto-fix). If you stage token JSON or `tokens/build.js`, `pnpm tokens:build` runs. The commit is refused if ESLint fails, if a staged file contains git conflict markers, or if you stage `.env` / `.env.*` (`.env.example` is allowed).
+Prettier formats staged files and may restage them. ESLint then autofixes staged JS/TS and restages those fixes. The commit is refused when an ESLint error remains after that autofix, when a staged file contains git conflict markers, or when you stage `.env` / `.env.*` (`.env.example` is allowed). If you stage token JSON or `tokens/build.js`, `pnpm tokens:build` runs.
 
 ### pre-push
 
