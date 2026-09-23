@@ -15,7 +15,7 @@
     "tokens:watch": "node tokens/watch.js",
     "typecheck": "pnpm tokens:build && node scripts/write-message-declarations.ts && tsc --noEmit",
     "test:unit": "vitest run --config vitest.unit.config.ts",
-    "storybook": "pnpm tokens:build && concurrently --kill-others --names tokens,storybook \"pnpm tokens:watch\" \"storybook dev -p 6006\"",
+    "storybook": "pnpm tokens:build && concurrently --kill-others-on-fail --names tokens,next,storybook \"pnpm tokens:watch\" \"if curl -fsS http://localhost:3000 >/dev/null; then echo 'Using existing Next.js server on port 3000'; else next dev; fi\" \"until curl -fsS http://localhost:3000 >/dev/null; do sleep 1; done; storybook dev -p 6006\"",
     "build-storybook": "pnpm tokens:build && storybook build"
   },
   "dependencies": {

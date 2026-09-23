@@ -41,13 +41,13 @@ pnpm dev        # http://localhost:3000
 pnpm storybook  # http://localhost:6006
 ```
 
-No `.env*` file is required. `STORYBOOK_URL` is optional (see `.env.example`). When it is set, the home page links that address. When it is unset, the same sentence is plain text.
+No `.env*` file is required. `STORYBOOK_URL` is optional (see `.env.example`). When it is set, the home page links that address. When it is unset, the same sentence is plain text. `pnpm storybook` starts Storybook and reuses a Next.js server already responding on port 3000, or starts one if needed. The `App/OG images` story shows the generated image routes for all four locales in one pane.
 
-The Next.js app and Storybook are separate Vercel projects. In the app project, set `STORYBOOK_URL` to the Storybook production origin and `SITE_URL` to the app's production origin. `SITE_URL` feeds Next.js `metadataBase`; preview deployments use their Vercel deployment URL, and local builds default to `http://localhost:3000`.
+The Next.js app and Storybook are separate Vercel projects. In the app project, set `STORYBOOK_URL` to the Storybook production origin and `SITE_URL` to the app's production origin. `SITE_URL` feeds Next.js `metadataBase`; preview deployments use their Vercel deployment URL, and local builds default to `http://localhost:3000`. In the Storybook project, set `STORYBOOK_OG_BASE_URL` to the stable production app origin so the deployed Storybook story loads its images from the deployed app. The story reads that value at build time; without it, image URLs default to `http://localhost:3000`.
 
 ## Releases
 
-PRs run CI but do not create Vercel deployments. Git pushes do not deploy either project. To release several merged PRs together, tag the chosen `main` commit with a `v.*` tag (for example, `v.0.0.1`) and push the tag. The release workflow checks that commit, deploys Storybook, waits for it to succeed, then deploys the app. Both deployments appear in GitHub's `production` environment with their Vercel URLs. A failed check or Storybook deployment leaves the app's current production deployment in place.
+PRs run CI but do not create Vercel deployments. Git pushes do not deploy either project. To release several merged PRs together, tag the chosen `main` commit with a `v.*` tag (for example, `v.0.0.1`) and push the tag. The release workflow checks that commit, deploys Storybook, waits for it to succeed, then deploys the app. After both deployments succeed, it creates a GitHub Release for the tag with automatically generated notes. Both deployments appear in GitHub's `production` environment with their Vercel URLs. A failed check or deployment prevents later release steps from running.
 
 The workflow uses the GitHub Actions secret `VERCEL_TOKEN`, with access to both Vercel projects. Rotate it before it expires.
 

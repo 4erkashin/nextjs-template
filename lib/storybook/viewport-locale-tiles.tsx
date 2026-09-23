@@ -94,23 +94,42 @@ const styles = stylex.create({
  * Drop last copy, clone the preview document's sheets into the tile
  * iframe. vw / @media in the page then see this iframe, not the pane.
  */
-function copyParentStyles(target: Document) {
-  for (const node of target.head.querySelectorAll(`[${COPIED_HEAD_ATTR}]`)) {
-    node.remove();
+function copyParentStyles(
+  target: Document,
+  copies: Map<Element, { clone: HTMLElement; content: string }>,
+) {
+  const selector = "style, link[rel='stylesheet']";
+  const sources = [...document.head.querySelectorAll(selector)];
+  const current = new Set(sources);
+  for (const [source, copy] of copies) {
+    if (!current.has(source)) {
+      copy.clone.remove();
+      copies.delete(source);
+    }
   }
 
-  const selector = "style, link[rel='stylesheet']";
-
-  for (const node of document.head.querySelectorAll(selector)) {
+  const pending: Promise<void>[] = [];
+  for (const node of sources) {
+    const content =
+      node instanceof HTMLLinkElement ? node.href : (node.textContent ?? "");
+    const existing = copies.get(node);
+    if (existing?.content === content) continue;
+    existing?.clone.remove();
     const clone = node.cloneNode(true) as HTMLElement;
-
     clone.setAttribute(COPIED_HEAD_ATTR, "");
 
     if (clone instanceof HTMLLinkElement && node instanceof HTMLLinkElement) {
       clone.href = node.href;
+      pending.push(
+        new Promise((resolve) => {
+          clone.addEventListener("load", () => resolve(), { once: true });
+          clone.addEventListener("error", () => resolve(), { once: true });
+        }),
+      );
     }
 
     target.head.appendChild(clone);
+    copies.set(node, { clone, content });
   }
 
   try {
@@ -121,6 +140,7 @@ function copyParentStyles(target: Document) {
      * engine. Tag clones above still cover StyleX and globals.css.
      */
   }
+  return Promise.all(pending);
 }
 
 /**
@@ -154,12 +174,6 @@ function applyBodySheet(body: HTMLElement) {
   if (style) {
     Object.assign(body.style, style);
   }
-}
-
-function prepareFrameDocument(target: Document, locale: AppLocale) {
-  copyParentStyles(target);
-  copyHtmlChrome(target.documentElement, locale);
-  applyBodySheet(target.body);
 }
 
 /**
@@ -240,6 +254,7 @@ function LocaleViewportFrame({
   viewport: Viewport;
 }>) {
   const [frameDoc, setFrameDoc] = useState<Document | null>(null);
+  const [stylesReady, setStylesReady] = useState(false);
   const caption = captionForLocale(locale);
 
   useLayoutEffect(() => {
@@ -247,10 +262,16 @@ function LocaleViewportFrame({
       return;
     }
 
-    prepareFrameDocument(frameDoc, locale);
+    const copies = new Map<Element, { clone: HTMLElement; content: string }>();
+    void copyParentStyles(frameDoc, copies).then(async () => {
+      await frameDoc.fonts.ready;
+      setStylesReady(true);
+    });
+    copyHtmlChrome(frameDoc.documentElement, locale);
+    applyBodySheet(frameDoc.body);
 
     const headObserver = new MutationObserver(() => {
-      copyParentStyles(frameDoc);
+      void copyParentStyles(frameDoc, copies);
     });
     const htmlObserver = new MutationObserver(() => {
       copyHtmlChrome(frameDoc.documentElement, locale);
@@ -265,6 +286,7 @@ function LocaleViewportFrame({
     });
 
     return () => {
+      setStylesReady(false);
       headObserver.disconnect();
       htmlObserver.disconnect();
     };
@@ -277,7 +299,8 @@ function LocaleViewportFrame({
       return;
     }
 
-    prepareFrameDocument(doc, locale);
+    copyHtmlChrome(doc.documentElement, locale);
+    applyBodySheet(doc.body);
     setFrameDoc(doc);
   };
 
@@ -295,7 +318,7 @@ function LocaleViewportFrame({
           style={{
             height: scaledHeight,
             overflow: "hidden",
-            visibility: scale > 0 ? "visible" : "hidden",
+            visibility: scale > 0 && stylesReady ? "visible" : "hidden",
             width: scaledWidth,
           }}
         >
@@ -315,7 +338,7 @@ function LocaleViewportFrame({
           />
         </div>
       </div>
-      {frameDoc
+      {frameDoc && stylesReady
         ? createPortal(
             <NextIntlClientProvider
               locale={locale}

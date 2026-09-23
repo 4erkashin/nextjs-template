@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ steps.deploy.outputs.url }}
+      url: https://nextjs-template-theta-ten.vercel.app/
     env:
       VERCEL_ORG_ID: team_YrVcbYkLqoCTzSAZ7j4pJHNC
       VERCEL_PROJECT_ID: prj_AOUtpu53eTTvAKgfxm2QafOpyJQ9
@@ -68,7 +68,18 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@59.23.2
       - name: Deploy app
-        id: deploy
-        run: |
-          url=$(vercel deploy --prod --yes --token="$VERCEL_TOKEN")
-          echo "url=$url" >> "$GITHUB_OUTPUT"
+        run: vercel deploy --prod --yes --token="$VERCEL_TOKEN"
+
+  github-release:
+    needs: app
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes --title "$GITHUB_REF_NAME"
