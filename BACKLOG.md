@@ -1,7 +1,8 @@
-- 0.0.1 RELEASE. Tag, README “what this ships,” kill leftover stubs.
-
-- HTTP client, thin. Base URL, JSON, error shape. Outcome: `lib/http` (or similar) + a short README note.
-- OpenAPI codegen in the repo. One tool, tiny spec, generate types + request fns. Outcome: `pnpm` script, dummy `GET /health`.
+- HTTP client
+  - query <-> msw bridge
+  - openapi
+- scripts in package.json, smth kinda should be extracted
+- favicon bg
 - breakpoints vs orientation
 - form
 - how to cook vignette?
@@ -26,6 +27,7 @@
 
 DONE:
 
+- v.0.0.1 release
 - i18n messages colocation
 - viewport: defined named entries of exact W×H to inspect composition
 - composition tweaked to be good through all the screens
