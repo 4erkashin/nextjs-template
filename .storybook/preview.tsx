@@ -139,7 +139,7 @@ const preview: Preview = {
       storySort: {
         order: [
           "App",
-          ["Home", "OG images", "Global error"],
+          ["Home", "Global error"],
           "Features",
           "UI",
           "Tokens",

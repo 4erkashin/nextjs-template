@@ -2,7 +2,6 @@
   - query <-> msw bridge
   - openapi
 - scripts in package.json, smth kinda should be extracted
-- favicon bg
 - breakpoints vs orientation
 - form
 - how to cook vignette?
@@ -27,6 +26,7 @@
 
 DONE:
 
+- readable favicon
 - v.0.0.1 release
 - i18n messages colocation
 - viewport: defined named entries of exact W×H to inspect composition

@@ -18,7 +18,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function HoverGlitch() {
+function HoverGlitch({ colorSplit = false }: { colorSplit?: boolean }) {
   const [active, setActive] = useState(false);
 
   return (
@@ -31,7 +31,9 @@ function HoverGlitch() {
       }}
       {...stylex.props(styles.solo)}
     >
-      <Glitch active={active}>SIGNAL</Glitch>
+      <Glitch active={active} colorSplit={colorSplit}>
+        SIGNAL
+      </Glitch>
     </span>
   );
 }
@@ -41,6 +43,14 @@ export const Default: Story = {
     children: "SIGNAL",
   },
   render: () => <HoverGlitch />,
+};
+
+export const ColorSplit: Story = {
+  args: {
+    children: "SIGNAL",
+    colorSplit: true,
+  },
+  render: () => <HoverGlitch colorSplit />,
 };
 
 const styles = stylex.create({

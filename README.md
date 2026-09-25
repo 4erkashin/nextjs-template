@@ -41,7 +41,7 @@ pnpm dev        # http://localhost:3000
 pnpm storybook  # http://localhost:6006
 ```
 
-No `.env*` file is required. `STORYBOOK_URL` is optional (see `.env.example`). When it is set, the home page links that address. When it is unset, the same sentence is plain text. `pnpm storybook` starts Storybook and reuses a Next.js server already responding on port 3000, or starts one if needed. The `App/OG images` story shows the generated image routes for all four locales in one pane.
+No `.env*` file is required. `STORYBOOK_URL` is optional (see `.env.example`). When it is set, the home page links that address. When it is unset, the same sentence is plain text. `pnpm storybook` starts Storybook and reuses a Next.js server already responding on port 3000, or starts one if needed. The `App/Home` entry includes an `OG images` story with the generated image for every locale.
 
 The Next.js app and Storybook are separate Vercel projects. In the app project, set `STORYBOOK_URL` to the Storybook production origin and `SITE_URL` to the app's production origin. `SITE_URL` feeds Next.js `metadataBase`; preview deployments use their Vercel deployment URL, and local builds default to `http://localhost:3000`. In the Storybook project, set `STORYBOOK_OG_BASE_URL` to the stable production app origin so the deployed Storybook story loads its images from the deployed app. The story reads that value at build time; without it, image URLs default to `http://localhost:3000`.
 
