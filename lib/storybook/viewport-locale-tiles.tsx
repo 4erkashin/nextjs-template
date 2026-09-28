@@ -120,12 +120,20 @@ function copyParentStyles(
 
     if (clone instanceof HTMLLinkElement && node instanceof HTMLLinkElement) {
       clone.href = node.href;
-      pending.push(
-        new Promise((resolve) => {
-          clone.addEventListener("load", () => resolve(), { once: true });
-          clone.addEventListener("error", () => resolve(), { once: true });
-        }),
-      );
+      /**
+       * StyleX copies /virtual:stylex.css into a style tag, then
+       * disables this link so the file is not applied twice.
+       * A disabled link never fires load or error. Waiting on it
+       * left every tile hidden and the page never portaled in.
+       */
+      if (!node.disabled) {
+        pending.push(
+          new Promise((resolve) => {
+            clone.addEventListener("load", () => resolve(), { once: true });
+            clone.addEventListener("error", () => resolve(), { once: true });
+          }),
+        );
+      }
     }
 
     target.head.appendChild(clone);

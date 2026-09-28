@@ -4,6 +4,7 @@ import stylex from "@stylexjs/unplugin";
 import autoprefixer from "autoprefixer";
 import path from "node:path";
 import { themes } from "storybook/theming";
+import svgr from "vite-plugin-svgr";
 
 // Relative path: Node loads this file, so @/ aliases do not work.
 import { stylexOptions } from "../babel.config.js";
@@ -46,7 +47,19 @@ const config: StorybookConfig = {
     "msw-storybook-addon",
     "storybook-next-intl",
   ],
-  framework: "@storybook/nextjs-vite",
+  framework: {
+    name: "@storybook/nextjs-vite",
+    options: {
+      /**
+       * Next turns every `.svg` import into a component.
+       * This plugin would turn the same import into
+       * `{ src, width, height }`, which React cannot render.
+       */
+      image: {
+        excludeFiles: ["**/*.svg"],
+      },
+    },
+  },
   managerHead: appendShellFirstPaint,
   staticDirs: ["../public"],
   stories: [
@@ -101,6 +114,12 @@ const config: StorybookConfig = {
         "process.env.STORYBOOK_URL": JSON.stringify(storybookUrl),
       },
       plugins: [
+        /**
+         * The Next image plugin skips `.svg` above, so this
+         * plugin turns each import into a component, matching Next.
+         * The query is optional: Vite sometimes appends one.
+         */
+        svgr({ include: /\.svg(?:\?|$)/ }),
         stylexConstsPreloadPlugin(),
         stylex.vite({
           ...stylexOptions,
