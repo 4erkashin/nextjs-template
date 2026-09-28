@@ -58,7 +58,7 @@
     "eslint-plugin-perfectionist": "5.10.1",
     "eslint-plugin-sonarjs": "4.2.0",
     "eslint-plugin-storybook": "10.5.10",
-    "lefthook": "2.1.10",
+    "lefthook": "2.1.14",
     "modern-normalize": "3.0.1",
     "msw": "2.15.0",
     "msw-storybook-addon": "3.0.0",
