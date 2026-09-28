@@ -14,7 +14,7 @@ A personal Next.js starter:
 - browser MSW
 - pnpm
 - ESLint / Prettier
-- SVGR (Turbopack)
+- SVGR (Turbopack in Next, Vite in Storybook)
 
 ## Create an app from this template
 
